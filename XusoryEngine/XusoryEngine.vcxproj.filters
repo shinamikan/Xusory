@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="资源文件">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Header\CppEx\ClassEx\ClassEx.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\CppEx\ClassEx\Name.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\CppEx\CppInfo\CppInfo.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\CppEx\Enum\Enum.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\CppEx\Error\Exception.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\CppEx\Error\Throw.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\CppEx\Error\TraceBack.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\CppEx\Reflector\Reflector.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\CppEx\CppEx.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\NvCommon\DllDefine.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Platform\Common\PlatformCom.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Platform\File\Directory.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Platform\File\File.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Platform\File\FileCom.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Platform\System\DLL.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Platform\System\Monitor.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Platform\System\SystemInfo.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Platform\Time\Date.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Platform\Time\Time.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Platform\Time\TimeCom.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Platform\Window\Window.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Platform\Window\WindowCom.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Platform\Platform.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Resource\GameAsset\Mesh.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Resource\GameAsset\Shader.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\StdEx\StringEx\StringEx.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\StdEx\VectorEx\VectorEx.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\StdEx\StdEx.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\IScript.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\NovaEngine.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Header\CppEx\Error\Private\TraceBack.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\Platform\File\Private\Directory.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\Platform\File\Private\File.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\Platform\System\Private\DLL.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\Platform\System\Private\Monitor.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\Platform\Time\Private\Date.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\Platform\Time\Private\Time.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\Platform\Window\Private\Window.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\StdEx\StringEx\Private\StringEx.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="源.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
