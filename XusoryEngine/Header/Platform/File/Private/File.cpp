@@ -258,5 +258,4 @@ namespace NovaEngine::Platform
 			ThrowWithErrName(FileOperationError, WinFailedInfo("read file"));
 		}
 	}
-	
 }
