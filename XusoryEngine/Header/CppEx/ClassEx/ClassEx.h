@@ -1,6 +1,6 @@
 #pragma once
 
-#include "NvCommon/DllDefine.h"
+#include "../../XsCommon/DllDefine.h"
 
 #define CLASS(className) class className
 #define DLL_CLASS(className) class DLL_FUNC className

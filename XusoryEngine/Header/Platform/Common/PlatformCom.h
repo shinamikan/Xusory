@@ -3,8 +3,8 @@
 #include <iostream>
 #include <Windows.h>
 
-#include "CppEx/CppEx.h"
-#include "StdEx/StdEx.h"
+#include "../../CppEx/CppEx.h"
+#include "../../StdEx/StdEx.h"
 
 namespace NovaEngine::Platform
 {

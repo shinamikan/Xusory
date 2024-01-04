@@ -42,7 +42,7 @@
     <ClInclude Include="Header\CppEx\CppEx.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Header\NvCommon\DllDefine.h">
+    <ClInclude Include="Header\XsCommon\DllDefine.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Header\Platform\Common\PlatformCom.h">
