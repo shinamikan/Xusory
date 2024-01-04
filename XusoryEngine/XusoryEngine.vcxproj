@@ -71,7 +71,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>D:\C++\Xusory\XusoryEngine\Header</IncludePath>
+    <IncludePath>E:\xcx\code\C++\项目\Xusory\XusoryEngine\Header;D:\C++\Xusory\XusoryEngine\Header</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <IncludePath>D:\C++\Xusory\XusoryEngine\Header</IncludePath>
