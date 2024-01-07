@@ -2,7 +2,7 @@
 
 #include "TimeCom.h"
 
-namespace NovaEngine::Platform
+namespace XusoryEngine::Platform
 {
 	DLL_STATIC_CLASS(Date)
 	{

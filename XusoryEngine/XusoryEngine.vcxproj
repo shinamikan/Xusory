@@ -113,7 +113,7 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
@@ -144,37 +144,43 @@
     <ClInclude Include="Header\CppEx\Error\Throw.h" />
     <ClInclude Include="Header\CppEx\Error\TraceBack.h" />
     <ClInclude Include="Header\CppEx\Reflector\Reflector.h" />
-    <ClInclude Include="Header\IScript.h" />
     <ClInclude Include="Header\NovaEngine.h" />
-    <ClInclude Include="Header\XsCommon\DllDefine.h" />
     <ClInclude Include="Header\Platform\Common\PlatformCom.h" />
     <ClInclude Include="Header\Platform\File\Directory.h" />
     <ClInclude Include="Header\Platform\File\File.h" />
     <ClInclude Include="Header\Platform\File\FileCom.h" />
     <ClInclude Include="Header\Platform\Platform.h" />
-    <ClInclude Include="Header\Platform\System\DLL.h" />
-    <ClInclude Include="Header\Platform\System\Monitor.h" />
-    <ClInclude Include="Header\Platform\System\SystemInfo.h" />
+    <ClInclude Include="Header\Platform\OS\DLL.h" />
+    <ClInclude Include="Header\Platform\OS\OSMonitor.h" />
+    <ClInclude Include="Header\Platform\OS\OSInfo.h" />
     <ClInclude Include="Header\Platform\Time\Date.h" />
     <ClInclude Include="Header\Platform\Time\Time.h" />
     <ClInclude Include="Header\Platform\Time\TimeCom.h" />
+    <ClInclude Include="Header\Platform\Console\Console.h" />
+    <ClInclude Include="Header\Platform\Window\KeyCode.h" />
     <ClInclude Include="Header\Platform\Window\Window.h" />
     <ClInclude Include="Header\Platform\Window\WindowCom.h" />
+    <ClInclude Include="Header\Platform\Window\WindowEvent.h" />
+    <ClInclude Include="Header\Platform\Window\WindowFactory.h" />
     <ClInclude Include="Header\Resource\GameAsset\Mesh.h" />
     <ClInclude Include="Header\Resource\GameAsset\Shader.h" />
     <ClInclude Include="Header\StdEx\StdEx.h" />
     <ClInclude Include="Header\StdEx\StringEx\StringEx.h" />
     <ClInclude Include="Header\StdEx\VectorEx\VectorEx.h" />
+    <ClInclude Include="Header\XsCommon\DllDefine.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Header\CppEx\Error\Private\TraceBack.cpp" />
     <ClCompile Include="Header\Platform\File\Private\Directory.cpp" />
     <ClCompile Include="Header\Platform\File\Private\File.cpp" />
-    <ClCompile Include="Header\Platform\System\Private\DLL.cpp" />
-    <ClCompile Include="Header\Platform\System\Private\Monitor.cpp" />
+    <ClCompile Include="Header\Platform\OS\Private\DLL.cpp" />
+    <ClCompile Include="Header\Platform\OS\Private\OSInfo.cpp" />
+    <ClCompile Include="Header\Platform\OS\Private\OSMonitor.cpp" />
     <ClCompile Include="Header\Platform\Time\Private\Date.cpp" />
     <ClCompile Include="Header\Platform\Time\Private\Time.cpp" />
+    <ClCompile Include="Header\Platform\Console\Private\Console.cpp" />
     <ClCompile Include="Header\Platform\Window\Private\Window.cpp" />
+    <ClCompile Include="Header\Platform\Window\Private\WindowFactory.cpp" />
     <ClCompile Include="Header\StdEx\StringEx\Private\StringEx.cpp" />
     <ClCompile Include="源.cpp" />
   </ItemGroup>

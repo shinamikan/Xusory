@@ -3,13 +3,14 @@
 #include "FileCom.h"
 #include "../Time/TimeCom.h"
 
-namespace NovaEngine::Platform
+namespace XusoryEngine::Platform
 {
 	DLL_CLASS(File)
 	{
 	public:
 		File() = default;
 		File(const std::wstring_view& path, OPEN_MODE openMode);
+		DEFAULT_COPY_OPERATOR(File);
 		~File();
 
 		void Open(const std::wstring_view& path, OPEN_MODE openMode);

@@ -6,36 +6,32 @@
 #define DLL_CLASS(className) class DLL_FUNC className
 #define END_CLASS }
 
-// Expand the interface class, you can use INTERFACE_CLASS defines an interface
+#define COPY_OPERATOR(className)					\
+	className(const className& other);				\
+	className& operator=(const className& other)
 
-#ifdef INTERFACE
-#undef INTERFACE
-#endif
-#define INTERFACE(className) class __declspec(novtable) className
-#define DLL_INTERFACE(className) class DLL_FUNC __declspec(novtable) className
+#define DEFAULT_COPY_OPERATOR(className)			\
+	className(const className& other)	= default;	\
+	className& operator=(const className& other) = default
 
-// Expanding static classes, static classes cannot be instantiated or copied
+#define DELETE_COPY_OPERATOR(className)				\
+	className(const className& other)	= delete;	\
+	className& operator=(const className& other) = delete
 
-class StaticBase
-{
-public:
-	StaticBase() = delete;
+#define MOVE_OPERATOR(className)	\
+	className(className&& other);	\
+	className& operator=(className&& other)
 
-	StaticBase(const StaticBase& rhs)	= delete;
-	StaticBase(const StaticBase&& rhs)	= delete;
-	StaticBase& operator=(const StaticBase& rhs)	= delete;
-	StaticBase& operator=(const StaticBase&& rhs)	= delete;
+#define DEFAULT_MOVE_OPERATOR(className)		\
+	className(className&& other)	= default;	\
+	className& operator=(className&& other) = default
 
-	static void Init() { }
-	static void Del() { }
-};
-
-#define STATIC_CLASS(className) CLASS(className) : public StaticBase
-#define DLL_STATIC_CLASS(className) DLL_CLASS(className) : public StaticBase
-
-#define INIT_STATIC_CLASS(className) className::Init()
+#define DELETE_MOVE_OPERATOR(className)			\
+	className(className&& other)	= delete;	\
+	className& operator=(className&& other) = delete
 
 // You can use PROPERTY macro to add the get set property to a class
+
 #if defined(_MSC_VER)
 #define PROPERTY(getFunc, setFunc, type, propName)							\
     public:																	\
@@ -51,3 +47,31 @@ public:
         __declspec(property(put = setFunc)) type propName;					\
         void setFunc(type value)
 #endif
+
+// Expand the interface class, you can use INTERFACE_CLASS defines an interface
+
+#ifdef INTERFACE
+#undef INTERFACE
+#endif
+#define INTERFACE(className) class __declspec(novtable) className
+#define DLL_INTERFACE(className) class DLL_FUNC __declspec(novtable) className
+
+// Expanding static classes, static classes cannot be instantiated or copied
+
+class StaticBase
+{
+public:
+	StaticBase() = delete;
+	DELETE_COPY_OPERATOR(StaticBase);
+	DELETE_MOVE_OPERATOR(StaticBase);
+	~StaticBase() = default;
+
+	static void Init() { }
+	static void Del() { }
+};
+
+#define STATIC_CLASS(className) CLASS(className) : public StaticBase
+#define DLL_STATIC_CLASS(className) DLL_CLASS(className) : public StaticBase
+
+#define INIT_STATIC_CLASS(className, ...) className::Init(__VA_ARGS__)
+#define DEL_STATIC_CLASS(className, ...) className::Del(__VA_ARGS__)

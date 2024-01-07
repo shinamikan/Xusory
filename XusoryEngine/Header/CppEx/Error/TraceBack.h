@@ -9,7 +9,7 @@
 STATIC_CLASS(TraceBack)
 {
 public:
-	static void Init();
+	static void Init(const std::string_view& enterFunc);
 
 	static const std::vector<std::string>& GetTraceBackInfoList();
 
@@ -30,6 +30,7 @@ private:
 
 	static UINT		sm_frameCount;
 
+	static std::string				sm_enterFunc;
 	static std::vector<void*>		sm_funcStack;
 	static std::vector<std::string> sm_backTraceInfoList;
 };

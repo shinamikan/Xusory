@@ -1,7 +1,7 @@
 #include "../Directory.h"
 #include "../File.h"
 
-namespace NovaEngine::Platform
+namespace XusoryEngine::Platform
 {
 	void Directory::Copy(const std::wstring_view& srcPath, const std::wstring_view& dstPath, BOOL skipFindDir)
 	{

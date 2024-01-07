@@ -6,7 +6,7 @@
 #include "../../CppEx/CppEx.h"
 #include "../../StdEx/StdEx.h"
 
-namespace NovaEngine::Platform
+namespace XusoryEngine::Platform
 {
 	inline std::string FailedInfo(const std::string_view& info)
 	{

@@ -3,7 +3,7 @@
 
 #include <unordered_map>
 
-namespace NovaEngine::Platform
+namespace XusoryEngine::Platform
 {
 	std::wstring Date::FormatDate(const CompleteTime& compDate, const std::wstring_view& formatInfo)
 	{

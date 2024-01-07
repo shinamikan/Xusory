@@ -3,7 +3,7 @@
 #include <iostream>
 #include <Windows.h>
 
-namespace NovaEngine::Platform
+namespace XusoryEngine::Platform
 {
 	class DLL
 	{

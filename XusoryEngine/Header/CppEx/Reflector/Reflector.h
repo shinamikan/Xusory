@@ -16,7 +16,7 @@ public:
 	ReflectorField(const std::string& fieldName, void* valPtr, std::unordered_map<std::string, ReflectorField*>& fieldMap)
 		: m_fieldPtr(valPtr)
 	{
-		fieldMap[fieldName] = this;
+		fieldMap.insert(std::make_pair(fieldName, this));
 	}
 
 	void* GetFieldPtr() const

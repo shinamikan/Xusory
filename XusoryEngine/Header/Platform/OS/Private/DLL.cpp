@@ -1,7 +1,7 @@
 #include "../DLL.h"
 #include "../../File/File.h"
 
-namespace NovaEngine::Platform
+namespace XusoryEngine::Platform
 {
 	DLL::DLL(const std::wstring_view& path)
 	{

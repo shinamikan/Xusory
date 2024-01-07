@@ -2,7 +2,7 @@
 
 #include "../Common/PlatformCom.h"
 
-namespace NovaEngine::Platform
+namespace XusoryEngine::Platform
 {
 	enum OPEN_MODE
 	{

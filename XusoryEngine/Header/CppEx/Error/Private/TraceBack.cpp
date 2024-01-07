@@ -11,16 +11,20 @@ struct SymbolInfo : SYMBOL_INFO
 	char name[UINT8_MAX];
 };
 
-std::vector<void*>	TraceBack::sm_funcStack = std::vector<void*>(UINT8_MAX);
-std::vector<std::string> TraceBack::sm_backTraceInfoList = std::vector<std::string>();
+BOOL	TraceBack::sm_initFlag = false;
 HANDLE	TraceBack::sm_processHandle = nullptr;
 UINT	TraceBack::sm_frameCount = 0;
-BOOL	TraceBack::sm_initFlag = false;
 
-void TraceBack::Init()
+std::string TraceBack::sm_enterFunc = { };
+std::vector<void*>	TraceBack::sm_funcStack = std::vector<void*>(UINT8_MAX);
+std::vector<std::string> TraceBack::sm_backTraceInfoList = std::vector<std::string>();
+
+void TraceBack::Init(const std::string_view& enterFunc)
 {
 	UpdateProcessHandle();
+
 	sm_initFlag = true;
+	sm_enterFunc = std::string(enterFunc);
 }
 
 const std::vector<std::string>& TraceBack::GetTraceBackInfoList()
@@ -47,11 +51,6 @@ void TraceBack::AddFunctionPtr(void* pFunc)
 
 void TraceBack::CaptureCurrentStack(UINT captureFrames)
 {
-	if (!sm_initFlag)
-	{
-		Init();
-	}
-
 	ClearStack();
 
 	sm_frameCount = CaptureStackBackTrace(0, captureFrames, sm_funcStack.data(), nullptr);
@@ -101,7 +100,7 @@ void TraceBack::CreateTraceBackInfo(BOOL isCapture)
 		{
 			symTraceBack(sm_funcStack[i]);
 
-			if (symbolName == "main")
+			if (symbolName == "WinMain")
 			{
 				startCaptureFlag = true;
 			}

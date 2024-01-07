@@ -1,6 +1,6 @@
 #include "../Time.h"
 
-namespace NovaEngine::Platform
+namespace XusoryEngine::Platform
 {
 	FileTime AdjustFileTimeToLocal(const FileTime& utcFileTime)
 	{

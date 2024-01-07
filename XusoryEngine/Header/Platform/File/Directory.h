@@ -3,7 +3,7 @@
 #include <vector>
 #include "FileCom.h"
 
-namespace NovaEngine::Platform
+namespace XusoryEngine::Platform
 {
 	DLL_STATIC_CLASS(Directory)
 	{

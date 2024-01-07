@@ -42,9 +42,6 @@
     <ClInclude Include="Header\CppEx\CppEx.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Header\XsCommon\DllDefine.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="Header\Platform\Common\PlatformCom.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -57,13 +54,13 @@
     <ClInclude Include="Header\Platform\File\FileCom.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Header\Platform\System\DLL.h">
+    <ClInclude Include="Header\Platform\OS\DLL.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Header\Platform\System\Monitor.h">
+    <ClInclude Include="Header\Platform\OS\OSMonitor.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Header\Platform\System\SystemInfo.h">
+    <ClInclude Include="Header\Platform\OS\OSInfo.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Header\Platform\Time\Date.h">
@@ -99,10 +96,22 @@
     <ClInclude Include="Header\StdEx\StdEx.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Header\IScript.h">
+    <ClInclude Include="Header\NovaEngine.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Header\NovaEngine.h">
+    <ClInclude Include="Header\XsCommon\DllDefine.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Platform\Window\KeyCode.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Platform\Window\WindowFactory.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Platform\Window\WindowEvent.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Platform\Console\Console.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -116,10 +125,10 @@
     <ClCompile Include="Header\Platform\File\Private\File.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Header\Platform\System\Private\DLL.cpp">
+    <ClCompile Include="Header\Platform\OS\Private\DLL.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Header\Platform\System\Private\Monitor.cpp">
+    <ClCompile Include="Header\Platform\OS\Private\OSMonitor.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Header\Platform\Time\Private\Date.cpp">
@@ -135,6 +144,15 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="源.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\Platform\Window\Private\WindowFactory.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\Platform\Console\Private\Console.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\Platform\OS\Private\OSInfo.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

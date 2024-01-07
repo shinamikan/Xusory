@@ -2,9 +2,7 @@
 
 #include "../Common/PlatformCom.h"
 
-namespace NovaEngine
-{
-namespace Platform
+namespace XusoryEngine::Platform
 {
 	using FileTime = FILETIME;
 	using CompleteTime = SYSTEMTIME;
@@ -28,5 +26,3 @@ namespace Platform
 		Dec
 	};
 }
-}
-

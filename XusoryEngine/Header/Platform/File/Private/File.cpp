@@ -1,13 +1,13 @@
 #include "../File.h"
 #include "../../Time/Time.h"
 
-namespace NovaEngine::Platform
+namespace XusoryEngine::Platform
 {
 	inline void ThrowIfHandleNull(HANDLE handle)
 	{
 		if (!handle)
 		{
-			ThrowWithErrName(FileNotOpenedError, "File handle is null");
+			ThrowWithErrName(FileNotOpenedError, "File has not been opened yet");
 		}
 	}
 

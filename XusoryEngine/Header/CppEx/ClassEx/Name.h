@@ -11,3 +11,6 @@
 
 #define nameof(target) #target
 #define nameofT(type) typeid(type).name()
+
+constexpr char ENTER_FUNC_MAIN[] = "main";
+constexpr char ENTER_FUNC_WIN_MAIN[] = "WinMain";

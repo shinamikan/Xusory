@@ -5,7 +5,7 @@
 #include <vector>
 #include <Windows.h>
 
-#include "CppEx/CppEx.h"
+#include "../../CppEx/CppEx.h"
 
 STATIC_CLASS(StringEx)
 {
