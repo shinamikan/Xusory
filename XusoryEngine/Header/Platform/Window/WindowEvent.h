@@ -42,7 +42,7 @@ namespace XusoryEngine::Platform
 
 	struct MouseWheelEvent
 	{
-		
+		INT16 mouseWheelDis;
 	};
 
 	struct KeyEvent
