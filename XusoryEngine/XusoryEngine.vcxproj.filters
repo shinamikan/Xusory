@@ -54,13 +54,13 @@
     <ClInclude Include="Header\Platform\File\FileCom.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Header\Platform\OS\DLL.h">
+    <ClInclude Include="Header\Platform\DLL\DLL.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Header\Platform\OS\OSMonitor.h">
+    <ClInclude Include="Header\Platform\System\Monitor.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Header\Platform\OS\OSInfo.h">
+    <ClInclude Include="Header\Platform\System\Info.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Header\Platform\Time\Date.h">
@@ -125,10 +125,10 @@
     <ClCompile Include="Header\Platform\File\Private\File.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Header\Platform\OS\Private\DLL.cpp">
+    <ClCompile Include="Header\Platform\DLL\Private\DLL.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Header\Platform\OS\Private\OSMonitor.cpp">
+    <ClCompile Include="Header\Platform\System\Private\Monitor.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Header\Platform\Time\Private\Date.cpp">
@@ -152,7 +152,7 @@
     <ClCompile Include="Header\Platform\Console\Private\Console.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Header\Platform\OS\Private\OSInfo.cpp">
+    <ClCompile Include="Header\Platform\System\Private\Info.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

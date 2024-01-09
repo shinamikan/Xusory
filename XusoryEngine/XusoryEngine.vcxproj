@@ -150,9 +150,9 @@
     <ClInclude Include="Header\Platform\File\File.h" />
     <ClInclude Include="Header\Platform\File\FileCom.h" />
     <ClInclude Include="Header\Platform\Platform.h" />
-    <ClInclude Include="Header\Platform\OS\DLL.h" />
-    <ClInclude Include="Header\Platform\OS\OSMonitor.h" />
-    <ClInclude Include="Header\Platform\OS\OSInfo.h" />
+    <ClInclude Include="Header\Platform\DLL\DLL.h" />
+    <ClInclude Include="Header\Platform\System\Monitor.h" />
+    <ClInclude Include="Header\Platform\System\Info.h" />
     <ClInclude Include="Header\Platform\Time\Date.h" />
     <ClInclude Include="Header\Platform\Time\Time.h" />
     <ClInclude Include="Header\Platform\Time\TimeCom.h" />
@@ -173,9 +173,9 @@
     <ClCompile Include="Header\CppEx\Error\Private\TraceBack.cpp" />
     <ClCompile Include="Header\Platform\File\Private\Directory.cpp" />
     <ClCompile Include="Header\Platform\File\Private\File.cpp" />
-    <ClCompile Include="Header\Platform\OS\Private\DLL.cpp" />
-    <ClCompile Include="Header\Platform\OS\Private\OSInfo.cpp" />
-    <ClCompile Include="Header\Platform\OS\Private\OSMonitor.cpp" />
+    <ClCompile Include="Header\Platform\DLL\Private\DLL.cpp" />
+    <ClCompile Include="Header\Platform\System\Private\Info.cpp" />
+    <ClCompile Include="Header\Platform\System\Private\Monitor.cpp" />
     <ClCompile Include="Header\Platform\Time\Private\Date.cpp" />
     <ClCompile Include="Header\Platform\Time\Private\Time.cpp" />
     <ClCompile Include="Header\Platform\Console\Private\Console.cpp" />
