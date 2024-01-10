@@ -37,31 +37,35 @@ namespace XusoryEngine::Platform
 		void Resize(const Point& size, BOOL isClientSize = false) const;
 		void Resize(INT sizeX, INT sizeY, BOOL isClientSize = false) const;
 
-		virtual void OnCreate() = 0;
-		virtual void OnClose() = 0;
-		virtual void OnDestroy() = 0;
+		void MessageLoop();
 
-		virtual void OnShow() = 0;
-		virtual void OnHide() = 0;
+		virtual void OnCreate();
+		virtual void OnClose();
+		virtual void OnDestroy();
+
+		virtual void OnShow();
+		virtual void OnHide();
 		
-		virtual void OnMaximize() = 0;
-		virtual void OnMinimize() = 0;
-		virtual void OnRestore() = 0;
+		virtual void OnMaximize();
+		virtual void OnMinimize();
+		virtual void OnRestore();
 
-		virtual void OnFocusIn(const FocusEvent& event) = 0;
-		virtual void OnFocusOut() = 0;
+		virtual void OnFocusIn(const FocusEvent& event);
+		virtual void OnFocusOut();
 
-		virtual void OnMove(const MoveEvent& event) = 0;
-		virtual void OnResize(const ResizeEvent& event) = 0;
+		virtual void OnMove(const MoveEvent& event);
+		virtual void OnResize(const ResizeEvent& event);
 
-		virtual void OnMouseMove(const MouseMoveEvent& event) = 0;
-		virtual void OnMousePress(const MouseClickEvent& event) = 0;
-		virtual void OnMouseRelease(const MouseClickEvent& event) = 0;
-		virtual void OnMouseDoublePress(const MouseClickEvent & event) = 0;
-		virtual void OnMouseWheel(const MouseWheelEvent& event) = 0;
+		virtual void OnMouseMove(const MouseMoveEvent& event);
+		virtual void OnMouseDoublePress(const MouseClickEvent& event);
+		virtual void OnMousePress(const MouseClickEvent& event);
+		virtual void OnMouseRelease(const MouseClickEvent& event);
+		virtual void OnMouseWheel(const MouseWheelEvent& event);
 
-		virtual void OnKeyPress(const KeyEvent& event) = 0;
-		virtual void OnKeyRelease(const KeyEvent& event) = 0;
+		virtual void OnKeyPress(const KeyEvent& event);
+		virtual void OnKeyRelease(const KeyEvent& event);
+
+		virtual void OnLoop();
 
 	private:
 		void Create(const std::wstring_view& wndClassName, const std::wstring_view& windowTitle, INT posX, INT posY, INT sizeX, INT sizeY);

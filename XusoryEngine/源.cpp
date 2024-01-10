@@ -9,6 +9,26 @@ using namespace XusoryEngine::Platform;
 
 constexpr char CPP_EXCEPTION_INFO[] = "C++ Exception TraceBack: ";
 
+class TestWindow : public Window
+{
+public:
+	void OnResize(const ResizeEvent& event) override
+	{
+		cout << "Resize:" << event.sizeX << "  " << event.sizeY << endl;
+
+		auto windowSize = GetWindowSize();
+		cout << "Window size:" << windowSize.x << "  " << windowSize.y << endl;
+
+		auto clientSize = GetWindowSize(true);
+		cout << "Client size:" << clientSize.x << "  " << clientSize.y << endl;
+	}
+
+	void OnMousePress(const MouseClickEvent& event) override
+	{
+		Resize(300, 300, true);
+	}
+};
+
 int WinMain(HINSTANCE hIns, HINSTANCE hPreIns, LPSTR lpCmdLine, int nCmdShow)
 {
 	AllocConsole();
@@ -18,14 +38,20 @@ int WinMain(HINSTANCE hIns, HINSTANCE hPreIns, LPSTR lpCmdLine, int nCmdShow)
 	freopen_s(&tempFile, "conout$", "w+t", stdout);
 
 	INIT_STATIC_CLASS(TraceBack, ENTER_FUNC_WIN_MAIN);
-	INIT_STATIC_CLASS(PerformanceTime);
+	INIT_STATIC_CLASS(PerformanceTime, );
 
 	ios_base::fmtflags orig = cout.setf(ios_base::fixed, ios_base::floatfield);
 	std::streamsize prec = cout.precision(8);
 
 	try
 	{
-		
+		WindowFactory::StartNewWindowClass();
+		WindowFactory::RegisterWindowClass(hIns, TEXT("New Window"));
+
+		auto window = WindowFactory::CreateWindowInstance<TestWindow>(TEXT("New Window"), TEXT("title"));
+		window->Show();
+
+		window->MessageLoop();
 	}
 	catch (const std::exception& e)
 	{

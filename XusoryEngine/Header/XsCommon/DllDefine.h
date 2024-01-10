@@ -2,10 +2,11 @@
 
 #define DLL_EXPORT
 
-#ifdef DLL_EXPORT
+#if defined(DLL_EXPORT)
 #define DLL_FUNC __declspec(dllexport)
-#define C_DLL_FUNC extern "C" DLL_FUNC
-#else
+#elif defined(DLL_IMPORT)
 #define DLL_FUNC __declspec(dllimport)
-#define C_DLL_FUNC extern "C" DLL_FUNC
+#else
+#define DLL_FUNC
 #endif
+#define C_DLL_FUNC extern "C" DLL_FUNC

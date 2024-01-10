@@ -1,5 +1,6 @@
 #include <windowsx.h>
 
+#include "../WindowEvent.h"
 #include "../WindowFactory.h"
 #include "../../File/File.h"
 
@@ -7,21 +8,31 @@ namespace XusoryEngine::Platform
 {
 	LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
-		Window* window = WindowFactory::sm_winInstanceMap.at(hWnd);
+		Window* window;
+
+		const auto it = WindowFactory::sm_winInstanceMap.find(hWnd);
+		if (it != WindowFactory::sm_winInstanceMap.end())
+		{
+			window = it->second;
+		}
+		else
+		{
+			return DefWindowProc(hWnd, msg, wParam, lParam);
+		}
 
 		switch (msg)
 		{
 		case WM_CREATE:
 			window->OnCreate();
-			return 0;
+			break;
 
 		case WM_CLOSE:
 			window->OnClose();
-			return 0;
+			break;
 
 		case WM_DESTROY:
 			window->OnDestroy();
-			return 0;
+			break;
 
 		case WM_SHOWWINDOW:
 			if (wParam == TRUE)
@@ -33,7 +44,7 @@ namespace XusoryEngine::Platform
 				window->OnHide();
 			}
 
-			return 0;
+			break;
 
 		case WM_SYSCOMMAND:
 			switch (wParam)
@@ -54,7 +65,7 @@ namespace XusoryEngine::Platform
 				break;
 			}
 
-			return 0;
+			break;
 
 		case WM_ACTIVATE:
 		{
@@ -65,14 +76,14 @@ namespace XusoryEngine::Platform
 				FocusEvent event;
 				event.focusReason = static_cast<FocusReason>(active);
 				window->OnFocusIn(event);
-				return 0;
+				break;
 
 			case WA_INACTIVE:
 				window->OnFocusOut();
-				return 0;
+				break;
 
 			default:
-				return 0;
+				break;
 			}
 		}
 
@@ -82,7 +93,7 @@ namespace XusoryEngine::Platform
 			event.movePosX = GET_X_LPARAM(lParam);
 			event.movePosY = GET_Y_LPARAM(lParam);
 			window->OnMove(event);
-			return 0;
+			break;
 		}
 
 		case WM_SIZE:
@@ -91,7 +102,7 @@ namespace XusoryEngine::Platform
 			event.sizeX = GET_X_LPARAM(lParam);
 			event.sizeY = GET_Y_LPARAM(lParam);
 			window->OnResize(event);
-			return 0;
+			break;
 		}
 
 		case WM_MOUSEMOVE:
@@ -100,33 +111,7 @@ namespace XusoryEngine::Platform
 			event.mouseMovePosX = GET_X_LPARAM(lParam);
 			event.mouseMovePosY = GET_Y_LPARAM(lParam);
 			window->OnMouseMove(event);
-			return 0;
-		}
-
-		case WM_LBUTTONDOWN:
-		case WM_MBUTTONDOWN:
-		case WM_RBUTTONDOWN:
-		case WM_XBUTTONDOWN:
-		{
-			MouseClickEvent event;
-			event.mouseKeyCode = static_cast<MouseKeyCode>(wParam);
-			event.clickPosX = GET_X_LPARAM(lParam);
-			event.clickPosY = GET_Y_LPARAM(lParam);
-			window->OnMousePress(event);
-			return 0;
-		}
-
-		case WM_LBUTTONUP:
-		case WM_MBUTTONUP:
-		case WM_RBUTTONUP:
-		case WM_XBUTTONUP:
-		{
-			MouseClickEvent event;
-			event.mouseKeyCode = static_cast<MouseKeyCode>(wParam);
-			event.clickPosX = GET_X_LPARAM(lParam);
-			event.clickPosY = GET_Y_LPARAM(lParam);
-			window->OnMouseRelease(event);
-			return 0;
+			break;
 		}
 
 		case WM_LBUTTONDBLCLK:
@@ -139,7 +124,33 @@ namespace XusoryEngine::Platform
 			event.clickPosX = GET_X_LPARAM(lParam);
 			event.clickPosY = GET_Y_LPARAM(lParam);
 			window->OnMouseDoublePress(event);
-			return 0;
+			break;
+		}
+
+		case WM_LBUTTONDOWN:
+		case WM_MBUTTONDOWN:
+		case WM_RBUTTONDOWN:
+		case WM_XBUTTONDOWN:
+		{
+			MouseClickEvent event;
+			event.mouseKeyCode = static_cast<MouseKeyCode>(wParam);
+			event.clickPosX = GET_X_LPARAM(lParam);
+			event.clickPosY = GET_Y_LPARAM(lParam);
+			window->OnMousePress(event);
+			break;
+		}
+
+		case WM_LBUTTONUP:
+		case WM_MBUTTONUP:
+		case WM_RBUTTONUP:
+		case WM_XBUTTONUP:
+		{
+			MouseClickEvent event;
+			event.mouseKeyCode = static_cast<MouseKeyCode>(wParam);
+			event.clickPosX = GET_X_LPARAM(lParam);
+			event.clickPosY = GET_Y_LPARAM(lParam);
+			window->OnMouseRelease(event);
+			break;
 		}
 
 		case WM_MOUSEWHEEL:
@@ -147,14 +158,24 @@ namespace XusoryEngine::Platform
 			MouseWheelEvent event;
 			event.mouseWheelDis = GET_Y_LPARAM(wParam);
 			window->OnMouseWheel(event);
+			break;
 		}
 
 		case WM_KEYDOWN:
 		{
 			KeyEvent event;
 			event.keyCode = static_cast<KeyCode>(wParam);
+			if ((lParam & 0x40000000) == 0)
+			{
+				event.isRepeating = false;
+			}
+			else
+			{
+				event.isRepeating = true;
+			}
+
 			window->OnKeyPress(event);
-			return 0;
+			break;
 		}
 
 		case WM_KEYUP:
@@ -162,12 +183,13 @@ namespace XusoryEngine::Platform
 			KeyEvent event;
 			event.keyCode = static_cast<KeyCode>(wParam);
 			window->OnKeyRelease(event);
-			return 0;
+			break;
+		}
+		default:
+			break;
 		}
 
-		default:
-			return DefWindowProc(hWnd, msg, wParam, lParam);
-		}
+		return DefWindowProc(hWnd, msg, wParam, lParam);
 	}
 
 	void ThrowIfSMWindowClassNull()
@@ -232,23 +254,26 @@ namespace XusoryEngine::Platform
 		sm_windowClass->hInstance = hInstance;
 		sm_windowClass->lpfnWndProc = WndProc;
 		sm_windowClass->lpszClassName = className.data();
-		sm_windowClass->style = CS_HREDRAW | CS_VREDRAW;
+		sm_windowClass->style = CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS;
 
 		if (!RegisterClassEx(sm_windowClass))
 		{
 			ThrowWithErrName(RuntimeError, WinFailedInfo("register window"));
 		}
+
+		delete sm_windowClass;
+		sm_windowClass = nullptr;
 	}
 
 	void WindowFactory::CloseWindowInstance(Window*& window)
 	{
-		window->Destroy();
+		window->Close();
 		DeleteWindowInstance(window);
 	}
 
 	void WindowFactory::DestroyWindowInstance(Window*& window)
 	{
-		window->Close();
+		window->Destroy();
 		DeleteWindowInstance(window);
 	}
 

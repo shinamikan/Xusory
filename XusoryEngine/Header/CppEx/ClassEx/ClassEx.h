@@ -58,7 +58,7 @@
 
 // Expanding static classes, static classes cannot be instantiated or copied
 
-class StaticBase
+DLL_CLASS(StaticBase)
 {
 public:
 	StaticBase() = delete;

@@ -4,7 +4,10 @@ namespace XusoryEngine::Platform
 {
 	void ThrowIfWinIdIsNull(const WinID& winId)
 	{
-		ThrowWithErrName(NullHandleError, "Window has not been created yet");
+		if (!winId)
+		{
+			ThrowWithErrName(NullHandleError, "Window has not been created yet");
+		}
 	}
 
 	WinID Window::GetWinId() const
@@ -91,6 +94,7 @@ namespace XusoryEngine::Platform
 
 	void Window::Active() const
 	{
+		ThrowIfWinIdIsNull(m_winId);
 		SetActiveWindow(m_winId);
 	}
 
@@ -141,6 +145,24 @@ namespace XusoryEngine::Platform
 		}
 	}
 
+	void Window::MessageLoop()
+	{
+		MSG msg = { };
+
+		while (msg.message != WM_QUIT)
+		{
+			if (PeekMessage(&msg, nullptr, NULL, NULL, PM_REMOVE))
+			{
+				TranslateMessage(&msg);
+				DispatchMessage(&msg);
+			}
+			else
+			{
+				OnLoop();
+			}
+		}
+	}
+
 	void Window::Create(const std::wstring_view& wndClassName, const std::wstring_view& windowTitle, INT posX, INT posY, INT sizeX, INT sizeY)
 	{
 		m_winId = CreateWindowEx(WS_EX_CLIENTEDGE, wndClassName.data(), windowTitle.data(), WS_OVERLAPPEDWINDOW,
@@ -158,4 +180,25 @@ namespace XusoryEngine::Platform
 		ThrowIfWinIdIsNull(m_winId);
 		DestroyWindow(m_winId);
 	}
+
+	void Window::OnCreate() { }
+	void Window::OnClose() { }
+	void Window::OnDestroy() { }
+	void Window::OnShow() { }
+	void Window::OnHide() { }
+	void Window::OnMaximize() { }
+	void Window::OnMinimize() { }
+	void Window::OnRestore() { }
+	void Window::OnFocusIn(const FocusEvent& event) { }
+	void Window::OnFocusOut() { }
+	void Window::OnMove(const MoveEvent& event) { }
+	void Window::OnResize(const ResizeEvent& event) { }
+	void Window::OnMouseMove(const MouseMoveEvent& event) { }
+	void Window::OnMousePress(const MouseClickEvent& event) { }
+	void Window::OnMouseRelease(const MouseClickEvent& event) { }
+	void Window::OnMouseDoublePress(const MouseClickEvent& event) { }
+	void Window::OnMouseWheel(const MouseWheelEvent& event) { }
+	void Window::OnKeyPress(const KeyEvent& event) { }
+	void Window::OnKeyRelease(const KeyEvent& event) { }
+	void Window::OnLoop() { }
 }

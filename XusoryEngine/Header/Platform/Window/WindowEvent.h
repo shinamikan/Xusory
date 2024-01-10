@@ -48,5 +48,6 @@ namespace XusoryEngine::Platform
 	struct KeyEvent
 	{
 		KeyCode keyCode;
+		BOOL isRepeating;
 	};
 }
