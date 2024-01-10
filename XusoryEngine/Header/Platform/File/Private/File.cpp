@@ -83,7 +83,7 @@ namespace XusoryEngine::Platform
 	void File::ReadText(std::string& pStr) const
 	{
 		ThrowIfHandleNull(m_fileHandle);
-		ThrowIfOpenModeError(m_openMode, OPEN_MODE_READ);
+		ThrowIfOpenModeError(m_openMode, OPEN_MODE_READ, OPEN_MODE_READ_ADD);
 
 		const DWORD fileSize = GetFileSize(m_fileHandle, nullptr);
 		pStr.resize(fileSize, 0);

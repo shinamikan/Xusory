@@ -45,13 +45,11 @@ int WinMain(HINSTANCE hIns, HINSTANCE hPreIns, LPSTR lpCmdLine, int nCmdShow)
 
 	try
 	{
-		WindowFactory::StartNewWindowClass();
-		WindowFactory::RegisterWindowClass(hIns, TEXT("New Window"));
+		File file = File(TEXT("Resource/123.txt"), OPEN_MODE_READ);
 
-		auto window = WindowFactory::CreateWindowInstance<TestWindow>(TEXT("New Window"), TEXT("title"));
-		window->Show();
-
-		window->MessageLoop();
+		string s;
+		file.ReadText(s);
+		cout << s;
 	}
 	catch (const std::exception& e)
 	{

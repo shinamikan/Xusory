@@ -15,7 +15,7 @@ namespace XusoryEngine::Platform
 		m_dllHandle = LoadLibrary(path.data());
 		if (!m_dllHandle)
 		{
-			ThrowWithErrName(RuntimeError, "DLL loading failed");
+			ThrowWithErrName(RuntimeError, WinFailedInfo("load DLL"));
 		}
 	}
 }
