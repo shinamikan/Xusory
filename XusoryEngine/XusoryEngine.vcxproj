@@ -146,6 +146,7 @@
     <ClInclude Include="Header\CppEx\Reflector\Reflector.h" />
     <ClInclude Include="Header\NovaEngine.h" />
     <ClInclude Include="Header\Platform\Common\PlatformCom.h" />
+    <ClInclude Include="Header\Platform\Console\ConsoleCom.h" />
     <ClInclude Include="Header\Platform\File\Directory.h" />
     <ClInclude Include="Header\Platform\File\File.h" />
     <ClInclude Include="Header\Platform\File\FileCom.h" />

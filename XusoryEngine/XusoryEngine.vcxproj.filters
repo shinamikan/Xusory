@@ -114,6 +114,9 @@
     <ClInclude Include="Header\Platform\Console\Console.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Header\Platform\Console\ConsoleCom.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Header\CppEx\Error\Private\TraceBack.cpp">

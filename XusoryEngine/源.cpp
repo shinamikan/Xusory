@@ -31,11 +31,11 @@ public:
 
 int WinMain(HINSTANCE hIns, HINSTANCE hPreIns, LPSTR lpCmdLine, int nCmdShow)
 {
-	AllocConsole();
+	/*AllocConsole();
 	SetConsoleTitle(L"SHMRenderDebugConsole");
 	FILE* tempFile = nullptr;
 	freopen_s(&tempFile, "conin$", "r+t", stdin);
-	freopen_s(&tempFile, "conout$", "w+t", stdout);
+	freopen_s(&tempFile, "conout$", "w+t", stdout);*/
 
 	INIT_STATIC_CLASS(TraceBack, ENTER_FUNC_WIN_MAIN);
 	INIT_STATIC_CLASS(PerformanceTime, );
@@ -45,11 +45,19 @@ int WinMain(HINSTANCE hIns, HINSTANCE hPreIns, LPSTR lpCmdLine, int nCmdShow)
 
 	try
 	{
-		File file = File(TEXT("Resource/123.txt"), OPEN_MODE_READ);
+		Console::CreateConsole();
+		Console::RedirectToStd();
 
-		string s;
-		file.ReadText(s);
-		cout << s;
+		Console::SetTitle(TEXT("Debug Console"));
+
+		Console::SetTextColor(COLOR_PURPLE);
+		Console::StdWriteLine(123, "Hello你好");
+
+		Console::SetTextColor(COLOR_PURPLE_INTENSITY);
+		Console::SetTextFont(TEXT("新宋体"));
+
+		Console::StdWriteLine(TEXT("Hello World你好世界"));
+		Console::SetTextColor(COLOR_WHITE_INTENSITY);
 	}
 	catch (const std::exception& e)
 	{

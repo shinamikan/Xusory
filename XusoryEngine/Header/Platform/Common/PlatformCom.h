@@ -13,6 +13,11 @@ namespace XusoryEngine::Platform
 		return StringEx::Format<std::string>("Failed to %s", info.data());
 	}
 
+	inline std::string FailedInfoWithErrorCode(const std::string_view& info, INT errorCode)
+	{
+		return StringEx::Format<std::string>("Failed to %s, error code: %d", info.data(), errorCode);
+	}
+
 	inline std::string WinFailedInfo(const std::string_view& info)
 	{
 		return StringEx::Format<std::string>("Failed to %s, error code: %d", info.data(), GetLastError());
