@@ -2,7 +2,7 @@
 
 #include <Windows.h>
 
-namespace XusoryEngine::Platform
+namespace XusoryEngine
 {
 	enum KeyCode
 	{

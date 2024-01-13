@@ -2,7 +2,7 @@
 
 #include "../Common/PlatformCom.h"
 
-namespace XusoryEngine::Platform
+namespace XusoryEngine
 {
 	enum CONSOLE_TEXT_COLOR
 	{

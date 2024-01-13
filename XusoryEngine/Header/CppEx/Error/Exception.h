@@ -36,17 +36,6 @@ STD_ERROR_CLASS(KeyError, OutOfRange)
 END_CLASS;
 
 // Extern Runtime Error
+
 STD_ERROR_CLASS(AssertionError, RuntimeError)
-END_CLASS;
-
-STD_ERROR_CLASS(NullHandleError, RuntimeError)
-END_CLASS;
-
-STD_ERROR_CLASS(NullPtrError, RuntimeError)
-END_CLASS;
-
-STD_ERROR_CLASS(NullRefError, RuntimeError)
-END_CLASS;
-
-STD_ERROR_CLASS(WildPtrError, RuntimeError)
 END_CLASS;

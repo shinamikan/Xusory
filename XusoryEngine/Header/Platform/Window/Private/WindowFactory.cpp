@@ -4,7 +4,7 @@
 #include "../WindowFactory.h"
 #include "../../File/File.h"
 
-namespace XusoryEngine::Platform
+namespace XusoryEngine
 {
 	LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	{
@@ -196,7 +196,7 @@ namespace XusoryEngine::Platform
 	{
 		if (!WindowFactory::sm_windowClass)
 		{
-			ThrowWithErrName(NullPtrError, "Not yet started creating a new window class");
+			ThrowWithErrName(LogicError, "Not yet started creating a new window class");
 		}
 	}
 

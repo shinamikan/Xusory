@@ -2,7 +2,7 @@
 
 #include "TimeCom.h"
 
-namespace XusoryEngine::Platform
+namespace XusoryEngine
 {
 	DLL_STATIC_CLASS(Time)
 	{

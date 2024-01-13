@@ -167,7 +167,6 @@
     <ClInclude Include="Header\Resource\GameAsset\Shader.h" />
     <ClInclude Include="Header\StdEx\StdEx.h" />
     <ClInclude Include="Header\StdEx\StringEx\StringEx.h" />
-    <ClInclude Include="Header\StdEx\VectorEx\VectorEx.h" />
     <ClInclude Include="Header\XsCommon\DllDefine.h" />
   </ItemGroup>
   <ItemGroup>

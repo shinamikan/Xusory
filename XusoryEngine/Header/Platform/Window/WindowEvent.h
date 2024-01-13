@@ -2,7 +2,7 @@
 
 #include "KeyCode.h"
 
-namespace XusoryEngine::Platform
+namespace XusoryEngine
 {
 	enum FocusReason
 	{

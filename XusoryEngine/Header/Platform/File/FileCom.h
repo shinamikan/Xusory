@@ -2,8 +2,11 @@
 
 #include "../Common/PlatformCom.h"
 
-namespace XusoryEngine::Platform
+namespace XusoryEngine
 {
+	constexpr char NO_SUCH_PATH_ERROR_INFO[] = "No such file or directory";
+	constexpr char PATH_EXIST_ERROR_INFO[] = "The file or directory already exist";
+
 	enum OPEN_MODE
 	{
 		OPEN_MODE_NULL		= NULL,
@@ -22,22 +25,12 @@ namespace XusoryEngine::Platform
 		FILE_LAST_WRITE_TIME
 	};
 
-	constexpr char NO_SUCH_PATH_ERROR_INFO[] = "No such File or Directory";
-	constexpr char PATH_EXIST_ERROR_INFO[] = "File or Directory already exist";
+	inline std::string GetPathErrorCompInfo(const std::string_view& info, const std::wstring_view& path)
+	{
+		return std::string(info) + ", Path: " + StringEx::WStringToString(path);
+	}
 
-	STD_ERROR_CLASS(DirectoryOperationError, RuntimeError)
-	END_CLASS;
-
-	STD_ERROR_CLASS(FileNotOpenedError, LogicError)
-	END_CLASS;
-
-	STD_ERROR_CLASS(FileOperationError, RuntimeError)
-	END_CLASS;
-
-	STD_ERROR_CLASS(OpenModeError, LogicError)
-	END_CLASS;
-
-	STD_ERROR_CLASS(PathError, RuntimeError)
+	STD_ERROR_CLASS(PathError, LogicError)
 	END_CLASS;
 
 	STD_ERROR_CLASS(PathExistError, RuntimeError)
@@ -45,9 +38,4 @@ namespace XusoryEngine::Platform
 
 	STD_ERROR_CLASS(PathNotFoundError, RuntimeError)
 	END_CLASS;
-
-	inline std::string GetPathErrorCompInfo(const std::string_view& info, const std::wstring_view& path)
-	{
-		return std::string(info) + ", Path: " + StringEx::WStringToString(path);
-	}
 }

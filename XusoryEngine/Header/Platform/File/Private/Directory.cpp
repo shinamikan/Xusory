@@ -1,7 +1,7 @@
 #include "../Directory.h"
 #include "../File.h"
 
-namespace XusoryEngine::Platform
+namespace XusoryEngine
 {
 	void Directory::Copy(const std::wstring_view& srcPath, const std::wstring_view& dstPath, BOOL skipFindDir)
 	{
@@ -35,10 +35,7 @@ namespace XusoryEngine::Platform
 	void Directory::Create(const std::wstring_view& path)
 	{
 		ThrowIfDirExist(path);
-		if (!CreateDirectory(path.data(), nullptr))
-		{
-			ThrowWithErrName(DirectoryOperationError, WinFailedInfo("create directory"));
-		}
+		ThrowIfWinFuncFailed(CreateDirectory(path.data(), nullptr), "create directory");
 	}
 
 	void Directory::Delete(const std::wstring_view& path, BOOL skipFindDir)
@@ -64,10 +61,8 @@ namespace XusoryEngine::Platform
 				}
 			}
 		}
-		if (!RemoveDirectory(path.data()))
-		{
-			ThrowWithErrName(DirectoryOperationError, WinFailedInfo("delete directory"));
-		}
+
+		ThrowIfWinFuncFailed(RemoveDirectory(path.data()), "delete directory");
 	}
 
 	void Directory::Move(const std::wstring_view& srcPath, const std::wstring_view& dstPath)
@@ -75,10 +70,7 @@ namespace XusoryEngine::Platform
 		TryToFindDir(srcPath);
 		ThrowIfDirExist(dstPath);
 
-		if (!MoveFile(srcPath.data(), dstPath.data()))
-		{
-			ThrowWithErrName(DirectoryOperationError, WinFailedInfo("move directory"));
-		}
+		ThrowIfWinFuncFailed(MoveFile(srcPath.data(), dstPath.data()), "move directory");
 	}
 
 	BOOL Directory::ExistDir(const std::wstring_view& path)

@@ -2,7 +2,7 @@
 
 #include "../Common/PlatformCom.h"
 
-namespace XusoryEngine::Platform
+namespace XusoryEngine
 {
 	using FileTime = FILETIME;
 	using CompleteTime = SYSTEMTIME;

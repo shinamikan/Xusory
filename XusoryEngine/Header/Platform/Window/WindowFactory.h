@@ -8,7 +8,7 @@
 
 #pragma warning(disable : 4251)
 
-namespace XusoryEngine::Platform
+namespace XusoryEngine
 {
 	DLL_STATIC_CLASS(WindowFactory)
 	{

@@ -1,13 +1,10 @@
 #include "../Window.h"
 
-namespace XusoryEngine::Platform
+namespace XusoryEngine
 {
-	void ThrowIfWinIdIsNull(const WinID& winId)
+	BOOL Window::IsCreated() const
 	{
-		if (!winId)
-		{
-			ThrowWithErrName(NullHandleError, "Window has not been created yet");
-		}
+		return m_winId != nullptr;
 	}
 
 	WinID Window::GetWinId() const
@@ -17,7 +14,7 @@ namespace XusoryEngine::Platform
 
 	Point Window::GetWindowPos() const
 	{
-		ThrowIfWinIdIsNull(m_winId);
+		ThrowIfObjectNotCreated(m_winId, "window");
 
 		Rect rect;
 		GetWindowRect(m_winId, &rect);
@@ -27,7 +24,7 @@ namespace XusoryEngine::Platform
 
 	Point Window::GetWindowSize(BOOL isClientSize) const
 	{
-		ThrowIfWinIdIsNull(m_winId);
+		ThrowIfObjectNotCreated(m_winId, "window");
 
 		Rect rect;
 		if (isClientSize)
@@ -44,7 +41,7 @@ namespace XusoryEngine::Platform
 
 	std::wstring Window::GetWindowTitle() const
 	{
-		ThrowIfWinIdIsNull(m_winId);
+		ThrowIfObjectNotCreated(m_winId, "window");
 
 		std::wstring title(UINT8_MAX, 0);
 		GetWindowText(m_winId, title.data(), UINT8_MAX);
@@ -54,81 +51,71 @@ namespace XusoryEngine::Platform
 
 	void Window::SetWindowTitle(const std::wstring_view& title) const
 	{
-		ThrowIfWinIdIsNull(m_winId);
-
-		if (!SetWindowText(m_winId, title.data()))
-		{
-			ThrowWithErrName(RuntimeError, WinFailedInfo("set window title"));
-		}
+		ThrowIfObjectNotCreated(m_winId, "window");
+		ThrowIfWinFuncFailed(SetWindowText(m_winId, title.data()), "set window title");
 	}
 
 	void Window::Show() const
 	{
-		ThrowIfWinIdIsNull(m_winId);
+		ThrowIfObjectNotCreated(m_winId, "window");
 		ShowWindow(m_winId, SW_SHOW);
 	}
 
 	void Window::Hide() const
 	{
-		ThrowIfWinIdIsNull(m_winId);
+		ThrowIfObjectNotCreated(m_winId, "window");
 		ShowWindow(m_winId, SW_HIDE);
 	}
 
 	void Window::Maximize() const
 	{
-		ThrowIfWinIdIsNull(m_winId);
+		ThrowIfObjectNotCreated(m_winId, "window");
 		SendMessage(m_winId, WM_SYSCOMMAND, SC_MAXIMIZE, NULL);
 	}
 
 	void Window::Minimize() const
 	{
-		ThrowIfWinIdIsNull(m_winId);
+		ThrowIfObjectNotCreated(m_winId, "window");
 		SendMessage(m_winId, WM_SYSCOMMAND, SC_MINIMIZE, NULL);
 	}
 
 	void Window::Restore() const
 	{
-		ThrowIfWinIdIsNull(m_winId);
+		ThrowIfObjectNotCreated(m_winId, "window");
 		SendMessage(m_winId, WM_SYSCOMMAND, SC_RESTORE, NULL);
 	}
 
 	void Window::Active() const
 	{
-		ThrowIfWinIdIsNull(m_winId);
+		ThrowIfObjectNotCreated(m_winId, "window");
 		SetActiveWindow(m_winId);
 	}
 
 	void Window::Move(const Point& pos) const
 	{
-		ThrowIfWinIdIsNull(m_winId);
+		ThrowIfObjectNotCreated(m_winId, "window");
 
 		const auto sizeTemp = GetWindowSize();
-		if (!MoveWindow(m_winId, pos.x, pos.y, sizeTemp.x, sizeTemp.y, true))
-		{
-			ThrowWithErrName(RuntimeError, WinFailedInfo("move window"));
-		}
+		ThrowIfWinFuncFailed(MoveWindow(m_winId, pos.x, pos.y, sizeTemp.x, sizeTemp.y, true), "move window");
 	}
 
 	void Window::Move(INT posX, INT posY) const
 	{
-		ThrowIfWinIdIsNull(m_winId);
+		ThrowIfObjectNotCreated(m_winId, "window");
 
 		const auto sizeTemp = GetWindowSize();
-		if (!MoveWindow(m_winId, posX, posY, sizeTemp.x, sizeTemp.y, true))
-		{
-			ThrowWithErrName(RuntimeError, WinFailedInfo("move window"));
-		}
+		ThrowIfWinFuncFailed(MoveWindow(m_winId, posX, posY, sizeTemp.x, sizeTemp.y, true), "move window");
 	}
 
 	void Window::Resize(const Point& size, BOOL isClientSize) const
 	{
-		ThrowIfWinIdIsNull(m_winId);
+		ThrowIfObjectNotCreated(m_winId, "window");
 		Resize(size.x, size.y, isClientSize);
 	}
 
 	void Window::Resize(INT sizeX, INT sizeY, BOOL isClientSize) const
 	{
-		ThrowIfWinIdIsNull(m_winId);
+		ThrowIfObjectNotCreated(m_winId, "window");
 
 		if (isClientSize)
 		{
@@ -139,10 +126,7 @@ namespace XusoryEngine::Platform
 		}
 
 		const auto posTemp = GetWindowPos();
-		if (!MoveWindow(m_winId, posTemp.x, posTemp.y, sizeX, sizeY, true))
-		{
-			ThrowWithErrName(RuntimeError, WinFailedInfo("resize window"));
-		}
+		ThrowIfWinFuncFailed(MoveWindow(m_winId, posTemp.x, posTemp.y, sizeX, sizeY, true), "resize window");
 	}
 
 	void Window::MessageLoop()
@@ -171,13 +155,13 @@ namespace XusoryEngine::Platform
 
 	void Window::Close() const
 	{
-		ThrowIfWinIdIsNull(m_winId);
+		ThrowIfObjectNotCreated(m_winId, "window");
 		SendMessage(m_winId, WM_CLOSE, NULL, NULL);
 	}
 
 	void Window::Destroy() const
 	{
-		ThrowIfWinIdIsNull(m_winId);
+		ThrowIfObjectNotCreated(m_winId, "window");
 		DestroyWindow(m_winId);
 	}
 

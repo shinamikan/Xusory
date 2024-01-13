@@ -2,7 +2,7 @@
 
 #include "../Common/PlatformCom.h"
 
-namespace XusoryEngine::Platform
+namespace XusoryEngine
 {
 	using Point = POINT;
 	using Rect	= RECT;

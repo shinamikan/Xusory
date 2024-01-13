@@ -90,9 +90,6 @@
     <ClInclude Include="Header\StdEx\StringEx\StringEx.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Header\StdEx\VectorEx\VectorEx.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="Header\StdEx\StdEx.h">
       <Filter>头文件</Filter>
     </ClInclude>

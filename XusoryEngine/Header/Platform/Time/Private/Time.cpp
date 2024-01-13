@@ -1,14 +1,11 @@
 #include "../Time.h"
 
-namespace XusoryEngine::Platform
+namespace XusoryEngine
 {
 	FileTime AdjustFileTimeToLocal(const FileTime& utcFileTime)
 	{
 		FileTime localFileTime;
-		if (!FileTimeToLocalFileTime(&utcFileTime, &localFileTime))
-		{
-			ThrowWithErrName(RuntimeError, WinFailedInfo("converse time"));
-		}
+		ThrowIfWinFuncFailed(FileTimeToLocalFileTime(&utcFileTime, &localFileTime), "adjust time");
 
 		return localFileTime;
 	}
@@ -16,10 +13,7 @@ namespace XusoryEngine::Platform
 	FileTime AdjustFileTimeToUTC(const FileTime& localFileTime)
 	{
 		FileTime utcFileTime;
-		if (!LocalFileTimeToFileTime(&localFileTime, &utcFileTime))
-		{
-			ThrowWithErrName(RuntimeError, WinFailedInfo("converse time"));
-		}
+		ThrowIfWinFuncFailed(LocalFileTimeToFileTime(&localFileTime, &utcFileTime), "adjust time");
 
 		return utcFileTime;
 	}
@@ -27,10 +21,7 @@ namespace XusoryEngine::Platform
 	FileTime Time::CompTimeToFileTime(const CompleteTime& compTime, BOOL currentToLocal)
 	{
 		FileTime fileTime;
-		if (!SystemTimeToFileTime(&compTime, &fileTime))
-		{
-			ThrowWithErrName(RuntimeError, WinFailedInfo("converse time"));
-		}
+		ThrowIfWinFuncFailed(SystemTimeToFileTime(&compTime, &fileTime), "converse time");
 
 		if (currentToLocal)
 		{
@@ -48,10 +39,7 @@ namespace XusoryEngine::Platform
 		}
 
 		CompleteTime compTime;
-		if (!FileTimeToSystemTime(&fileTimeTemp, &compTime))
-		{
-			ThrowWithErrName(RuntimeError, WinFailedInfo("converse time"));
-		}
+		ThrowIfWinFuncFailed(FileTimeToSystemTime(&fileTimeTemp, &compTime), "converse time");
 
 		return compTime;
 	}
@@ -76,10 +64,8 @@ namespace XusoryEngine::Platform
 		const INT bufSize = GetTimeFormatEx(LOCALE_NAME_SYSTEM_DEFAULT, NULL, nullptr, formatInfo.data(), nullptr, 0);
 		std::wstring buf(bufSize - 1, 0);
 
-		if (!GetTimeFormatEx(LOCALE_NAME_SYSTEM_DEFAULT, NULL, &compTime, formatInfo.data(), buf.data(), static_cast<int>(buf.size() + 1)))
-		{
-			ThrowWithErrName(RuntimeError, WinFailedInfo("format time"));
-		}
+		const BOOL result = GetTimeFormatEx(LOCALE_NAME_SYSTEM_DEFAULT, NULL, &compTime, formatInfo.data(), buf.data(), static_cast<int>(buf.size() + 1));
+		ThrowIfWinFuncFailed(result, "format time");
 
 		return buf;
 	}

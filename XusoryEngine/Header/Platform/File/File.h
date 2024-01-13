@@ -3,7 +3,7 @@
 #include "FileCom.h"
 #include "../Time/TimeCom.h"
 
-namespace XusoryEngine::Platform
+namespace XusoryEngine
 {
 	DLL_CLASS(File)
 	{

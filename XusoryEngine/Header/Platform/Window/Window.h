@@ -3,7 +3,7 @@
 #include "WindowCom.h"
 #include "WindowEvent.h"
 
-namespace XusoryEngine::Platform
+namespace XusoryEngine
 {
 	DLL_CLASS(Window)
 	{
@@ -15,6 +15,7 @@ namespace XusoryEngine::Platform
 		MOVE_OPERATOR(Window);
 		virtual ~Window() = default;
 
+		BOOL IsCreated() const;
 		WinID GetWinId() const;
 		Point GetWindowPos() const;
 		Point GetWindowSize(BOOL isClientSize = false) const;

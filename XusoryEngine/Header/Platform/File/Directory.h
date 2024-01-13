@@ -3,7 +3,7 @@
 #include <vector>
 #include "FileCom.h"
 
-namespace XusoryEngine::Platform
+namespace XusoryEngine
 {
 	DLL_STATIC_CLASS(Directory)
 	{

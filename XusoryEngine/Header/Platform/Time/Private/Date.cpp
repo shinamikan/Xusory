@@ -3,17 +3,15 @@
 
 #include <unordered_map>
 
-namespace XusoryEngine::Platform
+namespace XusoryEngine
 {
 	std::wstring Date::FormatDate(const CompleteTime& compDate, const std::wstring_view& formatInfo)
 	{
 		const INT bufSize = GetDateFormatEx(LOCALE_NAME_SYSTEM_DEFAULT, NULL, nullptr, formatInfo.data(), nullptr, 0, nullptr);
 
 		std::wstring buf(bufSize - 1, 0);
-		if (!GetDateFormatEx(LOCALE_NAME_SYSTEM_DEFAULT, NULL, &compDate, formatInfo.data(), buf.data(), static_cast<int>(buf.size() + 1), nullptr))
-		{
-			ThrowWithErrName(RuntimeError, WinFailedInfo("format date"));
-		}
+		const BOOL result = GetDateFormatEx(LOCALE_NAME_SYSTEM_DEFAULT, NULL, &compDate, formatInfo.data(), buf.data(), static_cast<int>(buf.size() + 1), nullptr);
+		ThrowIfWinFuncFailed(result, "format date");
 
 		return buf;
 	}
