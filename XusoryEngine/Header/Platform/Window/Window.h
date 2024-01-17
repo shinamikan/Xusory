@@ -1,10 +1,14 @@
 #pragma once
 
-#include "WindowCom.h"
-#include "WindowEvent.h"
+#include "../Common/PlatformDefine.h"
+
+#include "Common/WindowDefine.h"
+#include "Common/WindowEvent.h"
 
 namespace XusoryEngine
 {
+	using WinId = HWND;
+
 	DLL_CLASS(Window)
 	{
 		friend class WindowFactory;
@@ -16,7 +20,7 @@ namespace XusoryEngine
 		virtual ~Window() = default;
 
 		BOOL IsCreated() const;
-		WinID GetWinId() const;
+		WinId GetWinId() const;
 		Point GetWindowPos() const;
 		Point GetWindowSize(BOOL isClientSize = false) const;
 		std::wstring GetWindowTitle() const;
@@ -73,6 +77,6 @@ namespace XusoryEngine
 		void Close() const;
 		void Destroy() const;
 
-		WinID m_winId = nullptr;
+		WinId m_winId = nullptr;
 	};
 }

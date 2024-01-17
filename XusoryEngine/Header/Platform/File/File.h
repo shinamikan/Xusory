@@ -1,27 +1,46 @@
 #pragma once
 
-#include "FileCom.h"
-#include "../Time/TimeCom.h"
+#include "../Common/PlatformDefine.h"
 
 namespace XusoryEngine
 {
+	using CompleteTime = SYSTEMTIME;
+
+	enum OpenMode : DWORD
+	{
+		OPEN_MODE_NULL = NULL,
+		OPEN_MODE_READ = GENERIC_READ,
+		OPEN_MODE_WRITE = GENERIC_WRITE,
+		OPEN_MODE_APPEND = FILE_APPEND_DATA,
+		OPEN_MODE_READ_ADD = OPEN_MODE_READ + 1,
+		OPEN_MODE_WRITE_ADD = OPEN_MODE_WRITE + 1,
+		OPEN_MODE_APPEND_ADD = OPEN_MODE_APPEND + 1
+	};
+
+	enum FileTimeInfo
+	{
+		FILE_CREATION_TIME = 0,
+		FILE_LAST_ACCESS_TIME,
+		FILE_LAST_WRITE_TIME
+	};
+
 	DLL_CLASS(File)
 	{
 	public:
 		File() = default;
-		File(const std::wstring_view& path, OPEN_MODE openMode);
+		File(const std::wstring_view& path, OpenMode openMode);
 		DEFAULT_COPY_OPERATOR(File);
 		~File();
 
-		void Open(const std::wstring_view& path, OPEN_MODE openMode);
+		void Open(const std::wstring_view& path, OpenMode openMode);
 		void Close() const;
 		void Read(void* pData) const;
-		void ReadText(std::string& pStr) const;
+		void ReadText(std::string& str) const;
 		void Write(const void* data, SIZE_T size) const;
 
 		static INT64 GetSize(const std::wstring_view& path);
-		static CompleteTime GetTime(const std::wstring_view& path, FILE_TIME_INFO timeInfo);
-		static void SetTime(const std::wstring_view& path, const CompleteTime & CompTime, FILE_TIME_INFO timeInfo);
+		static CompleteTime GetTime(const std::wstring_view& path, FileTimeInfo timeInfo);
+		static void SetTime(const std::wstring_view& path, const CompleteTime & CompTime, FileTimeInfo timeInfo);
 
 		static void Copy(const std::wstring_view& srcPath, const std::wstring_view& dstPath);
 		static void Create(const std::wstring_view& path);
@@ -33,9 +52,7 @@ namespace XusoryEngine
 		static void TryToFindFile(const std::wstring_view& path);
 
 	private:
-		void ReadData(void* pData, DWORD dataSize) const;
-
 		HANDLE		m_fileHandle = nullptr;
-		OPEN_MODE	m_openMode;
+		OpenMode	m_openMode;
 	};
 }

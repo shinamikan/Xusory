@@ -1,16 +1,12 @@
 #pragma once
 
-#include "../Common/PlatformCom.h"
+#include "../../Common/PlatformDefine.h"
 
 namespace XusoryEngine
 {
 	using Point = POINT;
-	using Rect	= RECT;
+	using Rect = RECT;
 
-	using WinID = HWND;
-	using WindowClass = WNDCLASS;
-	using WindowClassEx = WNDCLASSEX;
-	
 	constexpr INT DEFAULT_WIN_POS = CW_USEDEFAULT;
 	constexpr INT DEFAULT_WIN_SIZE = CW_USEDEFAULT;
 

@@ -51,20 +51,20 @@ namespace XusoryEngine
 
 			switch (compDate.wMonth)
 			{
-			case Jan:
-			case Mar:
-			case May:
-			case Jul:
-			case Aug:
-			case Oct:
-			case Dec:
+			case MONTH_JAN:
+			case MONTH_MAR:
+			case MONTH_MAY:
+			case MONTH_JUL:
+			case MONTH_AUG:
+			case MONTH_OCT:
+			case MONTH_DEC:
 				compDate.wDay -= 31;
 				AddMonth(compDate);
 				break;
-			case Apr:
-			case Jun:
-			case Sep:
-			case Nov:
+			case MONTH_APR:
+			case MONTH_JUN:
+			case MONTH_SEP:
+			case MONTH_NOV:
 				compDate.wDay -= 30;
 				AddMonth(compDate);
 				break;
@@ -144,21 +144,21 @@ namespace XusoryEngine
 
 		switch (compDate.wMonth)
 		{
-		case Jan:
-		case Mar:
-		case May:
-		case Jul:
-		case Aug:
-		case Oct:
-		case Dec:
+		case MONTH_JAN:
+		case MONTH_MAR:
+		case MONTH_MAY:
+		case MONTH_JUL:
+		case MONTH_AUG:
+		case MONTH_OCT:
+		case MONTH_DEC:
 			if (compDate.wDay <= 31)
 			{
 				return true;
 			}
-		case Apr:
-		case Jun:
-		case Sep:
-		case Nov:
+		case MONTH_APR:
+		case MONTH_JUN:
+		case MONTH_SEP:
+		case MONTH_NOV:
 			if (compDate.wDay <= 30)
 			{
 				return true;

@@ -42,7 +42,7 @@
     <ClInclude Include="Header\CppEx\CppEx.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Header\Platform\Common\PlatformCom.h">
+    <ClInclude Include="Header\Platform\Common\PlatformDefine.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Header\Platform\File\Directory.h">
@@ -51,16 +51,16 @@
     <ClInclude Include="Header\Platform\File\File.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Header\Platform\File\FileCom.h">
+    <ClInclude Include="Header\Platform\File\Common\FileDefine.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Header\Platform\DLL\DLL.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Header\Platform\System\Monitor.h">
+    <ClInclude Include="Header\Platform\System\SystemMonitor.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Header\Platform\System\Info.h">
+    <ClInclude Include="Header\Platform\System\SystemInfo.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Header\Platform\Time\Date.h">
@@ -69,13 +69,10 @@
     <ClInclude Include="Header\Platform\Time\Time.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Header\Platform\Time\TimeCom.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="Header\Platform\Window\Window.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Header\Platform\Window\WindowCom.h">
+    <ClInclude Include="Header\Platform\Window\Common\WindowDefine.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Header\Platform\Platform.h">
@@ -99,19 +96,34 @@
     <ClInclude Include="Header\XsCommon\DllDefine.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Header\Platform\Window\KeyCode.h">
+    <ClInclude Include="Header\Platform\Window\Common\KeyCode.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Header\Platform\Window\WindowFactory.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Header\Platform\Window\WindowEvent.h">
+    <ClInclude Include="Header\Platform\Window\Common\WindowEvent.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Header\Platform\Console\Console.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Header\Platform\Console\ConsoleCom.h">
+    <ClInclude Include="Header\Platform\Internet\Socket.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Platform\Internet\Internet.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Resource\GameAsset\Texture.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Resource\GameAsset\AudioClip.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Resource\GameAsset\TextAsset.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Core\Debug\Debug.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -128,7 +140,7 @@
     <ClCompile Include="Header\Platform\DLL\Private\DLL.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Header\Platform\System\Private\Monitor.cpp">
+    <ClCompile Include="Header\Platform\System\Private\SystemMonitor.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Header\Platform\Time\Private\Date.cpp">
@@ -152,7 +164,13 @@
     <ClCompile Include="Header\Platform\Console\Private\Console.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Header\Platform\System\Private\Info.cpp">
+    <ClCompile Include="Header\Platform\System\Private\SystemInfo.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\Platform\Internet\Private\Socket.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\Core\Debug\Private\Debug.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

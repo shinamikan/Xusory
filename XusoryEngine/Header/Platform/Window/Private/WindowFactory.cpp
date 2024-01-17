@@ -1,7 +1,7 @@
 #include <windowsx.h>
 
-#include "../WindowEvent.h"
 #include "../WindowFactory.h"
+#include "../Common/WindowEvent.h"
 #include "../../File/File.h"
 
 namespace XusoryEngine

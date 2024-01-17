@@ -1,5 +1,6 @@
 #include "../Directory.h"
 #include "../File.h"
+#include "../Common/FileDefine.h"
 
 namespace XusoryEngine
 {

@@ -135,6 +135,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Header\Core\Debug\Debug.h" />
     <ClInclude Include="Header\CppEx\ClassEx\ClassEx.h" />
     <ClInclude Include="Header\CppEx\ClassEx\Name.h" />
     <ClInclude Include="Header\CppEx\CppEx.h" />
@@ -145,37 +146,42 @@
     <ClInclude Include="Header\CppEx\Error\TraceBack.h" />
     <ClInclude Include="Header\CppEx\Reflector\Reflector.h" />
     <ClInclude Include="Header\NovaEngine.h" />
-    <ClInclude Include="Header\Platform\Common\PlatformCom.h" />
-    <ClInclude Include="Header\Platform\Console\ConsoleCom.h" />
+    <ClInclude Include="Header\Platform\Common\PlatformDefine.h" />
     <ClInclude Include="Header\Platform\File\Directory.h" />
     <ClInclude Include="Header\Platform\File\File.h" />
-    <ClInclude Include="Header\Platform\File\FileCom.h" />
+    <ClInclude Include="Header\Platform\File\Common\FileDefine.h" />
+    <ClInclude Include="Header\Platform\Internet\Internet.h" />
+    <ClInclude Include="Header\Platform\Internet\Socket.h" />
     <ClInclude Include="Header\Platform\Platform.h" />
     <ClInclude Include="Header\Platform\DLL\DLL.h" />
-    <ClInclude Include="Header\Platform\System\Monitor.h" />
-    <ClInclude Include="Header\Platform\System\Info.h" />
+    <ClInclude Include="Header\Platform\System\SystemMonitor.h" />
+    <ClInclude Include="Header\Platform\System\SystemInfo.h" />
     <ClInclude Include="Header\Platform\Time\Date.h" />
     <ClInclude Include="Header\Platform\Time\Time.h" />
-    <ClInclude Include="Header\Platform\Time\TimeCom.h" />
     <ClInclude Include="Header\Platform\Console\Console.h" />
-    <ClInclude Include="Header\Platform\Window\KeyCode.h" />
+    <ClInclude Include="Header\Platform\Window\Common\KeyCode.h" />
     <ClInclude Include="Header\Platform\Window\Window.h" />
-    <ClInclude Include="Header\Platform\Window\WindowCom.h" />
-    <ClInclude Include="Header\Platform\Window\WindowEvent.h" />
+    <ClInclude Include="Header\Platform\Window\Common\WindowDefine.h" />
+    <ClInclude Include="Header\Platform\Window\Common\WindowEvent.h" />
     <ClInclude Include="Header\Platform\Window\WindowFactory.h" />
+    <ClInclude Include="Header\Resource\GameAsset\AudioClip.h" />
     <ClInclude Include="Header\Resource\GameAsset\Mesh.h" />
     <ClInclude Include="Header\Resource\GameAsset\Shader.h" />
+    <ClInclude Include="Header\Resource\GameAsset\TextAsset.h" />
+    <ClInclude Include="Header\Resource\GameAsset\Texture.h" />
     <ClInclude Include="Header\StdEx\StdEx.h" />
     <ClInclude Include="Header\StdEx\StringEx\StringEx.h" />
     <ClInclude Include="Header\XsCommon\DllDefine.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Header\Core\Debug\Private\Debug.cpp" />
     <ClCompile Include="Header\CppEx\Error\Private\TraceBack.cpp" />
     <ClCompile Include="Header\Platform\File\Private\Directory.cpp" />
     <ClCompile Include="Header\Platform\File\Private\File.cpp" />
     <ClCompile Include="Header\Platform\DLL\Private\DLL.cpp" />
-    <ClCompile Include="Header\Platform\System\Private\Info.cpp" />
-    <ClCompile Include="Header\Platform\System\Private\Monitor.cpp" />
+    <ClCompile Include="Header\Platform\Internet\Private\Socket.cpp" />
+    <ClCompile Include="Header\Platform\System\Private\SystemInfo.cpp" />
+    <ClCompile Include="Header\Platform\System\Private\SystemMonitor.cpp" />
     <ClCompile Include="Header\Platform\Time\Private\Date.cpp" />
     <ClCompile Include="Header\Platform\Time\Private\Time.cpp" />
     <ClCompile Include="Header\Platform\Console\Private\Console.cpp" />

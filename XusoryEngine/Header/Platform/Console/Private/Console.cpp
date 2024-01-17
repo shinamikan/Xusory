@@ -37,10 +37,19 @@ namespace XusoryEngine
 		return sm_outputHandle != nullptr;
 	}
 
-	void Console::SetTextColor(CONSOLE_TEXT_COLOR colorCode)
+	void Console::SetSize(INT16 width, INT16 height)
+	{
+		HANDLE hStdOutput = GetStdHandle(STD_OUTPUT_HANDLE);
+		SMALL_RECT wrt = { 0, 0, width, height };
+		SetConsoleWindowInfo(hStdOutput, TRUE, &wrt);
+		COORD coord = { width, height };
+		SetConsoleScreenBufferSize(hStdOutput, coord);
+	}
+
+	void Console::SetTextColor(ConsoleTextColor consoleTextColor)
 	{
 		ThrowIfObjectNotCreated(sm_outputHandle, "console");
-		ThrowIfWinFuncFailed(SetConsoleTextAttribute(sm_outputHandle, colorCode), "set console text color");
+		ThrowIfWinFuncFailed(SetConsoleTextAttribute(sm_outputHandle, static_cast<WORD>(consoleTextColor)), "set console text color");
 	}
 
 	void Console::SetTextFont(const std::wstring_view& fontName, INT16 fontSize)
@@ -62,7 +71,38 @@ namespace XusoryEngine
 	void Console::SetTitle(const std::wstring_view& title)
 	{
 		ThrowIfObjectNotCreated(sm_outputHandle, "console");
-		ThrowIfWinFuncFailed(SetConsoleTitle(title.data()), "set console title");
+		SetConsoleTitle(title.data());
+	}
+
+	void Console::Clear()
+	{
+		ThrowIfObjectNotCreated(sm_outputHandle, "console");
+
+		CONSOLE_SCREEN_BUFFER_INFO info;
+		GetConsoleScreenBufferInfo(sm_outputHandle, &info);
+
+		const DWORD cellCount = info.dwSize.X * info.dwSize.Y;
+
+		Replace(TEXT(' '), { 0, 0 }, cellCount);
+		MoveCursor({ 0, 0 });
+	}
+
+	void Console::MoveCursor(Coordinate coordinate)
+	{
+		SetConsoleCursorPosition(sm_outputHandle, coordinate);
+	}
+
+	void Console::Replace(TCHAR character, Coordinate coordinate, UINT count)
+	{
+		CONSOLE_SCREEN_BUFFER_INFO info;
+		GetConsoleScreenBufferInfo(sm_outputHandle, &info);
+
+		DWORD writtenCount;
+		const BOOL fillCharResult = FillConsoleOutputCharacter(sm_outputHandle, character, count, coordinate, &writtenCount);
+		ThrowIfWinFuncFailed(fillCharResult, "Fill Console Output Character");
+
+		const BOOL fillAttrResult = FillConsoleOutputAttribute(sm_outputHandle, info.wAttributes, count, coordinate, &writtenCount);
+		ThrowIfWinFuncFailed(fillAttrResult, "Fill Console Output Attribute");
 	}
 
 	void Console::Write(const std::wstring_view& buf)

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Common/PlatformCom.h"
+#include "../Common/PlatformDefine.h"
 
 namespace XusoryEngine
 {

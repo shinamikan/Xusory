@@ -1,10 +1,13 @@
 #include "../File.h"
+#include "../Common/FileDefine.h"
 #include "../../Time/Time.h"
 
 namespace XusoryEngine
 {
+	using FileTime = FILETIME;
+
 	template <typename... Args>
-	void ThrowIfOpenModeError(HANDLE handle, OPEN_MODE mode, Args... args)
+	void ThrowIfOpenModeError(HANDLE handle, OpenMode mode, Args... args)
 	{
 		ThrowIfObjectNotCreated(handle, "file");
 
@@ -14,7 +17,7 @@ namespace XusoryEngine
 		}
 	}
 
-	File::File(const std::wstring_view& path, OPEN_MODE openMode)
+	File::File(const std::wstring_view& path, OpenMode openMode)
 	{
 		Open(path, openMode);
 	}
@@ -24,7 +27,7 @@ namespace XusoryEngine
 		Close();
 	}
 
-	void File::Open(const std::wstring_view& path, OPEN_MODE openMode)
+	void File::Open(const std::wstring_view& path, OpenMode openMode)
 	{
 		UINT dwDisposition = NULL;
 
@@ -70,17 +73,17 @@ namespace XusoryEngine
 		ThrowIfOpenModeError(m_fileHandle, m_openMode, OPEN_MODE_READ, OPEN_MODE_READ_ADD);
 
 		const DWORD fileSize = GetFileSize(m_fileHandle, nullptr);
-		ReadData(pData, fileSize);
+		ThrowIfWinFuncFailed(ReadFile(m_fileHandle, pData, fileSize, nullptr, nullptr), "read file");
 	}
 
-	void File::ReadText(std::string& pStr) const
+	void File::ReadText(std::string& str) const
 	{
 		ThrowIfOpenModeError(m_fileHandle, m_openMode, OPEN_MODE_READ, OPEN_MODE_READ_ADD);
 
 		const DWORD fileSize = GetFileSize(m_fileHandle, nullptr);
-		pStr.resize(fileSize, 0);
+		str.resize(fileSize, 0);
 
-		ReadData(pStr.data(), fileSize);
+		ThrowIfWinFuncFailed(ReadFile(m_fileHandle, str.data(), fileSize, nullptr, nullptr), "read file");
 	}
 
 	void File::Write(const void* data, SIZE_T size) const
@@ -108,7 +111,7 @@ namespace XusoryEngine
 		return large.QuadPart;
 	}
 
-	CompleteTime File::GetTime(const std::wstring_view& path, FILE_TIME_INFO timeInfo)
+	CompleteTime File::GetTime(const std::wstring_view& path, FileTimeInfo timeInfo)
 	{
 		TryToFindFile(path);
 
@@ -119,7 +122,7 @@ namespace XusoryEngine
 		GetFileInformationByHandle(fileTemp.m_fileHandle, &info);
 
 		BOOL result = false;
-		FILETIME fileTime;
+		FileTime fileTime;
 		switch (timeInfo)
 		{
 		case FILE_CREATION_TIME:
@@ -139,12 +142,12 @@ namespace XusoryEngine
 		return compTime;
 	}
 
-	void File::SetTime(const std::wstring_view& path, const CompleteTime& CompTime, FILE_TIME_INFO timeInfo)
+	void File::SetTime(const std::wstring_view& path, const CompleteTime& CompTime, FileTimeInfo timeInfo)
 	{
 		TryToFindFile(path);
 
 		const HANDLE handle = CreateFile(path.data(), GENERIC_WRITE, NULL, nullptr, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, nullptr);
-		const FILETIME fileTime = Time::CompTimeToFileTime(CompTime, true);
+		const FileTime fileTime = Time::CompTimeToFileTime(CompTime, true);
 
 		BOOL result = false;
 		switch (timeInfo)
@@ -220,11 +223,5 @@ namespace XusoryEngine
 		{
 			ThrowWithErrName(PathError, GetPathErrorCompInfo("Requesting file operations on the directory", path));
 		}
-	}
-
-	void File::ReadData(void* pData, DWORD dataSize) const
-	{
-		const DWORD fileSize = GetFileSize(m_fileHandle, nullptr);
-		ThrowIfWinFuncFailed(ReadFile(m_fileHandle, pData, dataSize, nullptr, nullptr), "read file");
 	}
 }

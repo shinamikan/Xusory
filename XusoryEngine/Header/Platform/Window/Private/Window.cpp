@@ -7,7 +7,7 @@ namespace XusoryEngine
 		return m_winId != nullptr;
 	}
 
-	WinID Window::GetWinId() const
+	WinId Window::GetWinId() const
 	{
 		return m_winId;
 	}

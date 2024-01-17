@@ -1,7 +1,7 @@
 #pragma once
 
 #include <vector>
-#include "FileCom.h"
+#include "../Common/PlatformDefine.h"
 
 namespace XusoryEngine
 {
@@ -12,6 +12,7 @@ namespace XusoryEngine
 		static void Create(const std::wstring_view& path);
 		static void Delete(const std::wstring_view& path, BOOL skipFindDir = false);
 		static void Move(const std::wstring_view & srcPath, const std::wstring_view & dstPath);
+		// TODO:监视文件夹改变
 
 		static BOOL ExistDir(const std::wstring_view& path);
 		static BOOL IsEmpty(const std::wstring_view& path);

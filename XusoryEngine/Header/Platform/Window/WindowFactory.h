@@ -3,13 +3,16 @@
 #include <type_traits>
 #include <unordered_map>
 
+#include "Common/WindowDefine.h"
 #include "Window.h"
-#include "WindowCom.h"
 
 #pragma warning(disable : 4251)
 
 namespace XusoryEngine
 {
+	using WindowClass = WNDCLASS;
+	using WindowClassEx = WNDCLASSEX;
+
 	DLL_STATIC_CLASS(WindowFactory)
 	{
 		friend LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -25,8 +28,8 @@ namespace XusoryEngine
 		static void RegisterWindowClass(HINSTANCE hInstance, const std::wstring_view & className);
 
 		template <typename WindowT>
-		static Window* CreateWindowInstance(const std::wstring_view& className, const std::wstring_view& windowTitle, INT posX = DEFAULT_WIN_POS, INT posY = DEFAULT_WIN_POS,
-			INT sizeX = DEFAULT_WIN_SIZE, INT sizeY = DEFAULT_WIN_SIZE, BOOL isClientSize = false);
+		static Window* CreateWindowInstance(const std::wstring_view& className, const std::wstring_view& windowTitle, INT sizeX = DEFAULT_WIN_SIZE, INT sizeY = DEFAULT_WIN_SIZE,
+			BOOL isClientSize = false, INT posX = DEFAULT_WIN_POS, INT posY = DEFAULT_WIN_POS);
 		static void CloseWindowInstance(Window*& window);
 		static void DestroyWindowInstance(Window*& window);
 
@@ -38,8 +41,8 @@ namespace XusoryEngine
 	};
 
 	template<typename WindowT>
-	Window* WindowFactory::CreateWindowInstance(const std::wstring_view& className, const std::wstring_view& windowTitle, INT posX, INT posY,
-		INT sizeX, INT sizeY, BOOL isClientSize)
+	Window* WindowFactory::CreateWindowInstance(const std::wstring_view& className, const std::wstring_view& windowTitle, INT sizeX, INT sizeY,
+		BOOL isClientSize, INT posX, INT posY)
 	{
 		static_assert(std::is_base_of_v<Window, WindowT>);
 

@@ -1,9 +1,15 @@
 #pragma once
 
-#include "TimeCom.h"
+#include "../Common/PlatformDefine.h"
 
 namespace XusoryEngine
 {
+	using FileTime = FILETIME;
+	using CompleteTime = SYSTEMTIME;
+
+	constexpr UINT64 TIME_DIFFERENCE_1601_TO_1970 = 116444736000000000ULL;
+	constexpr DOUBLE FILE_TIME_TO_TIME_STAMP = 10000000.0;
+
 	DLL_STATIC_CLASS(Time)
 	{
 	public:
