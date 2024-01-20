@@ -8,6 +8,9 @@
 
 namespace XusoryEngine
 {
+	using Point = POINT;
+	using Rect = RECT;
+
 	inline std::string HasCreatedInfo(const std::string_view& objectInfo)
 	{
 		return StringEx::Format<std::string>("The %s has been created or opened", objectInfo.data());

@@ -4,9 +4,6 @@
 
 namespace XusoryEngine
 {
-	using Point = POINT;
-	using Rect = RECT;
-
 	constexpr INT DEFAULT_WIN_POS = CW_USEDEFAULT;
 	constexpr INT DEFAULT_WIN_SIZE = CW_USEDEFAULT;
 

@@ -107,19 +107,19 @@ namespace XusoryEngine
 		return FormatTime(compTime, formatInfo);
 	}
 
-	DOUBLE PerformanceTime::sm_timeCycle = 0.0;
-	void PerformanceTime::Init()
-	{
-		INT64 timeFrequency = 0;
-		QueryPerformanceFrequency(reinterpret_cast<LARGE_INTEGER*>(&timeFrequency));
-		sm_timeCycle = 1.0 / static_cast<DOUBLE>(timeFrequency);
-	}
-
+	PerformanceTime::PerformanceTime_Internal PerformanceTime::sm_internalPerformanceTime;
 	DOUBLE PerformanceTime::GetTime()
 	{
 		LARGE_INTEGER currentTime;
 		QueryPerformanceCounter(&currentTime);
 
-		return static_cast<DOUBLE>(currentTime.QuadPart) * sm_timeCycle;
+		return static_cast<DOUBLE>(currentTime.QuadPart) * sm_internalPerformanceTime.m_timeCycle;
+	}
+
+	PerformanceTime::PerformanceTime_Internal::PerformanceTime_Internal()
+	{
+		INT64 timeFrequency = 0;
+		QueryPerformanceFrequency(reinterpret_cast<LARGE_INTEGER*>(&timeFrequency));
+		m_timeCycle = 1.0 / static_cast<DOUBLE>(timeFrequency);
 	}
 }

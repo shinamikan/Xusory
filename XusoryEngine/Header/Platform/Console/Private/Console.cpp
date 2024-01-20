@@ -3,6 +3,7 @@
 namespace XusoryEngine
 {
 	HANDLE Console::sm_outputHandle = nullptr;
+	ConsoleTextColor Console::sm_usingColor = ConsoleTextColor::COLOR_WHITE;
 
 	BOOL Console::CreateConsole()
 	{
@@ -39,17 +40,24 @@ namespace XusoryEngine
 
 	void Console::SetSize(INT16 width, INT16 height)
 	{
-		HANDLE hStdOutput = GetStdHandle(STD_OUTPUT_HANDLE);
-		SMALL_RECT wrt = { 0, 0, width, height };
-		SetConsoleWindowInfo(hStdOutput, TRUE, &wrt);
-		COORD coord = { width, height };
-		SetConsoleScreenBufferSize(hStdOutput, coord);
+		const SMALL_RECT smallRect = { 0, 0, static_cast<SHORT>(width - 1), static_cast<SHORT>(height - 1) };
+		SetConsoleWindowInfo(sm_outputHandle, TRUE, &smallRect);
+
+		const Coordinate coordinate = { width, height };
+		SetConsoleScreenBufferSize(sm_outputHandle, coordinate);
 	}
 
 	void Console::SetTextColor(ConsoleTextColor consoleTextColor)
 	{
+		if (sm_usingColor == consoleTextColor)
+		{
+			return;
+		}
+
 		ThrowIfObjectNotCreated(sm_outputHandle, "console");
 		ThrowIfWinFuncFailed(SetConsoleTextAttribute(sm_outputHandle, static_cast<WORD>(consoleTextColor)), "set console text color");
+
+		sm_usingColor = consoleTextColor;
 	}
 
 	void Console::SetTextFont(const std::wstring_view& fontName, INT16 fontSize)

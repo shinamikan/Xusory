@@ -7,30 +7,47 @@
 using namespace std;
 using namespace XusoryEngine;
 
-constexpr char CPP_EXCEPTION_INFO[] = "C++ Exception TraceBack: ";
-
 class TestWindow : public Window
 {
 public:
 	void OnResize(const ResizeEvent& event) override
 	{
-		cout << "Client Resize:" << event.sizeX << "  " << event.sizeY << endl;
+		/*Debug::Log(LOG_INFO, "Client Resize:", event.sizeX, " ", event.sizeY);
 
 		auto windowSize = GetWindowSize();
-		cout << "Window size:" << windowSize.x << "  " << windowSize.y << endl;
+		Debug::Log(LOG_INFO, "Window size:", windowSize.x, " ", windowSize.y);
 
 		auto clientSize = GetWindowSize(true);
-		cout << "Client size:" << clientSize.x << "  " << clientSize.y << endl;
+		Debug::Log(LOG_INFO, "Client size:", clientSize.x, " ", clientSize.y);*/
 	}
 
 	void OnMousePress(const MouseClickEvent& event) override
 	{
-		Console::Clear();
+		//std::this_thread::sleep_for(std::chrono::seconds(1));
+		//KeyBoard::VirtualPressKey(KEY_2);
+
+		Debug::Log(LOG_INFO, event.mouseKeyCode);
+
+		/*if (event.mouseKeyCode == EX_BUTTON_1)
+		{
+			Debug::Log(LOG_INFO, event.mouseKeyCode);
+		}*/
 	}
 
 	void OnKeyPress(const KeyEvent& event) override
 	{
-		cout << 12345;
+		if (event.keyCode == KEY_1)
+		{
+			Console::Clear();
+		}
+		else if (event.keyCode == KEY_2)
+		{
+			Debug::Log(LOG_INFO, "Key Press");
+		}
+		else if (event.keyCode == KEY_3)
+		{
+			Cursor::VirtualPressMouseKey(MOUSE_EX1);
+		}
 	}
 
 	void OnDestroy() override
@@ -41,9 +58,6 @@ public:
 
 int WinMain(HINSTANCE hIns, HINSTANCE hPreIns, LPSTR lpCmdLine, int nCmdShow)
 {
-	INIT_STATIC_CLASS(TraceBack, ENTER_FUNC_WIN_MAIN);
-	INIT_STATIC_CLASS(PerformanceTime, );
-
 	ios_base::fmtflags orig = cout.setf(ios_base::fixed, ios_base::floatfield);
 	std::streamsize prec = cout.precision(8);
 
@@ -52,9 +66,6 @@ int WinMain(HINSTANCE hIns, HINSTANCE hPreIns, LPSTR lpCmdLine, int nCmdShow)
 		Console::CreateConsole();
 		Console::RedirectToStd();
 		Console::SetTitle(TEXT("Console"));
-		Console::SetTextColor(ConsoleTextColor::COLOR_BLUE_INTENSITY);
-		Console::SetTextFont(TEXT("Î¢ÈíÑÅºÚ"), 25);
-		Console::SetSize(200, 10);
 
 		WindowFactory::StartNewWindowClass();
 		WindowFactory::RegisterWindowClass(hIns, TEXT("MainWindow"));
@@ -62,11 +73,14 @@ int WinMain(HINSTANCE hIns, HINSTANCE hPreIns, LPSTR lpCmdLine, int nCmdShow)
 		Window* window = WindowFactory::CreateWindowInstance<TestWindow>(TEXT("MainWindow"), TEXT("Application"), 400, 400, true);
 		window->Show();
 
+		Debug::Log(LOG_INFO, CpuInfo::GetCpuVendor());
+		Debug::Log(LOG_INFO, CpuInfo::GetCompleteCpuName());
+
 		window->MessageLoop();
 	}
 	catch (const std::exception& e)
 	{
-		cout << CPP_EXCEPTION_INFO << endl;
+		cout << "C++ Exception TraceBack :" << endl;
 		for (auto& info : TraceBack::GetTraceBackInfoList())
 		{
 			cout << "  " << info << endl;

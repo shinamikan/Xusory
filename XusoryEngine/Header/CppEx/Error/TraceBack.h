@@ -6,11 +6,11 @@
 
 #include "../ClassEx/ClassEx.h"
 
+#pragma warning(disable : 4251)
+
 STATIC_CLASS(TraceBack)
 {
 public:
-	static void Init(const std::string_view& enterFunc);
-
 	static const std::vector<std::string>& GetTraceBackInfoList();
 
 	static void AddTraceBackInfo(const std::string& info);
@@ -24,13 +24,15 @@ private:
 	static void CreateTraceBackInfo(BOOL isCapture);
 	static void UpdateProcessHandle();
 
-private:
-	static BOOL		sm_initFlag;
-	static HANDLE	sm_processHandle;
+	INTERNAL_CLASS(TraceBack)
+	{
+	public:
+		TraceBack_Internal();
 
-	static UINT		sm_frameCount;
+		HANDLE	m_processHandle = nullptr;
+		UINT	m_frameCount = 0;
 
-	static std::string				sm_enterFunc;
-	static std::vector<void*>		sm_funcStack;
-	static std::vector<std::string> sm_backTraceInfoList;
+		std::vector<void*>		 m_funcStack;
+		std::vector<std::string> m_backTraceInfoList;
+	};
 };

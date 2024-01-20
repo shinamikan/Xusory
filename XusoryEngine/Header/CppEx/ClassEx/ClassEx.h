@@ -1,10 +1,16 @@
 #pragma once
 
 #include "../../XsCommon/DllDefine.h"
+#include "Name.h"
 
 #define CLASS(className) class className
 #define DLL_CLASS(className) class DLL_FUNC className
 #define END_CLASS }
+
+#define INTERNAL_CLASS(className)										\
+	class SUFFIX_NAME(className, _Internal);							\
+	static SUFFIX_NAME(className, _Internal) sm_internal##className;	\
+	class SUFFIX_NAME(className, _Internal)
 
 #define COPY_OPERATOR(className)					\
 	className(const className& other);				\
@@ -65,9 +71,6 @@ public:
 	DELETE_COPY_OPERATOR(StaticBase);
 	DELETE_MOVE_OPERATOR(StaticBase);
 	~StaticBase() = default;
-
-	static void Init() { }
-	static void Del() { }
 };
 
 #define STATIC_CLASS(className) CLASS(className) : public StaticBase

@@ -96,7 +96,7 @@
     <ClInclude Include="Header\XsCommon\DllDefine.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Header\Platform\Window\Common\KeyCode.h">
+    <ClInclude Include="Header\Platform\InputDevice\Commom\KeyCode.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Header\Platform\Window\WindowFactory.h">
@@ -124,6 +124,12 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Header\Core\Debug\Debug.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Core\Core.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Platform\InputDevice\InputDevice.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -171,6 +177,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Header\Core\Debug\Private\Debug.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\Platform\InputDevice\Private\InputDevice.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

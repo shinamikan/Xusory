@@ -11,41 +11,26 @@ struct SymbolInfo : SYMBOL_INFO
 	char name[UINT8_MAX];
 };
 
-BOOL	TraceBack::sm_initFlag = false;
-HANDLE	TraceBack::sm_processHandle = nullptr;
-UINT	TraceBack::sm_frameCount = 0;
-
-std::string TraceBack::sm_enterFunc = { };
-std::vector<void*>	TraceBack::sm_funcStack = std::vector<void*>(UINT8_MAX);
-std::vector<std::string> TraceBack::sm_backTraceInfoList = std::vector<std::string>();
-
-void TraceBack::Init(const std::string_view& enterFunc)
-{
-	UpdateProcessHandle();
-
-	sm_initFlag = true;
-	sm_enterFunc = std::string(enterFunc);
-}
-
+TraceBack::TraceBack_Internal TraceBack::sm_internalTraceBack;
 const std::vector<std::string>& TraceBack::GetTraceBackInfoList()
 {
-	return sm_backTraceInfoList;
+	return sm_internalTraceBack.m_backTraceInfoList;
 }
 
 void TraceBack::AddTraceBackInfo(const std::string& info)
 {
-	sm_backTraceInfoList.push_back(info);
+	sm_internalTraceBack.m_backTraceInfoList.push_back(info);
 }
 
 void TraceBack::RemoveTraceBackInfo()
 {
-	sm_backTraceInfoList.erase(sm_backTraceInfoList.end() - 1);
+	sm_internalTraceBack.m_backTraceInfoList.erase(sm_internalTraceBack.m_backTraceInfoList.end() - 1);
 }
 
 void TraceBack::AddFunctionPtr(void* pFunc)
 {
-	sm_funcStack.insert(sm_funcStack.begin(), pFunc);
-	sm_frameCount++;
+	sm_internalTraceBack.m_funcStack.insert(sm_internalTraceBack.m_funcStack.begin(), pFunc);
+	sm_internalTraceBack.m_frameCount++;
 	CreateTraceBackInfo(false);
 }
 
@@ -53,19 +38,19 @@ void TraceBack::CaptureCurrentStack(UINT captureFrames)
 {
 	ClearStack();
 
-	sm_frameCount = CaptureStackBackTrace(0, captureFrames, sm_funcStack.data(), nullptr);
+	sm_internalTraceBack.m_frameCount = CaptureStackBackTrace(0, captureFrames, sm_internalTraceBack.m_funcStack.data(), nullptr);
 	CreateTraceBackInfo(true);
 }
 
 void TraceBack::ClearStack()
 {
-	for (UINT i = 0; i < sm_frameCount; i++)
+	for (UINT i = 0; i < sm_internalTraceBack.m_frameCount; i++)
 	{
-		sm_funcStack.at(i) = nullptr;
+		sm_internalTraceBack.m_funcStack.at(i) = nullptr;
 	}
 
-	sm_frameCount = 0;
-	sm_backTraceInfoList.clear();
+	sm_internalTraceBack.m_frameCount = 0;
+	sm_internalTraceBack.m_backTraceInfoList.clear();
 }
 
 void TraceBack::CreateTraceBackInfo(BOOL isCapture)
@@ -81,8 +66,8 @@ void TraceBack::CreateTraceBackInfo(BOOL isCapture)
 
 	auto symTraceBack = [&](void* pFunc) -> void
 	{
-		SymFromAddr(sm_processHandle, reinterpret_cast<DWORD64>(pFunc), nullptr, &symbol);
-		SymGetLineFromAddr64(sm_processHandle, reinterpret_cast<DWORD64>(pFunc), &displacement, &line);
+		SymFromAddr(sm_internalTraceBack.m_processHandle, reinterpret_cast<DWORD64>(pFunc), nullptr, &symbol);
+		SymGetLineFromAddr64(sm_internalTraceBack.m_processHandle, reinterpret_cast<DWORD64>(pFunc), &displacement, &line);
 		symbolName = symbol.Name;
 	};
 
@@ -96,9 +81,9 @@ void TraceBack::CreateTraceBackInfo(BOOL isCapture)
 	{
 		BOOL startCaptureFlag = false;
 
-		for (UINT i = sm_frameCount - 1; i > 0; i--)
+		for (UINT i = sm_internalTraceBack.m_frameCount - 1; i > 0; i--)
 		{
-			symTraceBack(sm_funcStack[i]);
+			symTraceBack(sm_internalTraceBack.m_funcStack[i]);
 
 			if (symbolName == "WinMain")
 			{
@@ -113,13 +98,19 @@ void TraceBack::CreateTraceBackInfo(BOOL isCapture)
 	}
 	else
 	{
-		symTraceBack(sm_funcStack[sm_frameCount - 1]);
+		symTraceBack(sm_internalTraceBack.m_funcStack[sm_internalTraceBack.m_frameCount - 1]);
 		addTraceBackInfo();
 	}
 }
 
 void TraceBack::UpdateProcessHandle()
 {
-	sm_processHandle = GetCurrentProcess();
-	SymInitialize(sm_processHandle, nullptr, true);
+	sm_internalTraceBack.m_processHandle = GetCurrentProcess();
+	SymInitialize(sm_internalTraceBack.m_processHandle, nullptr, true);
+}
+
+TraceBack::TraceBack_Internal::TraceBack_Internal()
+	: m_funcStack(std::vector<void*>(UINT8_MAX))
+{
+	UpdateProcessHandle();
 }

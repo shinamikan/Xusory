@@ -2,6 +2,8 @@
 
 #include "../Common/PlatformDefine.h"
 
+#pragma warning(disable : 4251)
+
 namespace XusoryEngine
 {
 	using FileTime = FILETIME;
@@ -30,10 +32,15 @@ namespace XusoryEngine
 	DLL_STATIC_CLASS(PerformanceTime)
 	{
 	public:
-		static void Init();
 		static DOUBLE GetTime();
 
 	private:
-		static DOUBLE sm_timeCycle;
+		INTERNAL_CLASS(PerformanceTime)
+		{
+		public:
+			PerformanceTime_Internal();
+
+			DOUBLE m_timeCycle;
+		};
 	};
 }

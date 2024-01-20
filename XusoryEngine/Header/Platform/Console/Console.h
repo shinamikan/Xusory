@@ -46,5 +46,6 @@ namespace XusoryEngine
 
 	private:
 		static HANDLE sm_outputHandle;
+		static ConsoleTextColor sm_usingColor;
 	};
 }

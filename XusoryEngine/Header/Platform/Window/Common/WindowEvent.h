@@ -1,6 +1,6 @@
 #pragma once
 
-#include "KeyCode.h"
+#include "../../InputDevice/Commom/KeyCode.h"
 
 namespace XusoryEngine
 {
