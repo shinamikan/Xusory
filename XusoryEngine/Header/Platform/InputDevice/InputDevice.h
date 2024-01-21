@@ -23,6 +23,9 @@ namespace XusoryEngine
 
 		static void VirtualPressMouseKey(MouseEventCode mouseEventCode);
 		static void VirtualReleaseMouseKey(MouseEventCode mouseEventCode);
+
+	private:
+		static BOOL sm_isCursorShow;
 	};
 
 	DLL_STATIC_CLASS(KeyBoard)

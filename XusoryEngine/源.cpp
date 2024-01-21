@@ -46,7 +46,7 @@ public:
 		}
 		else if (event.keyCode == KEY_3)
 		{
-			Cursor::VirtualPressMouseKey(MOUSE_EX1);
+			Cursor::MoveCursor(200, 200);
 		}
 		else if (event.keyCode == KEY_4)
 		{
@@ -57,12 +57,11 @@ public:
 			Debug::Log(LOG_INFO, "Monitoring the directory");
 			Directory::MonitorDirChanges(TEXT("Resource/Test1"));
 
-			/*auto future = std::async(std::launch::async, Directory::MonitorDirChanges, TEXT("Resource/Test1"));
-
-			future.wait();
-			FILE_NOTIFY_INFORMATION fni = future.get();*/
-
 			Debug::Log(LOG_INFO, "Monitor over");
+		}
+		else if (event.keyCode == KEY_6)
+		{
+			Cursor::ShowCursor();
 		}
 	}
 

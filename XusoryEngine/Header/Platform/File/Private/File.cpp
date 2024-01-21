@@ -178,10 +178,13 @@ namespace XusoryEngine
 	{
 		ThrowIfFileExist(path);
 
-		if (!CreateFile(path.data(), OPEN_MODE_NULL, NULL, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr))
+		const auto handle = CreateFile(path.data(), OPEN_MODE_NULL, NULL, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
+		if (!handle)
 		{
 			ThrowWithErrName(RuntimeError, WinFailedInfo("create file"));
 		}
+
+		CloseHandle(handle);
 	}
 
 	void File::Delete(const std::wstring_view& path)

@@ -130,10 +130,12 @@ namespace XusoryEngine
 		BYTE buffer[bufSize];
 		DWORD bytesReturned = 0;
 
-		ReadDirectoryChangesW(dirHandle, buffer, bufSize, true,
+		const BOOL result = ReadDirectoryChangesW(dirHandle, buffer, bufSize, true,
 			FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE_DIR_NAME | FILE_NOTIFY_CHANGE_ATTRIBUTES | FILE_NOTIFY_CHANGE_SIZE | FILE_NOTIFY_CHANGE_LAST_WRITE,
 			&bytesReturned, nullptr, nullptr);
+		ThrowIfWinFuncFailed(result, "monitor dir changes");
 
+		CloseHandle(dirHandle);
 		return *reinterpret_cast<FILE_NOTIFY_INFORMATION*>(buffer);
 	}
 

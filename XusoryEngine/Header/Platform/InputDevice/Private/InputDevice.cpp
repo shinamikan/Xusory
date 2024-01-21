@@ -2,6 +2,7 @@
 
 namespace XusoryEngine
 {
+	BOOL Cursor::sm_isCursorShow = true;
 	void Cursor::MoveCursor(INT posX, INT posY)
 	{
 		SetCursorPos(posX, posY);
@@ -9,12 +10,20 @@ namespace XusoryEngine
 
 	void Cursor::HideCursor()
 	{
-		::ShowCursor(false);
+		if (sm_isCursorShow)
+		{
+			::ShowCursor(false);
+			sm_isCursorShow = false;
+		}
 	}
 
 	void Cursor::ShowCursor()
 	{
-		::ShowCursor(true);
+		if (!sm_isCursorShow)
+		{
+			::ShowCursor(true);
+			sm_isCursorShow = true;
+		}
 	}
 
 	void Cursor::VirtualPressMouseKey(MouseEventCode mouseEventCode)
