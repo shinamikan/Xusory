@@ -133,7 +133,7 @@ namespace XusoryEngine
 		case WM_XBUTTONDOWN:
 		{
 			MouseClickEvent event;
-			event.mouseKeyCode = static_cast<MouseKeyCode>(wParam);
+			event.mouseKeyCode = static_cast<MouseKeyCode>(GET_X_LPARAM(wParam));
 			event.clickPosX = GET_X_LPARAM(lParam);
 			event.clickPosY = GET_Y_LPARAM(lParam);
 			window->OnMousePress(event);
@@ -146,7 +146,7 @@ namespace XusoryEngine
 		case WM_XBUTTONUP:
 		{
 			MouseClickEvent event;
-			event.mouseKeyCode = static_cast<MouseKeyCode>(wParam);
+			event.mouseKeyCode = static_cast<MouseKeyCode>(GET_X_LPARAM(wParam));
 			event.clickPosX = GET_X_LPARAM(lParam);
 			event.clickPosY = GET_Y_LPARAM(lParam);
 			window->OnMouseRelease(event);
@@ -201,15 +201,7 @@ namespace XusoryEngine
 	}
 
 	WindowClassEx* WindowFactory::sm_windowClass = nullptr;
-	std::unordered_map<HWND, Window*> WindowFactory::sm_winInstanceMap = std::unordered_map<HWND, Window*>();
-
-	void WindowFactory::Del()
-	{
-		for (auto& [hWnd, windowInstance] : sm_winInstanceMap)
-		{
-			CloseWindowInstance(windowInstance);
-		}
-	}
+	std::unordered_map<WinId, Window*> WindowFactory::sm_winInstanceMap = std::unordered_map<WinId, Window*>();
 
 	void WindowFactory::StartNewWindowClass()
 	{
@@ -271,10 +263,31 @@ namespace XusoryEngine
 		DeleteWindowInstance(window);
 	}
 
+	void WindowFactory::CloseAllWindowInstance()
+	{
+		for (auto& [winId, windowInstance] : sm_winInstanceMap)
+		{
+			CloseWindowInstance(windowInstance);
+		}
+	}
+
 	void WindowFactory::DestroyWindowInstance(Window*& window)
 	{
 		window->Destroy();
 		DeleteWindowInstance(window);
+	}
+
+	void WindowFactory::DestroyAllWindowInstance()
+	{
+		for (auto& [winId, windowInstance] : sm_winInstanceMap)
+		{
+			DestroyWindowInstance(windowInstance);
+		}
+	}
+
+	MessageBoxCode WindowFactory::MessageWindow(WinId winId, const std::wstring_view& caption, const std::wstring_view& text, MessageBoxStyle style, MessageBoxIcon icon)
+	{
+		return static_cast<MessageBoxCode>(MessageBox(winId, text.data(), caption.data(), static_cast<int>(style) | icon | MB_DEFBUTTON1));
 	}
 
 	void WindowFactory::DeleteWindowInstance(Window*& window)

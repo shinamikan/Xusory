@@ -4,7 +4,7 @@
 
 #include "Console/Console.h"
 
-#include "DLL/DLL.h"
+#include "DLL/Dll.h"
 
 #include "File/Common/FileDefine.h"
 #include "File/Directory.h"

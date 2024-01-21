@@ -1,21 +1,21 @@
-#include "../DLL.h"
+#include "../Dll.h"
 #include "../../File/File.h"
 
 namespace XusoryEngine::Platform
 {
-	DLL::DLL(const std::wstring_view& path)
+	Dll::Dll(const std::wstring_view& path)
 	{
-		LoadDLL(path);
+		LoadDll(path);
 	}
 
-	void DLL::LoadDLL(const std::wstring_view& path)
+	void Dll::LoadDll(const std::wstring_view& path)
 	{
 		File::TryToFindFile(path);
 
 		m_dllHandle = LoadLibrary(path.data());
 		if (!m_dllHandle)
 		{
-			ThrowWithErrName(RuntimeError, WinFailedInfo("load DLL"));
+			ThrowWithErrName(RuntimeError, WinFailedInfo("load Dll"));
 		}
 	}
 }

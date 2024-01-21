@@ -26,12 +26,12 @@ public:
 		//std::this_thread::sleep_for(std::chrono::seconds(1));
 		//KeyBoard::VirtualPressKey(KEY_2);
 
-		Debug::Log(LOG_INFO, event.mouseKeyCode);
+		//Debug::Log(LOG_INFO, event.mouseKeyCode);
 
-		/*if (event.mouseKeyCode == EX_BUTTON_1)
+		if (event.mouseKeyCode == EX_BUTTON_1)
 		{
 			Debug::Log(LOG_INFO, event.mouseKeyCode);
-		}*/
+		}
 	}
 
 	void OnKeyPress(const KeyEvent& event) override
@@ -47,6 +47,22 @@ public:
 		else if (event.keyCode == KEY_3)
 		{
 			Cursor::VirtualPressMouseKey(MOUSE_EX1);
+		}
+		else if (event.keyCode == KEY_4)
+		{
+			WindowFactory::MessageWindow(GetWinId(), TEXT("≤‚ ‘¥∞ø⁄"), TEXT("≤‚ ‘ƒ⁄»›Hello World"));
+		}
+		else if (event.keyCode == KEY_5)
+		{
+			Debug::Log(LOG_INFO, "Monitoring the directory");
+			Directory::MonitorDirChanges(TEXT("Resource/Test1"));
+
+			/*auto future = std::async(std::launch::async, Directory::MonitorDirChanges, TEXT("Resource/Test1"));
+
+			future.wait();
+			FILE_NOTIFY_INFORMATION fni = future.get();*/
+
+			Debug::Log(LOG_INFO, "Monitor over");
 		}
 	}
 
@@ -72,9 +88,6 @@ int WinMain(HINSTANCE hIns, HINSTANCE hPreIns, LPSTR lpCmdLine, int nCmdShow)
 
 		Window* window = WindowFactory::CreateWindowInstance<TestWindow>(TEXT("MainWindow"), TEXT("Application"), 400, 400, true);
 		window->Show();
-
-		Debug::Log(LOG_INFO, CpuInfo::GetCpuVendor());
-		Debug::Log(LOG_INFO, CpuInfo::GetCompleteCpuName());
 
 		window->MessageLoop();
 	}

@@ -5,22 +5,22 @@
 
 namespace XusoryEngine::Platform
 {
-	class DLL
+	class Dll
 	{
 	public:
-		DLL() = default;
-		DLL(const std::wstring_view& path);
+		Dll() = default;
+		Dll(const std::wstring_view& path);
 
-		void LoadDLL(const std::wstring_view& path);
+		void LoadDll(const std::wstring_view& path);
 		template <typename FuncT>
-		FuncT* GetFuncFromDLL(const std::string_view& funcName);
+		FuncT* GetFuncFromDll(const std::string_view& funcName);
 
 	private:
 		HINSTANCE m_dllHandle;
 	};
 
 	template<typename FuncT>
-	FuncT* DLL::GetFuncFromDLL(const std::string_view& funcName)
+	FuncT* Dll::GetFuncFromDll(const std::string_view& funcName)
 	{
 		return reinterpret_cast<FuncT*>(GetProcAddress(m_dllHandle, funcName.data()));
 	}

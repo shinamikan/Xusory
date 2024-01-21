@@ -54,7 +54,7 @@
     <ClInclude Include="Header\Platform\File\Common\FileDefine.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Header\Platform\DLL\DLL.h">
+    <ClInclude Include="Header\Platform\DLL\Dll.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Header\Platform\System\SystemMonitor.h">
@@ -143,7 +143,7 @@
     <ClCompile Include="Header\Platform\File\Private\File.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Header\Platform\DLL\Private\DLL.cpp">
+    <ClCompile Include="Header\Platform\DLL\Private\Dll.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Header\Platform\System\Private\SystemMonitor.cpp">

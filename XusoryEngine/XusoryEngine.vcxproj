@@ -271,7 +271,7 @@
     <ClInclude Include="Header\Platform\Internet\Internet.h" />
     <ClInclude Include="Header\Platform\Internet\Socket.h" />
     <ClInclude Include="Header\Platform\Platform.h" />
-    <ClInclude Include="Header\Platform\DLL\DLL.h" />
+    <ClInclude Include="Header\Platform\DLL\Dll.h" />
     <ClInclude Include="Header\Platform\System\SystemMonitor.h" />
     <ClInclude Include="Header\Platform\System\SystemInfo.h" />
     <ClInclude Include="Header\Platform\Time\Date.h" />
@@ -296,7 +296,7 @@
     <ClCompile Include="Header\CppEx\Error\Private\TraceBack.cpp" />
     <ClCompile Include="Header\Platform\File\Private\Directory.cpp" />
     <ClCompile Include="Header\Platform\File\Private\File.cpp" />
-    <ClCompile Include="Header\Platform\DLL\Private\DLL.cpp" />
+    <ClCompile Include="Header\Platform\DLL\Private\Dll.cpp" />
     <ClCompile Include="Header\Platform\InputDevice\Private\InputDevice.cpp" />
     <ClCompile Include="Header\Platform\Internet\Private\Socket.cpp" />
     <ClCompile Include="Header\Platform\System\Private\SystemInfo.cpp" />

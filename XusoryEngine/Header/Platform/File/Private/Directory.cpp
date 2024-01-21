@@ -119,6 +119,24 @@ namespace XusoryEngine
 		}
 	}
 
+	FILE_NOTIFY_INFORMATION Directory::MonitorDirChanges(const std::wstring_view& path)
+	{
+		TryToFindDir(path);
+
+		const HANDLE dirHandle = CreateFile(path.data(), FILE_LIST_DIRECTORY, FILE_SHARE_READ | FILE_SHARE_WRITE | FILE_SHARE_DELETE, nullptr, OPEN_EXISTING,
+			FILE_FLAG_BACKUP_SEMANTICS | FILE_FLAG_OVERLAPPED, nullptr);
+
+		constexpr DWORD bufSize = 1024;
+		BYTE buffer[bufSize];
+		DWORD bytesReturned = 0;
+
+		ReadDirectoryChangesW(dirHandle, buffer, bufSize, true,
+			FILE_NOTIFY_CHANGE_FILE_NAME | FILE_NOTIFY_CHANGE_DIR_NAME | FILE_NOTIFY_CHANGE_ATTRIBUTES | FILE_NOTIFY_CHANGE_SIZE | FILE_NOTIFY_CHANGE_LAST_WRITE,
+			&bytesReturned, nullptr, nullptr);
+
+		return *reinterpret_cast<FILE_NOTIFY_INFORMATION*>(buffer);
+	}
+
 	std::vector<std::wstring> Directory::ListFiles(const std::wstring_view& path, const std::wstring_view& fileType)
 	{
 		TryToFindDir(path);
