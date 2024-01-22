@@ -1,8 +1,6 @@
 #pragma once
 
 #include "../Common/PlatformDefine.h"
-
-#include "Common/WindowDefine.h"
 #include "Common/WindowEvent.h"
 
 namespace XusoryEngine
@@ -16,7 +14,7 @@ namespace XusoryEngine
 	public:
 		Window() = default;
 		DEFAULT_COPY_OPERATOR(Window);
-		MOVE_OPERATOR(Window);
+		DEFAULT_MOVE_OPERATOR(Window);
 		virtual ~Window() = default;
 
 		BOOL IsCreated() const;

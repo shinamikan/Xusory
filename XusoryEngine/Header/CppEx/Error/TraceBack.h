@@ -8,7 +8,7 @@
 
 #pragma warning(disable : 4251)
 
-STATIC_CLASS(TraceBack)
+DLL_STATIC_CLASS(TraceBack)
 {
 public:
 	static const std::vector<std::string>& GetTraceBackInfoList();

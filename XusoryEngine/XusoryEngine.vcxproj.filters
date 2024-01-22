@@ -90,7 +90,7 @@
     <ClInclude Include="Header\StdEx\StdEx.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Header\NovaEngine.h">
+    <ClInclude Include="Header\XusoryEngine.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Header\XsCommon\DllDefine.h">
@@ -134,13 +134,7 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Header\CppEx\Error\Private\TraceBack.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="Header\Platform\File\Private\Directory.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Header\Platform\File\Private\File.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Header\Platform\DLL\Private\Dll.cpp">
@@ -161,13 +155,7 @@
     <ClCompile Include="Header\StdEx\StringEx\Private\StringEx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="源.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="Header\Platform\Window\Private\WindowFactory.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Header\Platform\Console\Private\Console.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Header\Platform\System\Private\SystemInfo.cpp">
@@ -176,10 +164,19 @@
     <ClCompile Include="Header\Platform\Internet\Private\Socket.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Header\Platform\InputDevice\Private\InputDevice.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
     <ClCompile Include="Header\Core\Debug\Private\Debug.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Header\Platform\InputDevice\Private\InputDevice.cpp">
+    <ClCompile Include="Header\CppEx\Error\Private\TraceBack.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\Platform\Console\Private\Console.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\Platform\File\Private\File.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

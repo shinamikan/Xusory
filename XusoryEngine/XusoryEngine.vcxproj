@@ -75,7 +75,7 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='XsDebug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
@@ -88,7 +88,7 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='XsRelease|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -262,7 +262,7 @@
     <ClInclude Include="Header\CppEx\Error\Throw.h" />
     <ClInclude Include="Header\CppEx\Error\TraceBack.h" />
     <ClInclude Include="Header\CppEx\Reflector\Reflector.h" />
-    <ClInclude Include="Header\NovaEngine.h" />
+    <ClInclude Include="Header\XusoryEngine.h" />
     <ClInclude Include="Header\Platform\Common\PlatformDefine.h" />
     <ClInclude Include="Header\Platform\File\Directory.h" />
     <ClInclude Include="Header\Platform\File\File.h" />
@@ -294,20 +294,19 @@
   <ItemGroup>
     <ClCompile Include="Header\Core\Debug\Private\Debug.cpp" />
     <ClCompile Include="Header\CppEx\Error\Private\TraceBack.cpp" />
+    <ClCompile Include="Header\Platform\Console\Private\Console.cpp" />
     <ClCompile Include="Header\Platform\File\Private\Directory.cpp" />
-    <ClCompile Include="Header\Platform\File\Private\File.cpp" />
     <ClCompile Include="Header\Platform\DLL\Private\Dll.cpp" />
+    <ClCompile Include="Header\Platform\File\Private\File.cpp" />
     <ClCompile Include="Header\Platform\InputDevice\Private\InputDevice.cpp" />
     <ClCompile Include="Header\Platform\Internet\Private\Socket.cpp" />
     <ClCompile Include="Header\Platform\System\Private\SystemInfo.cpp" />
     <ClCompile Include="Header\Platform\System\Private\SystemMonitor.cpp" />
     <ClCompile Include="Header\Platform\Time\Private\Date.cpp" />
     <ClCompile Include="Header\Platform\Time\Private\Time.cpp" />
-    <ClCompile Include="Header\Platform\Console\Private\Console.cpp" />
     <ClCompile Include="Header\Platform\Window\Private\Window.cpp" />
     <ClCompile Include="Header\Platform\Window\Private\WindowFactory.cpp" />
     <ClCompile Include="Header\StdEx\StringEx\Private\StringEx.cpp" />
-    <ClCompile Include="源.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

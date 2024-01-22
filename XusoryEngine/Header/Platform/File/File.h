@@ -30,6 +30,7 @@ namespace XusoryEngine
 		File() = default;
 		File(const std::wstring_view& path, OpenMode openMode);
 		DEFAULT_COPY_OPERATOR(File);
+		DEFAULT_MOVE_OPERATOR(File);
 		~File();
 
 		void Open(const std::wstring_view& path, OpenMode openMode);

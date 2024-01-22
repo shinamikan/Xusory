@@ -8,7 +8,7 @@
 #include "Common/WindowDefine.h"
 #include "Window.h"
 
-#pragma warning(disable : 4251)
+//#pragma warning(disable : 4251)
 
 namespace XusoryEngine
 {
@@ -95,6 +95,7 @@ namespace XusoryEngine
 		WindowT* window = new WindowT();
 		window->Create(className, windowTitle, posX, posY, sizeX, sizeY);
 		sm_winInstanceMap.insert(std::make_pair(window->m_winId, window));
+
 		SendMessage(window->m_winId, WM_CREATE, NULL, NULL);
 
 		return window;

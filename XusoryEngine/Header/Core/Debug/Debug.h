@@ -2,6 +2,8 @@
 
 #include <cstdio>
 #include <iostream>
+#include <string_view>
+
 #include "../../Platform/Platform.h"
 
 namespace XusoryEngine

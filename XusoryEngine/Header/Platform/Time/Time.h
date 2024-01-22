@@ -2,8 +2,6 @@
 
 #include "../Common/PlatformDefine.h"
 
-#pragma warning(disable : 4251)
-
 namespace XusoryEngine
 {
 	using FileTime = FILETIME;
