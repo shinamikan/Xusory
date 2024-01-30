@@ -210,6 +210,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -253,6 +254,14 @@
   <ItemGroup>
     <ClInclude Include="Header\Core\Core.h" />
     <ClInclude Include="Header\Core\Debug\Debug.h" />
+    <ClInclude Include="Header\Core\Math\Common\MathDefine.h" />
+    <ClInclude Include="Header\Core\Math\Math.h" />
+    <ClInclude Include="Header\Core\Math\Matrix2x2.h" />
+    <ClInclude Include="Header\Core\Math\Matrix3x3.h" />
+    <ClInclude Include="Header\Core\Math\Matrix4x4.h" />
+    <ClInclude Include="Header\Core\Math\Vector2.h" />
+    <ClInclude Include="Header\Core\Math\Vector3.h" />
+    <ClInclude Include="Header\Core\Math\Vector4.h" />
     <ClInclude Include="Header\CppEx\ClassEx\ClassEx.h" />
     <ClInclude Include="Header\CppEx\ClassEx\Name.h" />
     <ClInclude Include="Header\CppEx\CppEx.h" />
@@ -293,6 +302,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Header\Core\Debug\Private\Debug.cpp" />
+    <ClCompile Include="Header\Core\Math\Private\Matrix2x2.cpp" />
+    <ClCompile Include="Header\Core\Math\Private\Matrix3x3.cpp" />
+    <ClCompile Include="Header\Core\Math\Private\Matrix4x4.cpp" />
+    <ClCompile Include="Header\Core\Math\Private\Vector2.cpp" />
+    <ClCompile Include="Header\Core\Math\Private\Vector3.cpp" />
+    <ClCompile Include="Header\Core\Math\Private\Vector4.cpp" />
     <ClCompile Include="Header\CppEx\Error\Private\TraceBack.cpp" />
     <ClCompile Include="Header\Platform\Console\Private\Console.cpp" />
     <ClCompile Include="Header\Platform\File\Private\Directory.cpp" />
