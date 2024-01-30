@@ -208,10 +208,11 @@ namespace XusoryEngine
 
 	Vector2 Matrix2x2::PreMultiVector2(const Vector2& vector, const Matrix2x2& matrix)
 	{
-		const Matrix2x2 matrixTemp = matrix.Transpose();
+		const __m128 m128Temp0 = _mm_setr_ps(matrix.m_row0.m128_f32[0], matrix.m_row1.m128_f32[0], 0.0f, 0.0f);
+		const __m128 m128Temp1 = _mm_setr_ps(matrix.m_row0.m128_f32[1], matrix.m_row1.m128_f32[1], 0.0f, 0.0f);
 
-		const FLOAT x = _mm_dp_ps(vector.m_vector, matrixTemp.m_row0, 0xff).m128_f32[0];
-		const FLOAT y = _mm_dp_ps(vector.m_vector, matrixTemp.m_row1, 0xff).m128_f32[0];
+		const FLOAT x = _mm_dp_ps(vector.m_vector, m128Temp0, 0xff).m128_f32[0];
+		const FLOAT y = _mm_dp_ps(vector.m_vector, m128Temp1, 0xff).m128_f32[0];
 
 		return { x, y };
 	}
@@ -226,15 +227,19 @@ namespace XusoryEngine
 
 	Matrix2x2 Matrix2x2::MultiMatrix(const Matrix2x2& lhs, const Matrix2x2& rhs)
 	{
-		auto vectorTemp0 = Vector2(lhs.m_row0);
-		auto vectorTemp1 = Vector2(lhs.m_row1);
 
-		vectorTemp0 = PreMultiVector2(vectorTemp0, rhs);
-		vectorTemp1 = PreMultiVector2(vectorTemp1, rhs);
+		const __m128 m128Temp0 = _mm_setr_ps(rhs.m_row0.m128_f32[0], rhs.m_row1.m128_f32[0], 0.0f, 0.0f);
+		const __m128 m128Temp1 = _mm_setr_ps(rhs.m_row0.m128_f32[1], rhs.m_row1.m128_f32[1], 0.0f, 0.0f);
 
-		return Matrix2x2(
-			vectorTemp0.m_vector,
-			vectorTemp1.m_vector);
+		const FLOAT row00 = _mm_dp_ps(lhs.m_row0, m128Temp0, 0xff).m128_f32[0];
+		const FLOAT row01 = _mm_dp_ps(lhs.m_row0, m128Temp1, 0xff).m128_f32[0];
+
+		const FLOAT row10 = _mm_dp_ps(lhs.m_row1, m128Temp0, 0xff).m128_f32[0];
+		const FLOAT row11 = _mm_dp_ps(lhs.m_row1, m128Temp1, 0xff).m128_f32[0];
+
+		return {
+			row00, row01,
+			row10, row11 };
 	}
 
 	Matrix2x2::Matrix2x2(const __m128& mRow0, const __m128& mRow1) :

@@ -208,10 +208,10 @@ namespace XusoryEngine
 		sm_windowClass = new WindowClassEx();
 	}
 
-	void WindowFactory::SetWindowCursor(INT sysCursor)
+	void WindowFactory::SetWindowCursor(SysCursorId sysCursor)
 	{
 		ThrowIfSMWindowClassNull();
-		sm_windowClass->hCursor = LoadIcon(nullptr, MAKEINTRESOURCE(sysCursor));
+		sm_windowClass->hCursor = LoadCursor(nullptr, MAKEINTRESOURCE(sysCursor));
 	}
 
 	void WindowFactory::SetWindowCursor(const std::wstring_view& imagePath)
@@ -240,7 +240,6 @@ namespace XusoryEngine
 	{
 		ThrowIfSMWindowClassNull();
 
-		sm_windowClass = new WNDCLASSEX();
 		sm_windowClass->cbSize = sizeof(WNDCLASSEX);
 		sm_windowClass->hbrBackground = static_cast<HBRUSH>(GetStockObject(COLOR_WINDOW + 1));
 		sm_windowClass->hInstance = hInstance;

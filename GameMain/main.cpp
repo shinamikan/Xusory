@@ -112,9 +112,8 @@ int WinMain(HINSTANCE hIns, HINSTANCE hPreIns, LPSTR lpCmdLine, int nCmdShow)
 		Console::RedirectToStd();
 		Console::SetTitle(TEXT("Xusory Console"));
 
-		
-
 		WindowFactory::StartNewWindowClass();
+		WindowFactory::SetWindowIcon(SYS_ICON_ERROR);
 		WindowFactory::RegisterWindowClass(hIns, TEXT("MainWindow"));
 
 		Window* window = WindowFactory::CreateWindowInstance<TestWindow>(TEXT("MainWindow"), TEXT("Application"), 400, 400, true);
