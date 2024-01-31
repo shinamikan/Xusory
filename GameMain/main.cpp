@@ -116,6 +116,10 @@ int WinMain(HINSTANCE hIns, HINSTANCE hPreIns, LPSTR lpCmdLine, int nCmdShow)
 		WindowFactory::SetWindowIcon(SYS_ICON_ERROR);
 		WindowFactory::RegisterWindowClass(hIns, TEXT("MainWindow"));
 
+		DxFactory factory = DxFactory();
+		Dx12Device device = Dx12Device();
+		device.Create(factory);
+
 		Window* window = WindowFactory::CreateWindowInstance<TestWindow>(TEXT("MainWindow"), TEXT("Application"), 400, 400, true);
 		window->Show();
 
