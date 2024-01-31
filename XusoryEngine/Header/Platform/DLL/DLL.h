@@ -3,9 +3,11 @@
 #include <iostream>
 #include <Windows.h>
 
+#include "../../CppEx/ClassEx/ClassEx.h"
+
 namespace XusoryEngine::Platform
 {
-	class Dll
+	DLL_CLASS(Dll)
 	{
 	public:
 		Dll() = default;
