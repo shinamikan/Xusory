@@ -1,7 +1,7 @@
 #include "../Dll.h"
 #include "../../File/File.h"
 
-namespace XusoryEngine::Platform
+namespace XusoryEngine
 {
 	Dll::Dll(const std::wstring_view& path)
 	{

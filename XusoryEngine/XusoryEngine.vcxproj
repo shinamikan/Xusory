@@ -271,13 +271,6 @@
     <ClInclude Include="Header\CppEx\Error\Throw.h" />
     <ClInclude Include="Header\CppEx\Error\TraceBack.h" />
     <ClInclude Include="Header\CppEx\Reflector\Reflector.h" />
-    <ClInclude Include="Header\RHI\DirectX\Common\d3dx12.h" />
-    <ClInclude Include="Header\RHI\DirectX\Common\DxDefine.h" />
-    <ClInclude Include="Header\RHI\DirectX\Common\DxInclude.h" />
-    <ClInclude Include="Header\RHI\DirectX\Common\IDxObject.h" />
-    <ClInclude Include="Header\RHI\DirectX\DX12\Dx12Device.h" />
-    <ClInclude Include="Header\RHI\DirectX\DxFactory.h" />
-    <ClInclude Include="Header\RHI\RHI.h" />
     <ClInclude Include="Header\XusoryEngine.h" />
     <ClInclude Include="Header\Platform\Common\PlatformDefine.h" />
     <ClInclude Include="Header\Platform\File\Directory.h" />
@@ -328,8 +321,6 @@
     <ClCompile Include="Header\Platform\Time\Private\Time.cpp" />
     <ClCompile Include="Header\Platform\Window\Private\Window.cpp" />
     <ClCompile Include="Header\Platform\Window\Private\WindowFactory.cpp" />
-    <ClCompile Include="Header\RHI\DirectX\DX12\Private\Dx12Device.cpp" />
-    <ClCompile Include="Header\RHI\DirectX\Private\DxFactory.cpp" />
     <ClCompile Include="Header\StdEx\StringEx\Private\StringEx.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

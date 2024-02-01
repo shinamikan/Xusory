@@ -5,7 +5,7 @@
 
 #define DLL_IMPORT
 
-#include "../XusoryEngine/Header/XusoryEngine.h"
+#include "Header/XusoryEngine.h"
 #pragma comment(lib, "XusoryEngine.lib")
 
 using namespace std;

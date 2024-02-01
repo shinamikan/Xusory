@@ -156,27 +156,6 @@
     <ClInclude Include="Header\Core\Math\Matrix2x2.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Header\RHI\DirectX\Common\d3dx12.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\RHI\DirectX\Common\DxDefine.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\RHI\DirectX\Common\DxInclude.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\RHI\DirectX\Common\IDxObject.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\RHI\DirectX\DX12\Dx12Device.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\RHI\DirectX\DxFactory.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\RHI\RHI.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Header\Platform\File\Private\Directory.cpp">
@@ -240,12 +219,6 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Header\Core\Math\Private\Matrix2x2.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Header\RHI\DirectX\DX12\Private\Dx12Device.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Header\RHI\DirectX\Private\DxFactory.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
