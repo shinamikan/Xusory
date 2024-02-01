@@ -5,7 +5,7 @@
 
 #include "../../CppEx/ClassEx/ClassEx.h"
 
-namespace XusoryEngine::Platform
+namespace XusoryEngine
 {
 	DLL_CLASS(Dll)
 	{

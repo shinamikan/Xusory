@@ -7,7 +7,7 @@
 
 #include "../../CppEx/CppEx.h"
 
-STATIC_CLASS(StringEx)
+DLL_STATIC_CLASS(StringEx)
 {
 public:
 	static INT GetStringWideSize(const std::string_view& str);
