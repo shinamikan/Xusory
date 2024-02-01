@@ -296,6 +296,7 @@
     <ClInclude Include="Header\RHI\RHI.h" />
     <ClInclude Include="Header\StdEx\StdEx.h" />
     <ClInclude Include="Header\StdEx\StringEx\StringEx.h" />
+    <ClInclude Include="Header\XsCommon\AsyncInfo.h" />
     <ClInclude Include="Header\XsCommon\DllDefine.h" />
     <ClInclude Include="Header\XusoryEngine.h" />
   </ItemGroup>

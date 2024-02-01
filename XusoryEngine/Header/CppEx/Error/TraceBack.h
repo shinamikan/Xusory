@@ -29,10 +29,10 @@ private:
 	public:
 		TraceBack_Internal();
 
-		HANDLE	m_processHandle = nullptr;
-		UINT	m_frameCount = 0;
+		HANDLE m_processHandle = nullptr;
+		UINT m_frameCount = 0;
 
-		std::vector<void*>		 m_funcStack;
+		std::vector<void*> m_funcStack;
 		std::vector<std::string> m_backTraceInfoList;
 	};
 };

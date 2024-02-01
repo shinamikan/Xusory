@@ -188,5 +188,8 @@
     <ClInclude Include="Header\RHI\RHI.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Header\XsCommon\AsyncInfo.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

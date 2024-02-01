@@ -53,7 +53,7 @@ namespace XusoryEngine
 		static void TryToFindFile(const std::wstring_view& path);
 
 	private:
-		HANDLE		m_fileHandle = nullptr;
-		OpenMode	m_openMode;
+		HANDLE m_fileHandle = nullptr;
+		OpenMode m_openMode;
 	};
 }

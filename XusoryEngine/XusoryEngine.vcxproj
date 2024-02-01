@@ -271,6 +271,7 @@
     <ClInclude Include="Header\CppEx\Error\Throw.h" />
     <ClInclude Include="Header\CppEx\Error\TraceBack.h" />
     <ClInclude Include="Header\CppEx\Reflector\Reflector.h" />
+    <ClInclude Include="Header\XsCommon\AsyncInfo.h" />
     <ClInclude Include="Header\XusoryEngine.h" />
     <ClInclude Include="Header\Platform\Common\PlatformDefine.h" />
     <ClInclude Include="Header\Platform\File\Directory.h" />
