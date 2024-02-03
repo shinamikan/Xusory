@@ -1,14 +1,14 @@
 #pragma once
 
-#include "../Common/IDxObject.h"
+#include "../Common/DxObject.h"
 
 namespace XusoryEngine
 {
 	class DxFactory;
-	class Dx12Device : public IDxObject<ID3D12Device>
+	class Dx12Device : public DxObject<ID3D12Device>
 	{
 	public:
 		Dx12Device() = default;
-		void Create(const DxFactory& factory);
+		void Create(const DxFactory* factory);
 	};
 }

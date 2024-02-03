@@ -3,6 +3,10 @@
 #include <comdef.h>
 #include "DxInclude.h"
 
+#define D3D12_DESCRIPTOR_HEAP_TYPE_UNKNOWN  ((D3D12_DESCRIPTOR_HEAP_TYPE)-1)
+#define D3D12_RESOURCE_STATES_UNKNOWN  ((D3D12_RESOURCE_STATES)-1)
+#define D3D12_GPU_VIRTUAL_ADDRESS_NULL ((D3D12_GPU_VIRTUAL_ADDRESS)0)
+
 namespace XusoryEngine
 {
 	STD_ERROR_CLASS(DxLogicError, LogicError)
@@ -19,7 +23,7 @@ namespace XusoryEngine
 		return StringEx::Format<std::string>("Dx Failed:", StringEx::WStringToString(msg));
 	}
 
-	inline void ThrowIfDxFuncFailed(HRESULT errorCode)
+	inline void ThrowIfDxFailed(HRESULT errorCode)
 	{
 		if (FAILED(errorCode))
 		{

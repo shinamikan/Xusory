@@ -1,10 +1,10 @@
 #pragma once
 
-#include "Common/IDxObject.h"
+#include "Common/DxObject.h"
 
 namespace XusoryEngine
 {
-	class DxFactory : public IDxObject<IDXGIFactory4>
+	class DxFactory : public DxObject<IDXGIFactory4>
 	{
 	public:
 		DxFactory() = default;

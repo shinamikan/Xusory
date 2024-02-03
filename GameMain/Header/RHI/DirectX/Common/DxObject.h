@@ -1,17 +1,22 @@
 #pragma once
 
 #include <type_traits>
-#include "DxInclude.h"
+#include "DxDefine.h"
 
 namespace XusoryEngine
 {
 	template <typename DxObjT>
-	class IDxObject
+	class DxObject
 	{
 		static_assert(std::is_base_of_v<IUnknown, DxObjT>);
 		using DxObjectCom = Microsoft::WRL::ComPtr<DxObjT>;
 
 	public:
+		DxObject() = default;
+		DEFAULT_COPY_OPERATOR(DxObject);
+		DEFAULT_MOVE_OPERATOR(DxObject);
+		virtual ~DxObject() = default;
+
 		DxObjT* operator->() const
 		{
 			return m_dxObject.Get();
@@ -43,14 +48,14 @@ namespace XusoryEngine
 		}
 
 		template <typename UpgradeObjT>
-		IDxObject<UpgradeObjT> UpgradeObject()
+		DxObject<UpgradeObjT> UpgradeObject()
 		{
-			IDxObject<UpgradeObjT> dxObjTemp;
+			DxObject<UpgradeObjT> dxObjTemp;
 			m_dxObject->QueryInterface(IID_PPV_ARGS(dxObjTemp.GetDxObjectAddressOf()));
 			return dxObjTemp;
 		}
 
-		void ReSet()
+		virtual void ReSet()
 		{
 			m_dxObject.Reset();
 		}

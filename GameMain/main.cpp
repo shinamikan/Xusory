@@ -113,14 +113,16 @@ int WinMain(HINSTANCE hIns, HINSTANCE hPreIns, LPSTR lpCmdLine, int nCmdShow)
 		Console::SetTitle(TEXT("Xusory Console"));
 
 		WindowFactory::StartNewWindowClass();
-		WindowFactory::SetWindowIcon(SYS_ICON_ERROR);
+		WindowFactory::SetWindowIcon(SYS_ICON_INFORMATION);
 		WindowFactory::RegisterWindowClass(hIns, TEXT("MainWindow"));
 
-		DxFactory factory = DxFactory();
-		Dx12Device device = Dx12Device();
-		device.Create(factory);
-
 		Window* window = WindowFactory::CreateWindowInstance<TestWindow>(TEXT("MainWindow"), TEXT("Application"), 400, 400, true);
+
+		const auto windowSize = window->GetWindowSize(true);
+		IGraphicsManager* dxManager = new Dx12Manager;
+		dxManager->InitGraphicsObject(window->GetWinId());
+		Debug::LogInfo(static_cast<INT>(dxManager->m_graphicsLibrary));
+
 		window->Show();
 
 		window->MessageLoop();

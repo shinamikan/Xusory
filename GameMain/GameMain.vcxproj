@@ -239,8 +239,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Header\RHI\DirectX\DX12\Private\Buffer\Dx12Buffer.cpp" />
+    <ClCompile Include="Header\RHI\DirectX\DX12\Private\Buffer\Dx12Buffer1D.cpp" />
+    <ClCompile Include="Header\RHI\DirectX\DX12\Private\Buffer\Dx12Buffer2D.cpp" />
+    <ClCompile Include="Header\RHI\DirectX\DX12\Private\Dx12DescriptorAllocator.cpp" />
+    <ClCompile Include="Header\RHI\DirectX\DX12\Private\Dx12DescriptorHeap.cpp" />
     <ClCompile Include="Header\RHI\DirectX\DX12\Private\Dx12Device.cpp" />
+    <ClCompile Include="Header\RHI\DirectX\DX12\Private\Dx12RootSignature.cpp" />
     <ClCompile Include="Header\RHI\DirectX\Private\DxFactory.cpp" />
+    <ClCompile Include="Header\RHI\DirectX\Private\Dx12Manager.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -287,12 +294,29 @@
     <ClInclude Include="Header\Resource\GameAsset\Shader.h" />
     <ClInclude Include="Header\Resource\GameAsset\TextAsset.h" />
     <ClInclude Include="Header\Resource\GameAsset\Texture.h" />
+    <ClInclude Include="Header\RHI\DirectX\DX12\Buffer\Dx12DepthStencilBuffer.h" />
+    <ClInclude Include="Header\RHI\DirectX\DX12\Buffer\Dx12ReadBackBuffer.h" />
+    <ClInclude Include="Header\RHI\DirectX\DX12\Buffer\Dx12RenderTargetBuffer.h" />
+    <ClInclude Include="Header\RHI\DirectX\DX12\Buffer\Dx12UploadBuffer.h" />
+    <ClInclude Include="Header\RHI\DirectX\DX12\Dx12CommandQueue.h" />
+    <ClInclude Include="Header\RHI\DirectX\DX12\Dx12CommandContext.h" />
+    <ClInclude Include="Header\RHI\DirectX\DX12\Dx12Fence.h" />
+    <ClInclude Include="Header\RHI\DirectX\DX12\Dx12PipelineState.h" />
+    <ClInclude Include="Header\RHI\DirectX\DX12\Dx12SwapChain.h" />
+    <ClInclude Include="Header\RHI\IGraphicsManager.h" />
     <ClInclude Include="Header\RHI\DirectX\Common\d3dx12.h" />
     <ClInclude Include="Header\RHI\DirectX\Common\DxDefine.h" />
     <ClInclude Include="Header\RHI\DirectX\Common\DxInclude.h" />
-    <ClInclude Include="Header\RHI\DirectX\Common\IDxObject.h" />
+    <ClInclude Include="Header\RHI\DirectX\Common\DxObject.h" />
+    <ClInclude Include="Header\RHI\DirectX\DX12\Buffer\Dx12Buffer1D.h" />
+    <ClInclude Include="Header\RHI\DirectX\DX12\Buffer\Dx12Buffer.h" />
+    <ClInclude Include="Header\RHI\DirectX\DX12\Buffer\Dx12Buffer2D.h" />
+    <ClInclude Include="Header\RHI\DirectX\DX12\Dx12DescriptorAllocator.h" />
+    <ClInclude Include="Header\RHI\DirectX\DX12\Dx12DescriptorHeap.h" />
     <ClInclude Include="Header\RHI\DirectX\DX12\Dx12Device.h" />
+    <ClInclude Include="Header\RHI\DirectX\DX12\Dx12RootSignature.h" />
     <ClInclude Include="Header\RHI\DirectX\DxFactory.h" />
+    <ClInclude Include="Header\RHI\DirectX\Dx12Manager.h" />
     <ClInclude Include="Header\RHI\RHI.h" />
     <ClInclude Include="Header\StdEx\StdEx.h" />
     <ClInclude Include="Header\StdEx\StringEx\StringEx.h" />
