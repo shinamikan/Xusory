@@ -159,6 +159,9 @@
     <ClInclude Include="Header\XsCommon\AsyncInfo.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Header\Resource\GameAsset\Material.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Header\Platform\File\Private\Directory.cpp">

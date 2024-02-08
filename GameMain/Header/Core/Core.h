@@ -2,6 +2,8 @@
 
 #include "Debug/Debug.h"
 
+#include "Graphics/GraphicsManager.h"
+
 #include "Math/Common/MathDefine.h"
 #include "Math/Math.h"
 #include "Math/Matrix2x2.h"

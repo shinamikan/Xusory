@@ -27,6 +27,11 @@ namespace XusoryEngine
         return m_gpuHandle.ptr;
     }
 
+    BOOL Dx12DescriptorHandle::IsNull() const
+    {
+        return m_cpuHandle.ptr == NULL;
+    }
+
     BOOL Dx12DescriptorHandle::GetShaderVisible() const
     {
         return m_gpuHandle.ptr != NULL;

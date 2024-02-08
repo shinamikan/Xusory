@@ -10,7 +10,7 @@ namespace XusoryEngine
 		Dx12Buffer(D3D12_HEAP_TYPE heapType);
 
 		void ReSet() override;
-		void Upload();
+		void UploadResource();
 
 		D3D12_RESOURCE_DESC	  GetBufferDesc() const;
 		D3D12_RESOURCE_STATES GetCurrentState() const;

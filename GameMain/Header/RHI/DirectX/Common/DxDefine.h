@@ -30,4 +30,12 @@ namespace XusoryEngine
 			ThrowWithErrName(DxRuntimeError, DxFailedInfo(errorCode));
 		}
 	}
+
+	inline void ThrowIfDxObjectNotCreated(const void* dxObjectPtr, const std::string_view& objectInfo)
+	{
+		if (!dxObjectPtr)
+		{
+			ThrowWithErrName(DxLogicError, HasNotCreatedInfo(objectInfo));
+		}
+	}
 }

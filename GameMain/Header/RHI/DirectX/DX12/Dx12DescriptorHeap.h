@@ -22,6 +22,7 @@ namespace XusoryEngine
 		D3D12_CPU_DESCRIPTOR_PTR GetCpuDescriptorHandlePtr() const;
 		D3D12_GPU_DESCRIPTOR_PTR GetGpuDescriptorHandlePtr() const;
 
+		BOOL IsNull() const;
 		BOOL GetShaderVisible() const;
 
 	private:

@@ -119,10 +119,8 @@ int WinMain(HINSTANCE hIns, HINSTANCE hPreIns, LPSTR lpCmdLine, int nCmdShow)
 		Window* window = WindowFactory::CreateWindowInstance<TestWindow>(TEXT("MainWindow"), TEXT("Application"), 400, 400, true);
 
 		const auto windowSize = window->GetWindowSize(true);
-		IGraphicsManager* dxManager = new Dx12Manager;
+		GraphicsManager* dxManager = new GiDx12GraphicsManager;
 		dxManager->InitGraphicsObject(window->GetWinId());
-		Debug::LogInfo(static_cast<INT>(dxManager->m_graphicsLibrary));
-
 		window->Show();
 
 		window->MessageLoop();
