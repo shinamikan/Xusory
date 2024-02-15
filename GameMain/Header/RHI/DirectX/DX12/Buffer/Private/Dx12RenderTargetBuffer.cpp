@@ -1,11 +1,11 @@
-#include "../../Buffer/Dx12RenderTargetBuffer.h"
-#include "../../Dx12Device.h"
+#include "../Dx12RenderTargetBuffer.h"
 #include "../../Dx12DescriptorAllocator.h"
+#include "../../Dx12Device.h"
 #include "../../../DxSwapChain.h"
 
 namespace XusoryEngine
 {
-	void Dx12RenderTargetBuffer::CreateRenderTargetBuffer(const Dx12Device* device, D3D12_RESOURCE_STATES initState, const DirectX::XMVECTORF32& clearColor,
+	void Dx12RenderTargetBuffer::CreateRenderTargetBuffer(const Dx12Device* device, D3D12_RESOURCE_STATES initState, const FLOAT clearColor[4],
 		UINT width, UINT height, UINT sampleCount, UINT sampleQuality, DXGI_FORMAT format)
 	{
 		D3D12_CLEAR_VALUE clearValue = {};
@@ -27,6 +27,7 @@ namespace XusoryEngine
 		{
 			ThrowWithErrName(DxLogicError, "The buffer sample count is wrong");
 		}
+		m_srvDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
 	}
 
 	void Dx12RenderTargetBuffer::CreateFromSwapChain(const DxSwapChain* swapChain, UINT bufferIndex)
@@ -35,11 +36,16 @@ namespace XusoryEngine
 		m_isCreateFromSwapChain = true;
 	}
 
-	void Dx12RenderTargetBuffer::ReSet()
+	void Dx12RenderTargetBuffer::ReSetBuffer(Dx12DescriptorAllocator* allocator)
 	{
 		Dx12Buffer2D::ReSet();
 		m_rtvDimension = D3D12_RTV_DIMENSION_UNKNOWN;
+		m_srvDimension = D3D12_SRV_DIMENSION_UNKNOWN;
+
+		allocator->ReleaseDescriptor(m_rtvHandle, 1);
+		allocator->ReleaseDescriptor(m_srvHandle, 1);
 		m_rtvHandle = Dx12DescriptorHandle();
+		m_srvHandle = Dx12DescriptorHandle();
 	}
 
 	D3D12_RTV_DIMENSION Dx12RenderTargetBuffer::GetRtvDimension() const
@@ -47,9 +53,9 @@ namespace XusoryEngine
 		return m_rtvDimension;
 	}
 
-	D3D12_UAV_DIMENSION Dx12RenderTargetBuffer::GetDsvDimension() const
+	D3D12_SRV_DIMENSION Dx12RenderTargetBuffer::GetSrvDimension() const
 	{
-		return m_uavDimension;
+		return m_srvDimension;
 	}
 
 	const Dx12DescriptorHandle& Dx12RenderTargetBuffer::GetRtvHandle() const
@@ -57,9 +63,9 @@ namespace XusoryEngine
 		return m_rtvHandle;
 	}
 
-	const Dx12DescriptorHandle& Dx12RenderTargetBuffer::GetDsvHandle() const
+	const Dx12DescriptorHandle& Dx12RenderTargetBuffer::GetSrvHandle() const
 	{
-		return m_uavHandle;
+		return m_srvHandle;
 	}
 
 	void Dx12RenderTargetBuffer::DescribeAsRtv(const Dx12Device* device, Dx12DescriptorAllocator* allocator)
@@ -74,16 +80,27 @@ namespace XusoryEngine
 		rtvDesc.Format = GetFormat();
 		rtvDesc.ViewDimension = m_rtvDimension;
 
-		if (!m_rtvHandle.IsNull())
+		switch (m_rtvDimension)
 		{
-			allocator->ReleaseDescriptor(m_rtvHandle, 1);
+		case D3D12_RTV_DIMENSION_TEXTURE2D:
+		case D3D12_RTV_DIMENSION_TEXTURE2DMS:
+			rtvDesc.Texture2D.MipSlice = 0;
+			rtvDesc.Texture2D.PlaneSlice = 0;
+			break;
+
+		default:
+			ThrowWithErrName(DxLogicError, "The uav dimension is unknown");
 		}
-		m_rtvHandle = allocator->AllocateDescriptor(device, 1);
+
+		if (m_rtvHandle.IsNull())
+		{
+			m_rtvHandle = allocator->AllocateDescriptor(device, 1);
+		}
 		(*device)->CreateRenderTargetView(GetDxObjectPtr(),
 			m_isCreateFromSwapChain ? nullptr : &rtvDesc, m_rtvHandle.GetCpuDescriptorHandle());
 	}
 
-	void Dx12RenderTargetBuffer::DescribeAsUav(const Dx12Device* device, Dx12DescriptorAllocator* allocator)
+	void Dx12RenderTargetBuffer::DescribeRenderTargetAsSrv(const Dx12Device* device, Dx12DescriptorAllocator* allocator)
 	{
 		ThrowIfDxObjectNotCreated(GetDxObjectPtr(), "buffer");
 		if (allocator->GetHeapType() != D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV || !allocator->GetShaderVisible())
@@ -92,33 +109,17 @@ namespace XusoryEngine
 		}
 
 		const auto bufferDesc = (*this)->GetDesc();
-		D3D12_UNORDERED_ACCESS_VIEW_DESC uavDesc = {};
-		uavDesc.Format = bufferDesc.Format;
-		uavDesc.ViewDimension = m_uavDimension;
+		D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc = {};
+		srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
+		srvDesc.Format = bufferDesc.Format;
+		srvDesc.ViewDimension = m_srvDimension;
+		srvDesc.Texture2D.MipLevels = -1;
+		srvDesc.Texture2D.MostDetailedMip = 0;
 
-		switch (m_uavDimension)
+		if (!m_srvHandle.IsNull())
 		{
-		case D3D12_UAV_DIMENSION_TEXTURE2D:
-			uavDesc.Texture2D.MipSlice = 0;
-			uavDesc.Texture2D.PlaneSlice = 0;
-			break;
-
-		case D3D12_UAV_DIMENSION_TEXTURE2DARRAY:
-			uavDesc.Texture2DArray.MipSlice = 0;
-			uavDesc.Texture2DArray.FirstArraySlice = 0;
-			uavDesc.Texture2DArray.ArraySize = bufferDesc.DepthOrArraySize;
-			uavDesc.Texture2DArray.PlaneSlice = 0;
-			break;
-
-		default:
-			ThrowWithErrName(DxLogicError, "The uav dimension is unknown");
+			m_srvHandle = allocator->AllocateDescriptor(device, 1);
 		}
-
-		if (!m_uavHandle.IsNull())
-		{
-			allocator->ReleaseDescriptor(m_uavHandle, 1);
-		}
-		m_uavHandle = allocator->AllocateDescriptor(device, 1);
-		(*device)->CreateUnorderedAccessView(GetDxObjectPtr(), nullptr, &uavDesc, m_uavHandle.GetCpuDescriptorHandle());
+		(*device)->CreateShaderResourceView(GetDxObjectPtr(), &srvDesc, m_srvHandle.GetCpuDescriptorHandle());
 	}
 }

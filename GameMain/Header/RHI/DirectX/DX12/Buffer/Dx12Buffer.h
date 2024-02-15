@@ -4,13 +4,16 @@
 
 namespace XusoryEngine
 {
+	class Dx12CommandList;
+	class Dx12Device;
 	class Dx12Buffer : public DxObject<ID3D12Resource>
 	{
+		friend class Dx12CommandList;
 	public:
 		Dx12Buffer(D3D12_HEAP_TYPE heapType);
 
 		void ReSet() override;
-		void UploadResource();
+		void UploadResource(const Dx12Device* device, Dx12CommandList* commandList, D3D12_RESOURCE_STATES finishState, const void* pData, UINT64 dataSize);
 
 		D3D12_RESOURCE_DESC	  GetBufferDesc() const;
 		D3D12_RESOURCE_STATES GetCurrentState() const;

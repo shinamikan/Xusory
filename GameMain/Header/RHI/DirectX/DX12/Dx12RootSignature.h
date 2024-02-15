@@ -17,6 +17,8 @@ namespace XusoryEngine
 		void Create(const Dx12Device* device);
 		void ReSet() override;
 
+		D3D12_ROOT_PARAMETER_TYPE GetParameterType(UINT parameterIndex) const;
+
 		void AddConstants(UINT constantValueNum, UINT shaderRegister, UINT registerSpace = 0);
 		void AddConstantBufferView(UINT shaderRegister, UINT registerSpace = 0);
 		void AddShaderResourceView(UINT shaderRegister, UINT registerSpace = 0);
@@ -31,7 +33,6 @@ namespace XusoryEngine
 
 	private:
 		void AddSize(UINT8 size);
-		void ClearTempLists();
 
 		UINT8 m_rootSignatureSize = 0;
 

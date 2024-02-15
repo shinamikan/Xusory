@@ -2,6 +2,7 @@
 
 #include "Debug/Debug.h"
 
+#include "Graphics/Geometry/Vertex.h"
 #include "Graphics/GraphicsManager.h"
 
 #include "Math/Common/MathDefine.h"

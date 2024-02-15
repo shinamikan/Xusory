@@ -56,8 +56,8 @@ namespace XusoryEngine
 		BOOL GetDescriptorAllocated(UINT index) const;
 
 		UINT FindDescriptor(const Dx12DescriptorHandle& handle) const;
-		static void CopyDescriptor(const Dx12Device* device, const Dx12DescriptorHeap* srcHeap, UINT srcStartIndex,
-			const Dx12DescriptorHeap* destHeap, UINT destStartIndex, UINT descriptorNum);
+		static void CopyDescriptor(const Dx12Device* device, const Dx12DescriptorHeap* destHeap, UINT destStartIndex,
+			const Dx12DescriptorHeap* srcHeap, UINT srcStartIndex, UINT descriptorNum);
 
 	private:
 		void SetDescriptorAllocated(UINT startIndex, UINT descriptorNum, CHAR isAllocated);

@@ -17,13 +17,20 @@ namespace XusoryEngine
 		ThrowIfDxFailed((*device)->CreateRootSignature(0, serializedRootSig->GetBufferPointer(), serializedRootSig->GetBufferSize(),
 			IID_PPV_ARGS(GetDxObjectAddressOf())));
 
-		ClearTempLists();
+		m_rangeTempList.clear();
 	}
 
 	void Dx12RootSignature::ReSet()
 	{
 		DxObject::ReSet();
-		ClearTempLists();
+		m_rangeTempList.clear();
+		m_parameterList.clear();
+		m_staticSamplerList.clear();
+	}
+
+	D3D12_ROOT_PARAMETER_TYPE Dx12RootSignature::GetParameterType(UINT parameterIndex) const
+	{
+		return m_parameterList.at(parameterIndex).ParameterType;
 	}
 
 	void Dx12RootSignature::AddConstants(UINT constantValueNum, UINT shaderRegister, UINT registerSpace)
@@ -114,12 +121,5 @@ namespace XusoryEngine
 		{
 			m_rootSignatureSize += size;
 		}
-	}
-
-	void Dx12RootSignature::ClearTempLists()
-	{
-		m_rangeTempList.clear();
-		m_parameterList.clear();
-		m_staticSamplerList.clear();
 	}
 }

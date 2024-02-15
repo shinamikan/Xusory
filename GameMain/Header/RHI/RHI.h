@@ -20,6 +20,7 @@
 #include "DirectX/Dx12/Dx12Fence.h"
 #include "DirectX/Dx12/Dx12PipelineState.h"
 #include "DirectX/DX12/Dx12RootSignature.h"
-#include "DirectX/Dx12/Dx12SwapChain.h"
 
 #include "DirectX/DxFactory.h"
+#include "DirectX/DxShaderCompiler.h"
+#include "DirectX/DxSwapChain.h"

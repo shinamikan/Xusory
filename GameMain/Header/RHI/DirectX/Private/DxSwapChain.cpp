@@ -54,14 +54,12 @@ namespace XusoryEngine
 
 	void DxSwapChain::ResizeBuffer(UINT width, UINT height) const
 	{
-		ThrowIfDxObjectNotCreated(GetDxObjectPtr(), "swap chain");
 		ThrowIfDxFailed((*this)->ResizeBuffers(GetBackBufferCount(), width, height,
 			GetFormat(), DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH));
 	}
 
 	void DxSwapChain::Present(UINT SyncState) const
 	{
-		ThrowIfDxObjectNotCreated(GetDxObjectPtr(), "swap chain");
 		ThrowIfDxFailed((*this)->Present(SyncState, 0));
 	}
 }

@@ -27,13 +27,13 @@
     <ClCompile Include="Header\RHI\DirectX\DX12\Private\Dx12RootSignature.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Header\RHI\DirectX\DX12\Private\Buffer\Dx12Buffer1D.cpp">
+    <ClCompile Include="Header\RHI\DirectX\DX12\Buffer\Private\Dx12Buffer1D.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Header\RHI\DirectX\DX12\Private\Buffer\Dx12Buffer.cpp">
+    <ClCompile Include="Header\RHI\DirectX\DX12\Buffer\Private\Dx12Buffer.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Header\RHI\DirectX\DX12\Private\Buffer\Dx12Buffer2D.cpp">
+    <ClCompile Include="Header\RHI\DirectX\DX12\Buffer\Private\Dx12Buffer2D.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Header\RHI\DirectX\DX12\Private\Dx12DescriptorAllocator.cpp">
@@ -45,16 +45,40 @@
     <ClCompile Include="Header\Core\Graphics\Private\GraphicsManager.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Header\RHI\DirectX\DX12\Private\Buffer\Dx12RenderTargetBuffer.cpp">
+    <ClCompile Include="Header\RHI\DirectX\DX12\Buffer\Private\Dx12RenderTargetBuffer.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Header\RHI\DirectX\Private\DxSwapChain.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Header\RHI\DirectX\DX12\Private\Buffer\Dx12UnorderedAccessBuffer.cpp">
+    <ClCompile Include="Header\RHI\DirectX\DX12\Buffer\Private\Dx12UnorderedAccessBuffer.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Header\RHI\DirectX\DX12\Private\Buffer\Dx12DepthStencilBuffer.cpp">
+    <ClCompile Include="Header\RHI\DirectX\DX12\Buffer\Private\Dx12DepthStencilBuffer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\RHI\DirectX\DX12\Buffer\Private\Dx12ShaderResourceBuffer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\RHI\DirectX\DX12\Buffer\Private\Dx12ConstantBuffer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\RHI\DirectX\DX12\Buffer\Private\Dx12MeshBuffer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\RHI\DirectX\DX12\Private\Dx12CommandAllocator.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\RHI\DirectX\DX12\Private\Dx12CommandQueue.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\RHI\DirectX\DX12\Private\Dx12CommandList.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\RHI\DirectX\DX12\Private\Dx12Fence.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\RHI\DirectX\DX12\Private\Dx12PipelineState.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -288,6 +312,27 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Header\RHI\DirectX\DX12\Buffer\Dx12MeshBuffer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\RHI\DirectX\DX12\Buffer\Dx12ConstantBuffer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\RHI\DirectX\DX12\Buffer\Dx12ShaderResourceBuffer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\RHI\DirectX\DX12\Dx12CommandAllocator.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\RHI\DirectX\DxShaderCompiler.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Resource\GameAsset\Material.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Core\Graphics\Geometry\Vertex.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Resource\Resource.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
