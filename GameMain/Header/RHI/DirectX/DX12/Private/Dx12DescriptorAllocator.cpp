@@ -15,7 +15,7 @@ namespace XusoryEngine
 		}
 	}
 
-	void Dx12DescriptorAllocator::Reset()
+	void Dx12DescriptorAllocator::ReSet()
 	{
 		m_heapList.clear();
 	}

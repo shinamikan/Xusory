@@ -6,98 +6,24 @@
 #define DLL_IMPORT
 
 #include "Header/XusoryEngine.h"
+#include "GameWindow.h"
+
 #pragma comment(lib, "XusoryEngine.lib")
 
 using namespace std;
 using namespace XusoryEngine;
-using namespace DirectX;
 
-class TestWindow : public Window
+std::shared_ptr<Mesh> mesh;
+std::shared_ptr<Shader> shader;
+
+class UserRenderPipeline : public RenderPipeline
 {
 public:
-	void OnMousePress(const MouseClickEvent& event) override
+	UserRenderPipeline() = default;
+
+	void Render(CommandContext* commandContext) override
 	{
-		if (event.mouseKeyCode == EX_BUTTON_1)
-		{
-			Debug::Log(LOG_INFO, event.mouseKeyCode);
-		}
-	}
-
-	void OnKeyPress(const KeyEvent& event) override
-	{
-		if (event.keyCode == KEY_1)
-		{
-			Console::Clear();
-		}
-		else if (event.keyCode == KEY_2)
-		{
-			Vector3 v00 = Vector3(1, 2, 3);
-			Vector4 v01 = Vector4(1, 2, 3, 4);
-
-			Matrix4x4 m02 = Matrix4x4(
-				2.0f, 0.0f, 0.0f, 0.0f,
-				0.0f, 2.0f, 0.0f, 0.0f,
-				0.0f, 0.0f, 2.0f, 0.0f,
-				0.0f, 0.0f, 0.0f, 1.0f);
-
-			Matrix4x4 m03 = Matrix4x4(
-				8.0f, 16.0f, 1.0f, 3.0f,
-				5.0f, 11.0f, 12.0f, 2.0f,
-				6.0f, 10.0f, 151.0f, 7.0f,
-				9.0f, 13.0f, 14.0f, 4.0f);
-
-			Debug::LogInfo("m03:\n", m03);
-			Debug::LogInfo("Determinant:", m03.Determinant());
-			Debug::LogInfo("Inverse:\n", m03.Inverse());
-			Debug::LogInfo("Transpose:\n", m03.Transpose());
-			Debug::LogInfo("PreMultiVector4:", Matrix4x4::PreTransPoint3(v00, m02));
-			Debug::LogInfo("PreMultiVector4:", Matrix4x4::PreTransVector3(v00, m02));
-			Debug::LogInfo("PreMultiVector4:", Matrix4x4::PostTransVector3(m02, v00));
-			Debug::LogInfo("PreMultiVector4:", Matrix4x4::PostTransVector3(m02, v00));
-			Debug::LogInfo("PreMultiVector4:", Matrix4x4::PreMultiVector4(v01, m03));
-			Debug::LogInfo("PostMultiVector4:", Matrix4x4::PostMultiVector4(m03, v01));
-			Debug::LogInfo("MultiMatrix:\n", Matrix4x4::MultiMatrix(m02, m02));
-		}
-		else if (event.keyCode == KEY_3)
-		{
-			Vector2 v1 = Vector2(1, 2);
-			Vector2 v2 = Vector2(4, 3);
-			Vector3 v3 = Vector3(1, 0, 0);
-			Vector3 v4 = Vector3(0, 1, 0);
-
-			Debug::LogInfo("v1:", v1);
-			Debug::LogInfo("v2:", v2);
-			Debug::LogInfo("v1 + v2:", v1 + v2);
-			Debug::LogInfo("v1 - v2:", v1 - v2);
-			Debug::LogInfo("v1 * v2:", v1 * v2);
-			Debug::LogInfo("v1 / v2:", v1 / v2);
-
-			Debug::LogInfo("Length:", v1.Length());
-			Debug::LogInfo("LengthSq:", v1.LengthSq());
-			Debug::LogInfo("Dot:", v1.Dot(v2));
-
-			Debug::LogInfo("Normalize:", v1.Normalize());
-			Debug::LogInfo("Sqrt:", v1.Sqrt());
-			Debug::LogInfo("Max:", v1.Max(v2));
-			Debug::LogInfo("Min:", v1.Min(v2));
-			Debug::LogInfo("Lerp:", Vector2::Lerp(v1, v2, 0.5f));
-			Debug::LogInfo("Cross:", Vector3::Cross(v3, v4));
-		}
-		else if (event.keyCode == KEY_4)
-		{
-			WindowFactory::MessageWindow(GetWinId(), TEXT("≤‚ ‘¥∞ø⁄"), TEXT("≤‚ ‘ƒ⁄»›Hello World"));
-		}
-		else if (event.keyCode == KEY_5)
-		{
-			Debug::Log(LOG_INFO, "Monitoring the directory");
-			Directory::MonitorDirChanges(TEXT("Resource/Test1"));
-			Debug::Log(LOG_INFO, "Monitor over");
-		}
-	}
-
-	void OnDestroy() override
-	{
-		PostQuitMessage(0);
+		
 	}
 };
 
@@ -105,6 +31,9 @@ int WinMain(HINSTANCE hIns, HINSTANCE hPreIns, LPSTR lpCmdLine, int nCmdShow)
 {
 	cout.setf(ios_base::fixed, ios_base::floatfield);
 	cout.precision(4);
+
+	GameWindow* gameWindow = nullptr;
+	std::shared_ptr<UserRenderPipeline> renderPipeline;
 
 	try
 	{
@@ -116,28 +45,50 @@ int WinMain(HINSTANCE hIns, HINSTANCE hPreIns, LPSTR lpCmdLine, int nCmdShow)
 		WindowFactory::SetWindowIcon(SYS_ICON_INFORMATION);
 		WindowFactory::RegisterWindowClass(hIns, TEXT("MainWindow"));
 
-		Window* window = WindowFactory::CreateWindowInstance<TestWindow>(TEXT("MainWindow"), TEXT("Application"), 400, 400, true);
+		const std::vector position =
+		{
+			Float3(-5.0f, 0.0f, 0.0f),
+			Float3(0.0f, 8.0f, 0.0f),
+			Float3(5.0f, 0.0f, 0.0f),
+		};
 
-		const auto windowSize = window->GetWindowSize(true);
-		GraphicsManager* dxManager = new GiDx12GraphicsManager;
-		dxManager->InitGraphicsObject(window->GetWinId());
-		window->Show();
+		const std::vector color =
+		{
+			Float4(1.0f, 0.0f, 0.0f, 0.0f),
+			Float4(0.0f, 1.0f, 0.0f, 0.0f),
+			Float4(0.0f, 0.0f, 2.0f, 0.0f),
+		};
 
-		window->MessageLoop();
+		std::vector<UINT> indices =
+		{
+			0, 1, 2,
+		};
+
+		mesh = std::make_shared<Mesh>();
+		mesh->SetPosition(position);
+		mesh->SetColor(color);
+		mesh->SetIndices(indices);
+
+		shader = std::make_shared<Shader>(TEXT("Shaders/color2.hlsl"));
+		shader->SetVertexShaderEntryPoint("VS");
+		shader->SetPixelShaderEntryPoint("PS");
+
+		renderPipeline = std::make_shared<UserRenderPipeline>();
+
+		gameWindow = dynamic_cast<GameWindow*>(WindowFactory::CreateWindowInstance<GameWindow>(TEXT("MainWindow"), TEXT("Application"), 400, 400, true));
+		gameWindow->InitGraphicsManager(GraphicsLibrary::Direct3D_12);
+		gameWindow->BindShaderList({ shader.get() });
+		gameWindow->BindRenderPipeline({ renderPipeline.get() });
 	}
 	catch (const std::exception& e)
 	{
-		std::string completeErrorMsg = "C++ Exception TraceBack :\n";
-		for (auto& info : TraceBack::GetTraceBackInfoList())
-		{
-			completeErrorMsg +=  "    " + info + "\n";
-		}
-		completeErrorMsg += e.what();
-		Debug::LogError(completeErrorMsg);
-		TraceBack::ClearStack();
+		StdErrorOutput(e);
 	}
 
-	system("pause");
+	gameWindow->Show();
+	gameWindow->MessageLoop();
 
+	Console::SetTextColor(ConsoleTextColor::COLOR_WHITE);
+	system("pause");
 	return 0;
 }

@@ -291,8 +291,6 @@ namespace XusoryEngine
 
 	void WindowFactory::DeleteWindowInstance(Window*& window)
 	{
-		sm_winInstanceMap.erase(window->m_winId);
-
 		delete window;
 		window = nullptr;
 	}

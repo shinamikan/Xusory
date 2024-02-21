@@ -239,7 +239,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Header\Core\Graphics\Private\CommandContext.cpp" />
     <ClCompile Include="Header\Core\Graphics\Private\GraphicsManager.cpp" />
+    <ClCompile Include="Header\Engine\Component\Behaviour\Renderer\ParticleRenderer.h" />
+    <ClCompile Include="Header\Resource\GameAsset\Private\Mesh.cpp" />
+    <ClCompile Include="Header\Core\Graphics\Private\Shader.cpp" />
     <ClCompile Include="Header\RHI\DirectX\DX12\Buffer\Private\Dx12Buffer.cpp" />
     <ClCompile Include="Header\RHI\DirectX\DX12\Buffer\Private\Dx12Buffer1D.cpp" />
     <ClCompile Include="Header\RHI\DirectX\DX12\Buffer\Private\Dx12Buffer2D.cpp" />
@@ -258,18 +262,18 @@
     <ClCompile Include="Header\RHI\DirectX\DX12\Private\Dx12Fence.cpp" />
     <ClCompile Include="Header\RHI\DirectX\DX12\Private\Dx12PipelineState.cpp" />
     <ClCompile Include="Header\RHI\DirectX\DX12\Private\Dx12RootSignature.cpp" />
+    <ClCompile Include="Header\RHI\DirectX\Private\DxShaderCompiler.cpp" />
     <ClCompile Include="Header\RHI\DirectX\Private\DxSwapChain.cpp" />
     <ClCompile Include="Header\RHI\DirectX\Private\DxFactory.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="GameMainDefine.h" />
     <ClInclude Include="Header\Core\Core.h" />
     <ClInclude Include="Header\Core\Debug\Debug.h" />
-    <ClInclude Include="Header\Core\Graphics\BlendState.h" />
     <ClInclude Include="Header\Core\Graphics\CommandContext.h" />
     <ClInclude Include="Header\Core\Graphics\Geometry\Vertex.h" />
     <ClInclude Include="Header\Core\Graphics\GraphicsManager.h" />
-    <ClInclude Include="Header\Core\Graphics\RasterState.h" />
     <ClInclude Include="Header\Core\Graphics\RenderPipeline.h" />
     <ClInclude Include="Header\Core\Math\Common\MathDefine.h" />
     <ClInclude Include="Header\Core\Math\Math.h" />
@@ -288,6 +292,9 @@
     <ClInclude Include="Header\CppEx\Error\Throw.h" />
     <ClInclude Include="Header\CppEx\Error\TraceBack.h" />
     <ClInclude Include="Header\CppEx\Reflector\Reflector.h" />
+    <ClInclude Include="Header\Engine\Component\Behaviour\Renderer\MeshRenderer.h" />
+    <ClInclude Include="Header\Engine\Component\Transform\Transform.h" />
+    <ClInclude Include="Header\Engine\GameObject\GameObject.h" />
     <ClInclude Include="Header\Platform\Common\PlatformDefine.h" />
     <ClInclude Include="Header\Platform\Console\Console.h" />
     <ClInclude Include="Header\Platform\DLL\Dll.h" />
@@ -308,9 +315,10 @@
     <ClInclude Include="Header\Platform\Window\Window.h" />
     <ClInclude Include="Header\Platform\Window\WindowFactory.h" />
     <ClInclude Include="Header\Resource\GameAsset\AudioClip.h" />
+    <ClInclude Include="Header\Resource\GameAsset\Loader\MeshLoader.h" />
     <ClInclude Include="Header\Resource\GameAsset\Material.h" />
     <ClInclude Include="Header\Resource\GameAsset\Mesh.h" />
-    <ClInclude Include="Header\Resource\GameAsset\Shader.h" />
+    <ClInclude Include="Header\Core\Graphics\Shader.h" />
     <ClInclude Include="Header\Resource\GameAsset\TextAsset.h" />
     <ClInclude Include="Header\Resource\GameAsset\Texture.h" />
     <ClInclude Include="Header\Resource\Resource.h" />
@@ -341,12 +349,23 @@
     <ClInclude Include="Header\RHI\DirectX\DX12\Dx12Device.h" />
     <ClInclude Include="Header\RHI\DirectX\DX12\Dx12RootSignature.h" />
     <ClInclude Include="Header\RHI\DirectX\DxFactory.h" />
+    <ClInclude Include="GameWindow.h" />
     <ClInclude Include="Header\RHI\RHI.h" />
     <ClInclude Include="Header\StdEx\StdEx.h" />
     <ClInclude Include="Header\StdEx\StringEx\StringEx.h" />
     <ClInclude Include="Header\XsCommon\AsyncInfo.h" />
     <ClInclude Include="Header\XsCommon\DllDefine.h" />
     <ClInclude Include="Header\XusoryEngine.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shaders\color2.hlsl">
+      <FileType>Document</FileType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shaders\color1.hlsl">
+      <FileType>Document</FileType>
+    </None>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

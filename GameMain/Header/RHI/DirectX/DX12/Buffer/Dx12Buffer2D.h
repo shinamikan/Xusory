@@ -6,7 +6,7 @@
 namespace XusoryEngine
 {
 	class Dx12Device;
-	class Dx12Buffer2D : virtual public Dx12Buffer
+	class Dx12Buffer2D : public Dx12Buffer
 	{
 	public:
 		Dx12Buffer2D();

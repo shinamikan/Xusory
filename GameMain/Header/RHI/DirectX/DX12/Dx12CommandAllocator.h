@@ -11,6 +11,7 @@ namespace XusoryEngine
 		Dx12CommandAllocator() = default;
 
 		void Create(const Dx12Device* device, D3D12_COMMAND_LIST_TYPE cmdListType);
+		void ReSetCommandAllocator() const;
 		void ReSet() override;
 		D3D12_COMMAND_LIST_TYPE GetCommandListType() const;
 

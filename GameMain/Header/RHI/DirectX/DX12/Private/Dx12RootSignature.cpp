@@ -81,7 +81,7 @@ namespace XusoryEngine
 		(m_rangeTempList.end() - 1)->push_back(std::move(range));
 	}
 
-	void Dx12RootSignature::AddDescriptorTable(D3D12_DESCRIPTOR_RANGE_TYPE rangeType, UINT descriptorNum, UINT shaderRegister, UINT registerSpace)
+	void Dx12RootSignature::AddDescriptorTable()
 	{
 		AddSize(ROOT_PARA_DESC_TABLE_SIZE);
 

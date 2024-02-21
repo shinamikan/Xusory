@@ -9,6 +9,11 @@ namespace XusoryEngine
 		m_cmdListType = cmdListType;
 	}
 
+	void Dx12CommandAllocator::ReSetCommandAllocator() const
+	{
+		ThrowIfDxFailed((*this)->Reset());
+	}
+
 	void Dx12CommandAllocator::ReSet()
 	{
 		DxObject::ReSet();

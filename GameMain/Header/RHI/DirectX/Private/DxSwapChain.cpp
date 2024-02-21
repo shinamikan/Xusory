@@ -4,7 +4,7 @@
 namespace XusoryEngine
 {
 	void DxSwapChain::Create(const DxFactory* factory, IUnknown* deviceOrDx12CommandQueue,
-		WinId winId, UINT width, UINT height, DXGI_FORMAT format, UINT bufferCount,
+		const WinId& winId, UINT width, UINT height, DXGI_FORMAT format, UINT bufferCount,
 		DXGI_USAGE usage, DXGI_SCALING scaling, DXGI_SWAP_EFFECT swapEffect, DXGI_ALPHA_MODE alphaMode, UINT flags)
 	{
 		m_swapChainDesc = {};

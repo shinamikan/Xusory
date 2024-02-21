@@ -19,7 +19,7 @@ namespace XusoryEngine
 		DELETE_MOVE_OPERATOR(Dx12DescriptorAllocator);
 		~Dx12DescriptorAllocator();
 
-		void Reset();
+		void ReSet();
 
 		D3D12_DESCRIPTOR_HEAP_TYPE GetHeapType() const;
 		BOOL GetShaderVisible() const;

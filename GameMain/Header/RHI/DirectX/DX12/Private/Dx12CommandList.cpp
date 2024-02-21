@@ -30,8 +30,14 @@ namespace XusoryEngine
 			nullptr, IID_PPV_ARGS(GetDxObjectAddressOf())));
 	}
 
+	void Dx12CommandList::ResetCommandList(const Dx12CommandAllocator* allocator, const Dx12PipelineState* pipelineState) const
+	{
+		ThrowIfDxFailed((*this)->Reset(allocator->GetDxObjectPtr(), pipelineState ? pipelineState->GetDxObjectPtr() : nullptr));
+	}
+
 	void Dx12CommandList::ReSet()
 	{
+		DxObject::ReSet();
 		m_activeViewDescHeap = nullptr;
 		m_activeSamplerDescHeap = nullptr;
 
@@ -114,13 +120,13 @@ namespace XusoryEngine
 	void Dx12GraphicsCommandList::ClearStencil(const Dx12DepthStencilBuffer* buffer, UINT8 stencil) const
 	{
 		const auto dsvHandle = buffer->GetDsvHandle().GetCpuDescriptorHandle();
-		(*this)->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, 1.0f, stencil, 0, nullptr);
+		(*this)->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_STENCIL, 1.0f, stencil, 0, nullptr);
 	}
 
 	void Dx12GraphicsCommandList::ClearDepthStencil(const Dx12DepthStencilBuffer* buffer, FLOAT depth, UINT8 stencil) const
 	{
 		const auto dsvHandle = buffer->GetDsvHandle().GetCpuDescriptorHandle();
-		(*this)->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH, depth, stencil, 0, nullptr);
+		(*this)->ClearDepthStencilView(dsvHandle, D3D12_CLEAR_FLAG_DEPTH | D3D12_CLEAR_FLAG_STENCIL, depth, stencil, 0, nullptr);
 	}
 
 	void Dx12GraphicsCommandList::ClearRenderTarget(const Dx12RenderTargetBuffer* buffer, const FLOAT color[4]) const
@@ -225,6 +231,16 @@ namespace XusoryEngine
 	void Dx12GraphicsCommandList::SetStencilRef(UINT stencilRef) const
 	{
 		(*this)->OMSetStencilRef(stencilRef);
+	}
+
+	void Dx12GraphicsCommandList::DrawInstanced(UINT vertexNumPerInstance, UINT instanceNum, UINT startVertexLocation, UINT startInstanceLocation) const
+	{
+		(*this)->DrawInstanced(vertexNumPerInstance, instanceNum, startVertexLocation, startInstanceLocation);
+	}
+
+	void Dx12GraphicsCommandList::DrawIndexedInstanced(UINT indexNumPerInstance, UINT instanceNum, UINT startIndexLocation, INT baseVertexLocation, UINT startInstanceLocation) const
+	{
+		(*this)->DrawIndexedInstanced(indexNumPerInstance, instanceNum, startInstanceLocation, baseVertexLocation, startInstanceLocation);
 	}
 
 	void Dx12GraphicsCommandList::SetGraphicsPipelineState(const Dx12GraphicsPipelineState* pipelineState) const

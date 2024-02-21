@@ -3,7 +3,10 @@
 #include "Debug/Debug.h"
 
 #include "Graphics/Geometry/Vertex.h"
+#include "Graphics/CommandContext.h"
 #include "Graphics/GraphicsManager.h"
+#include "Graphics/RenderPipeline.h"
+#include "Graphics/Shader.h"
 
 #include "Math/Common/MathDefine.h"
 #include "Math/Math.h"

@@ -17,8 +17,6 @@ namespace XusoryEngine
 
 	Dx12GraphicsPipelineState::Dx12GraphicsPipelineState()
 	{
-		m_psoDescTemp.BlendState = CD3DX12_BLEND_DESC(D3D12_DEFAULT);
-		m_psoDescTemp.DepthStencilState = CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT);
 		m_psoDescTemp.RasterizerState = CD3DX12_RASTERIZER_DESC(D3D12_DEFAULT);
 
 		SetSampleQuality(1, 0);
@@ -27,12 +25,13 @@ namespace XusoryEngine
 
 	void Dx12GraphicsPipelineState::Create(const Dx12Device* device)
 	{
-		if (m_psoDescTemp.pRootSignature == nullptr || m_psoDescTemp.PrimitiveTopologyType == NULL ||
+		if (m_rootSignature == nullptr || m_psoDescTemp.PrimitiveTopologyType == NULL ||
 			m_psoDescTemp.VS.pShaderBytecode == nullptr || m_psoDescTemp.PS.pShaderBytecode == nullptr)
 		{
 			ThrowWithErrName(DxLogicError, "pipeline state parameter error");
 		}
 
+		m_psoDescTemp.pRootSignature = m_rootSignature->GetDxObjectPtr();
 		ThrowIfDxFailed((*device)->CreateGraphicsPipelineState(&m_psoDescTemp, IID_PPV_ARGS(GetDxObjectAddressOf())));
 	}
 
@@ -138,7 +137,6 @@ namespace XusoryEngine
 	{
 		m_psoDescTemp.SampleMask = sampleMask;
 	}
-
 
 	void Dx12ComputePipelineState::Create(const Dx12Device* device)
 	{

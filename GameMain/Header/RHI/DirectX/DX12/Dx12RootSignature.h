@@ -24,7 +24,7 @@ namespace XusoryEngine
 		void AddShaderResourceView(UINT shaderRegister, UINT registerSpace = 0);
 		void AddUnorderedAccessView(UINT shaderRegister, UINT registerSpace = 0);
 		void AddDescriptorRange(D3D12_DESCRIPTOR_RANGE_TYPE rangeType, UINT descriptorNum, UINT shaderRegister, UINT registerSpace = 0);
-		void AddDescriptorTable(D3D12_DESCRIPTOR_RANGE_TYPE rangeType, UINT descriptorNum, UINT shaderRegister, UINT registerSpace = 0);
+		void AddDescriptorTable();
 		void AddStaticSampler(UINT shaderRegister, D3D12_FILTER filter, D3D12_TEXTURE_ADDRESS_MODE addressMode);
 		void AddStaticSampler(UINT shaderRegister, D3D12_FILTER filter,
 			D3D12_TEXTURE_ADDRESS_MODE addressModeX,

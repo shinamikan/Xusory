@@ -21,7 +21,7 @@ namespace XusoryEngine
 		const _com_error comErr = _com_error(errorCode);
 		const std::wstring msg = comErr.ErrorMessage();
 
-		return StringEx::Format<std::string>("Dx Failed:", StringEx::WStringToString(msg));
+		return StringEx::Format<std::string>("Dx Failed, errorCode(HResult): %d", errorCode);
 	}
 
 	inline void ThrowIfDxFailed(HRESULT errorCode)

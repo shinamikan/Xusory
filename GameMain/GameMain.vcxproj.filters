@@ -81,6 +81,21 @@
     <ClCompile Include="Header\RHI\DirectX\DX12\Private\Dx12PipelineState.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Header\RHI\DirectX\Private\DxShaderCompiler.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\Resource\GameAsset\Private\Mesh.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\Core\Graphics\Private\Shader.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\Core\Graphics\Private\CommandContext.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\Engine\Component\Behaviour\Renderer\ParticleRenderer.h">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header\Core\Debug\Debug.h">
@@ -203,7 +218,7 @@
     <ClInclude Include="Header\Resource\GameAsset\Mesh.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Header\Resource\GameAsset\Shader.h">
+    <ClInclude Include="Header\Core\Graphics\Shader.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Header\Resource\GameAsset\TextAsset.h">
@@ -299,12 +314,6 @@
     <ClInclude Include="Header\Core\Graphics\CommandContext.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Header\Core\Graphics\BlendState.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\Core\Graphics\RasterState.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="Header\Core\Graphics\RenderPipeline.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -335,5 +344,27 @@
     <ClInclude Include="Header\Resource\Resource.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="GameWindow.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Resource\GameAsset\Loader\MeshLoader.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Engine\Component\Transform\Transform.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Engine\Component\Behaviour\Renderer\MeshRenderer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Engine\GameObject\GameObject.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="GameMainDefine.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shaders\color2.hlsl" />
+    <None Include="Shaders\color1.hlsl" />
   </ItemGroup>
 </Project>

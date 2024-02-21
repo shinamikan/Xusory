@@ -9,7 +9,7 @@ namespace XusoryEngine
 		UINT width, UINT height, UINT sampleCount, UINT sampleQuality, DXGI_FORMAT format)
 	{
 		D3D12_CLEAR_VALUE clearValue = {};
-		clearValue.Format = GetFormat();
+		clearValue.Format = format;
 		memcpy(clearValue.Color, clearColor, sizeof(float) * 4);
 
 		CreateTex2DBuffer(device, initState, D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET, &clearValue,
@@ -33,6 +33,8 @@ namespace XusoryEngine
 	void Dx12RenderTargetBuffer::CreateFromSwapChain(const DxSwapChain* swapChain, UINT bufferIndex)
 	{
 		ThrowIfDxFailed((*swapChain)->GetBuffer(bufferIndex, IID_PPV_ARGS(GetDxObjectAddressOf())));
+
+		m_usingState = D3D12_RESOURCE_STATE_PRESENT;
 		m_isCreateFromSwapChain = true;
 	}
 
@@ -46,6 +48,8 @@ namespace XusoryEngine
 		allocator->ReleaseDescriptor(m_srvHandle, 1);
 		m_rtvHandle = Dx12DescriptorHandle();
 		m_srvHandle = Dx12DescriptorHandle();
+
+		m_isCreateFromSwapChain = false;
 	}
 
 	D3D12_RTV_DIMENSION Dx12RenderTargetBuffer::GetRtvDimension() const
@@ -76,20 +80,24 @@ namespace XusoryEngine
 			ThrowWithErrName(DxLogicError, "The attribute of the descriptor allocator does not match");
 		}
 
+		
 		D3D12_RENDER_TARGET_VIEW_DESC rtvDesc = {};
-		rtvDesc.Format = GetFormat();
-		rtvDesc.ViewDimension = m_rtvDimension;
-
-		switch (m_rtvDimension)
+		if (!m_isCreateFromSwapChain)
 		{
-		case D3D12_RTV_DIMENSION_TEXTURE2D:
-		case D3D12_RTV_DIMENSION_TEXTURE2DMS:
-			rtvDesc.Texture2D.MipSlice = 0;
-			rtvDesc.Texture2D.PlaneSlice = 0;
-			break;
+			rtvDesc.Format = GetFormat();
+			rtvDesc.ViewDimension = m_rtvDimension;
 
-		default:
-			ThrowWithErrName(DxLogicError, "The uav dimension is unknown");
+			switch (m_rtvDimension)
+			{
+			case D3D12_RTV_DIMENSION_TEXTURE2D:
+			case D3D12_RTV_DIMENSION_TEXTURE2DMS:
+				rtvDesc.Texture2D.MipSlice = 0;
+				rtvDesc.Texture2D.PlaneSlice = 0;
+				break;
+
+			default:
+				ThrowWithErrName(DxLogicError, "The uav dimension is unknown");
+			}
 		}
 
 		if (m_rtvHandle.IsNull())

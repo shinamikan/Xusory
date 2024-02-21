@@ -54,11 +54,11 @@ namespace XusoryEngine
 	{
 		if (fence->GetCompletedFenceValue() < m_queueFenceValue)
 		{
-			const HANDLE t_eventHandle = CreateEventEx(nullptr, nullptr, false, EVENT_ALL_ACCESS);
-			fence->SetCompletedEvent(m_queueFenceValue, t_eventHandle);
+			const HANDLE eventHandle = CreateEventEx(nullptr, nullptr, false, EVENT_ALL_ACCESS);
+			fence->SetCompletedEvent(m_queueFenceValue, eventHandle);
 
-			WaitForSingleObject(t_eventHandle, INFINITE);
-			CloseHandle(t_eventHandle);
+			WaitForSingleObject(eventHandle, INFINITE);
+			CloseHandle(eventHandle);
 		}
 	}
 

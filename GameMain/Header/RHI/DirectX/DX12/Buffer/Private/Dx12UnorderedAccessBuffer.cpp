@@ -4,11 +4,11 @@
 
 namespace XusoryEngine
 {
-	void Dx12UnorderedAccessBuffer::CreateUnorderedAccessBuffer(const Dx12Device* device, D3D12_RESOURCE_STATES initState, UINT64 size)
+	/*void Dx12UnorderedAccessBuffer::CreateUnorderedAccessBuffer(const Dx12Device* device, D3D12_RESOURCE_STATES initState, UINT64 size)
 	{
 		CreateFixedBuffer(device, initState, D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS, size);
 		m_uavDimension = D3D12_UAV_DIMENSION_BUFFER;
-	}
+	}*/
 
 	void Dx12UnorderedAccessBuffer::CreateUnorderedAccessBuffer2D(const Dx12Device* device, D3D12_RESOURCE_STATES initState, UINT width, UINT height, UINT16 arraySize, DXGI_FORMAT format)
 	{

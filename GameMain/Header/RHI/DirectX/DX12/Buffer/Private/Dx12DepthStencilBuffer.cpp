@@ -8,7 +8,7 @@ namespace XusoryEngine
 		UINT width, UINT height, UINT sampleCount, UINT sampleQuality, DXGI_FORMAT format)
 	{
 		D3D12_CLEAR_VALUE clearValue;
-		clearValue.Format = GetFormat();
+		clearValue.Format = format;
 		clearValue.DepthStencil.Depth = clearDepth;
 		clearValue.DepthStencil.Stencil = clearStencil;
 

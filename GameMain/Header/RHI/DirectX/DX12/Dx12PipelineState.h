@@ -50,7 +50,7 @@ namespace XusoryEngine
 		void SetNodeMask(UINT nodeMask);
 		void SetSampleMask(UINT sampleMask);
 
-	private:
+	public:
 		D3D12_GRAPHICS_PIPELINE_STATE_DESC m_psoDescTemp{};
 	};
 

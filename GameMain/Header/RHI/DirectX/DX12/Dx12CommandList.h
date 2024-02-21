@@ -19,6 +19,7 @@ namespace XusoryEngine
 	class Dx12Device;
 	class Dx12RootSignature;
 
+	class Dx12PipelineState;
 	class Dx12GraphicsPipelineState;
 	class Dx12ComputePipelineState;
 
@@ -28,6 +29,7 @@ namespace XusoryEngine
 		Dx12CommandList() = default;
 
 		void Create(const Dx12Device* device, const Dx12CommandAllocator* allocator, D3D12_COMMAND_LIST_TYPE cmdListType, UINT nodeMask = 0);
+		void ResetCommandList(const Dx12CommandAllocator* allocator, const Dx12PipelineState* pipelineState) const;
 		void ReSet() override;
 
 		D3D12_COMMAND_LIST_TYPE GetCommandListType() const;
@@ -75,9 +77,9 @@ namespace XusoryEngine
 		void SetRenderTarget(const Dx12RenderTargetBuffer* rtBuffer, const Dx12DepthStencilBuffer* dsBuffer) const;
 		void SetRenderTargets(UINT renderTargetNum, const Dx12RenderTargetBuffer* rtBuffer[], const Dx12DepthStencilBuffer* dsBuffer) const;
 		void SetStencilRef(UINT stencilRef) const;
-
-		void DrawInstanced();
-		void DrawIndexedInstanced();
+		
+		void DrawInstanced(UINT vertexNumPerInstance, UINT instanceNum, UINT startVertexLocation, UINT startInstanceLocation) const;
+		void DrawIndexedInstanced(UINT indexNumPerInstance, UINT instanceNum, UINT startIndexLocation, INT baseVertexLocation, UINT startInstanceLocation) const;
 
 		void SetGraphicsPipelineState(const Dx12GraphicsPipelineState* pipelineState) const;
 		void SetGraphicsRootSignature(Dx12RootSignature* rootSignature);

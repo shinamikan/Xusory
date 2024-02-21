@@ -9,6 +9,7 @@ namespace XusoryEngine
 	class Dx12Buffer : public DxObject<ID3D12Resource>
 	{
 		friend class Dx12CommandList;
+
 	public:
 		Dx12Buffer(D3D12_HEAP_TYPE heapType);
 
