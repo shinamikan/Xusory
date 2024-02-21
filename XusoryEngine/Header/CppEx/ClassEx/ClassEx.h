@@ -6,6 +6,8 @@
 #define CLASS(className) class className
 #define DLL_CLASS(className) class DLL_FUNC className
 #define END_CLASS }
+#define DLL_STRUCT(structName) struct DLL_FUNC structName
+#define END_STRUCT }
 
 #define INTERNAL_CLASS(className)										\
 	class SUFFIX_NAME(className, _Internal);							\

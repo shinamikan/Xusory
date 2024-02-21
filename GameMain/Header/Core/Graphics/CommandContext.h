@@ -4,5 +4,8 @@
 
 namespace XusoryEngine
 {
-	
+	class CommandContext
+	{
+		
+	};
 }

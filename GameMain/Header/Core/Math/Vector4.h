@@ -5,7 +5,7 @@
 
 namespace XusoryEngine
 {
-	struct Float4
+	DLL_STRUCT(Float4)
 	{
 		Float4() = default;
 		Float4(FLOAT x, FLOAT y, FLOAT z, FLOAT w);
