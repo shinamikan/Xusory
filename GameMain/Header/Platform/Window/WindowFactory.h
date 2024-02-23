@@ -16,7 +16,7 @@ namespace XusoryEngine
 	DLL_STATIC_CLASS(WindowFactory)
 	{
 		friend LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-		friend void ThrowIfSMWindowClassNull();
+		friend void ThrowIfWindowClassNull();
 
 	public:
 		static void StartNewWindowClass();

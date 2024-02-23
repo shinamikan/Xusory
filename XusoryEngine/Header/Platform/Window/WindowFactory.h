@@ -16,7 +16,6 @@ namespace XusoryEngine
 	DLL_STATIC_CLASS(WindowFactory)
 	{
 		friend LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-		friend void ThrowIfSMWindowClassNull();
 
 	public:
 		static void StartNewWindowClass();
@@ -39,6 +38,7 @@ namespace XusoryEngine
 
 	private:
 		static void DeleteWindowInstance(Window*& window);
+		static void ThrowIfWindowClassNull();
 
 		static WindowClassEx* sm_windowClass;
 		static std::unordered_map<WinId, Window*> sm_winInstanceMap;

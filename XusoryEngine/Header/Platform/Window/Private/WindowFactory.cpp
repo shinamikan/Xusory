@@ -192,14 +192,6 @@ namespace XusoryEngine
 		return DefWindowProc(hWnd, msg, wParam, lParam);
 	}
 
-	void ThrowIfSMWindowClassNull()
-	{
-		if (!WindowFactory::sm_windowClass)
-		{
-			ThrowWithErrName(LogicError, "Not yet started creating a new window class");
-		}
-	}
-
 	WindowClassEx* WindowFactory::sm_windowClass = nullptr;
 	std::unordered_map<WinId, Window*> WindowFactory::sm_winInstanceMap = std::unordered_map<WinId, Window*>();
 
@@ -210,13 +202,13 @@ namespace XusoryEngine
 
 	void WindowFactory::SetWindowCursor(SysCursorId sysCursor)
 	{
-		ThrowIfSMWindowClassNull();
+		ThrowIfWindowClassNull();
 		sm_windowClass->hCursor = LoadCursor(nullptr, MAKEINTRESOURCE(sysCursor));
 	}
 
 	void WindowFactory::SetWindowCursor(const std::wstring_view& imagePath)
 	{
-		ThrowIfSMWindowClassNull();
+		ThrowIfWindowClassNull();
 
 		File::TryToFindFile(imagePath);
 		sm_windowClass->hCursor = static_cast<HCURSOR>(LoadImage(nullptr, imagePath.data(), IMAGE_ICON, 0, 0, LR_LOADFROMFILE | LR_DEFAULTSIZE));
@@ -224,13 +216,13 @@ namespace XusoryEngine
 
 	void WindowFactory::SetWindowIcon(INT sysIcon)
 	{
-		ThrowIfSMWindowClassNull();
+		ThrowIfWindowClassNull();
 		sm_windowClass->hIcon = LoadIcon(nullptr, MAKEINTRESOURCE(sysIcon));
 	}
 
 	void WindowFactory::SetWindowIcon(const std::wstring_view& imagePath)
 	{
-		ThrowIfSMWindowClassNull();
+		ThrowIfWindowClassNull();
 
 		File::TryToFindFile(imagePath);
 		sm_windowClass->hIcon = static_cast<HICON>(LoadImage(nullptr, imagePath.data(), IMAGE_ICON, 0, 0, LR_LOADFROMFILE | LR_DEFAULTSIZE));
@@ -238,7 +230,7 @@ namespace XusoryEngine
 
 	void WindowFactory::RegisterWindowClass(HINSTANCE hInstance, const std::wstring_view& className)
 	{
-		ThrowIfSMWindowClassNull();
+		ThrowIfWindowClassNull();
 
 		sm_windowClass->cbSize = sizeof(WNDCLASSEX);
 		sm_windowClass->hbrBackground = static_cast<HBRUSH>(GetStockObject(COLOR_WINDOW + 1));
@@ -293,5 +285,13 @@ namespace XusoryEngine
 	{
 		delete window;
 		window = nullptr;
+	}
+
+	void WindowFactory::ThrowIfWindowClassNull()
+	{
+		if (sm_windowClass == nullptr)
+		{
+			ThrowWithErrName(LogicError, "Not yet started creating a new window class");
+		}
 	}
 }

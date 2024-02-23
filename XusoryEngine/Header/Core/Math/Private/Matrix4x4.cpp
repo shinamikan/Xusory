@@ -227,7 +227,7 @@ namespace XusoryEngine
 		const FLOAT m32 = m_row3.m128_f32[2];
 		const FLOAT m33 = m_row3.m128_f32[3];
 
-		const FLOAT f0 = m_row0.m128_f32[0] * GetDet3(m11, m12, m13,m21, m22, m23, m31, m32, m33);
+		const FLOAT f0 = m_row0.m128_f32[0] * GetDet3(m11, m12, m13, m21, m22, m23, m31, m32, m33);
 		const FLOAT f1 = m_row0.m128_f32[1] * GetDet3(m10, m12, m13, m20, m22, m23, m30, m32, m33);
 		const FLOAT f2 = m_row0.m128_f32[2] * GetDet3(m10, m11, m13, m20, m21, m23, m30, m31, m33);
 		const FLOAT f3 = m_row0.m128_f32[3] * GetDet3(m10, m11, m12, m20, m21, m22, m30, m31, m32);
