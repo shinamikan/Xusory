@@ -18,7 +18,6 @@ namespace XusoryEngine
 	struct D3D12_SHADER_CONSTANT_BUFFER_DESC : D3D12_SHADER_BUFFER_DESC
 	{
 		std::string bufferName;
-
 		UINT bindPoint;
 		UINT bindCount;
 		UINT space;
@@ -79,7 +78,7 @@ namespace XusoryEngine
 		std::unordered_map<D3D12_SHADER_CONSTANT_BUFFER_DESC, std::vector<D3D12_SHADER_VARIABLE_TYPE_DESC>, ShaderBufferDescHash, ShaderBufferDescEqual> m_constantBufferDescMap;
 		std::vector<D3D12_SHADER_RESOURCE_DESC> m_shaderResourceDescList;
 
-	public:
+	private:
 		std::array<Microsoft::WRL::ComPtr<ID3DBlob>, 5> m_shaderBytesList;
 	};
 }

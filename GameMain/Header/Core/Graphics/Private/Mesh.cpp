@@ -8,6 +8,11 @@ namespace XusoryEngine
 		indices.resize(indicesNum);
 	}
 
+	const std::wstring& Mesh::GetMeshFilePath() const
+	{
+		return m_meshFilePath;
+	}
+
 	const std::vector<Vertex>& Mesh::GetVertices() const
 	{
 		return vertices;
@@ -38,7 +43,7 @@ namespace XusoryEngine
 		{
 			for (SIZE_T i = vertices.size(); i < positionList.size(); i++)
 			{
-				vertices.push_back(Vertex(positionList.at(i), VertexCommonProperty::POSITION));
+				vertices.emplace_back(positionList.at(i), VertexCommonProperty::POSITION);
 			}
 		}
 	}
@@ -53,7 +58,7 @@ namespace XusoryEngine
 		{
 			for (SIZE_T i = vertices.size(); i < normalList.size(); i++)
 			{
-				vertices.push_back(Vertex(normalList.at(i), VertexCommonProperty::NORMAL));
+				vertices.emplace_back(normalList.at(i), VertexCommonProperty::NORMAL);
 			}
 		}
 	}
@@ -68,7 +73,7 @@ namespace XusoryEngine
 		{
 			for (SIZE_T i = vertices.size(); i < tangentList.size(); i++)
 			{
-				vertices.push_back(Vertex(tangentList.at(i), VertexCommonProperty::TANGENT));
+				vertices.emplace_back(tangentList.at(i), VertexCommonProperty::TANGENT);
 			}
 		}
 	}
@@ -83,7 +88,7 @@ namespace XusoryEngine
 		{
 			for (SIZE_T i = vertices.size(); i < colorList.size(); i++)
 			{
-				vertices.push_back(Vertex(colorList.at(i)));
+				vertices.emplace_back(colorList.at(i));
 			}
 		}
 	}
@@ -98,7 +103,7 @@ namespace XusoryEngine
 		{
 			for (SIZE_T i = vertices.size(); i < uvList.size(); i++)
 			{
-				vertices.push_back(Vertex(uvList.at(i), VertexUvProperty::UV0));
+				vertices.emplace_back(uvList.at(i), VertexUvProperty::UV0);
 			}
 		}
 	}
@@ -113,7 +118,7 @@ namespace XusoryEngine
 		{
 			for (SIZE_T i = vertices.size(); i < uvList.size(); i++)
 			{
-				vertices.push_back(Vertex(uvList.at(i), VertexUvProperty::UV1));
+				vertices.emplace_back(uvList.at(i), VertexUvProperty::UV1);
 			}
 		}
 	}
@@ -128,7 +133,7 @@ namespace XusoryEngine
 		{
 			for (SIZE_T i = vertices.size(); i < uvList.size(); i++)
 			{
-				vertices.push_back(Vertex(uvList.at(i), VertexUvProperty::UV2));
+				vertices.emplace_back(uvList.at(i), VertexUvProperty::UV2);
 			}
 		}
 	}
@@ -143,7 +148,7 @@ namespace XusoryEngine
 		{
 			for (SIZE_T i = vertices.size(); i < uvList.size(); i++)
 			{
-				vertices.push_back(Vertex(uvList.at(i), VertexUvProperty::UV3));
+				vertices.emplace_back(uvList.at(i), VertexUvProperty::UV3);
 			}
 		}
 	}
@@ -158,7 +163,7 @@ namespace XusoryEngine
 		{
 			for (SIZE_T i = vertices.size(); i < uvList.size(); i++)
 			{
-				vertices.push_back(Vertex(uvList.at(i), VertexUvProperty::UV4));
+				vertices.emplace_back(uvList.at(i), VertexUvProperty::UV4);
 			}
 		}
 	}

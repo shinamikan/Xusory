@@ -42,19 +42,94 @@ namespace XusoryEngine
 		return m_shaderEntryPointList.at(4);
 	}
 
-	void Shader::SetFillMode(GraphicsFillMode fillMode)
+	GraphicsFillMode Shader::GetFillMode() const
 	{
-		m_fillMode = fillMode;
+		return m_fillMode;
 	}
 
-	void Shader::SetCullMode(GraphicsCullMode cullMode)
+	GraphicsCullMode Shader::GetCullMode() const
 	{
-		m_cullMode = cullMode;
+		return m_cullMode;
 	}
 
-	void Shader::SetTriangleWindingOrder(TriangleWindingOrder triangleWindingOrder)
+	TriangleWindingOrder Shader::GetTriangleWindingOrder() const
 	{
-		m_triangleWindingOrder = triangleWindingOrder;
+		return m_triangleWindingOrder;
+	}
+
+	UINT Shader::GetCBufferCount() const
+	{
+		return static_cast<UINT>(m_shaderCBufferPropertyList.size());
+	}
+
+	const ShaderCBufferProperty& Shader::GetCBufferProperty(UINT index) const
+	{
+		return m_shaderCBufferPropertyList.at(index);
+	}
+
+	UINT Shader::GetPropertyCount() const
+	{
+		return static_cast<UINT>(m_shaderPropertyList.size());
+	}
+
+	const std::string& Shader::GetPropertyNameByIndex(UINT index) const
+	{
+		return m_shaderPropertyList.at(index).name;
+	}
+
+	UINT Shader::GetPropertyIndexByName(const std::string_view& name) const
+	{
+		return m_shaderPropertyMap.at(name.data()).index;
+	}
+
+	const ShaderProperty& Shader::GetPropertyByIndex(UINT index) const
+	{
+		return m_shaderPropertyList.at(index);
+	}
+
+	const ShaderProperty& Shader::GetPropertyByName(const std::string_view& name) const
+	{
+		return m_shaderPropertyMap.at(name.data());
+	}
+
+	ShaderPropertyType Shader::GetPropertyTypeByIndex(UINT index) const
+	{
+		return m_shaderPropertyList.at(index).propertyType;
+	}
+
+	ShaderPropertyType Shader::GetPropertyTypeByName(const std::string_view& name) const
+	{
+		return m_shaderPropertyMap.at(name.data()).propertyType;
+	}
+
+	UINT Shader::GetPropertyOffsetByIndex(UINT index) const
+	{
+		return m_shaderPropertyList.at(index).offset;
+	}
+
+	UINT Shader::GetPropertyOffsetByName(const std::string_view& name) const
+	{
+		return m_shaderPropertyMap.at(name.data()).offset;
+	}
+
+	UINT Shader::GetPropertySlotByIndex(UINT index) const
+	{
+		return m_shaderPropertyList.at(index).slot;
+	}
+
+	UINT Shader::GetPropertySlotByName(const std::string_view& name) const
+	{
+		return m_shaderPropertyMap.at(name.data()).slot;
+	}
+
+	UINT Shader::GetPropertySpaceByIndex(UINT index) const
+	{
+		return m_shaderPropertyList.at(index).space;
+	}
+
+	UINT Shader::GetPropertySpaceByName(const std::string_view& name) const
+	{
+		return m_shaderPropertyMap.at(name.data()).space;
 	}
 
 	void Shader::SetShaderFilePath(const std::wstring_view& path)
@@ -87,18 +162,18 @@ namespace XusoryEngine
 		m_shaderEntryPointList.at(4) = entryPoint;
 	}
 
-	GraphicsFillMode Shader::GetFillMode() const
+	void Shader::SetFillMode(GraphicsFillMode fillMode)
 	{
-		return m_fillMode;
+		m_fillMode = fillMode;
 	}
 
-	GraphicsCullMode Shader::GetCullMode() const
+	void Shader::SetCullMode(GraphicsCullMode cullMode)
 	{
-		return m_cullMode;
+		m_cullMode = cullMode;
 	}
 
-	TriangleWindingOrder Shader::GetTriangleWindingOrder() const
+	void Shader::SetTriangleWindingOrder(TriangleWindingOrder triangleWindingOrder)
 	{
-		return m_triangleWindingOrder;
+		m_triangleWindingOrder = triangleWindingOrder;
 	}
 }

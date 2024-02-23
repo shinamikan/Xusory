@@ -1,17 +1,13 @@
 #pragma once
 
 #include "../../RHI/RHI.h"
+#include "Common/GraphicsDefine.h"
 
 namespace XusoryEngine
 {
-	enum class GraphicsLibrary
-	{
-		UNKNOWN = 0,
-		Direct3D_12,
-		Direct3D_11,
-		OpenGL
-	};
-
+	class Material;
+	class Mesh;
+	class Texture;
 	class Shader;
 	class GraphicsManager
 	{
@@ -22,7 +18,11 @@ namespace XusoryEngine
 
 		virtual void InitGraphicsObject(void* renderWindow) = 0;
 		virtual void Resize(UINT width, UINT height) = 0;
-		virtual void BuildShader(const Shader* shader) = 0;
+
+		virtual void BuildMaterial(Material* material) = 0;
+		virtual void BuildMesh(Mesh* mesh) = 0;
+		virtual void BuildTexture(Texture* texture) = 0;
+		virtual void BuildShader(Shader* shader) = 0;
 
 		GraphicsLibrary GetGraphicsLibrary() const;
 
@@ -35,6 +35,7 @@ namespace XusoryEngine
 
 	class GiDx12GraphicsManager : public GraphicsManager
 	{
+		friend class GiDx12CommandContext;
 		using RootSignaturePipelineStatePair = std::pair<std::unique_ptr<Dx12RootSignature>, std::unique_ptr<Dx12GraphicsPipelineState>>;
 
 	public:
@@ -45,43 +46,43 @@ namespace XusoryEngine
 
 		void InitGraphicsObject(void* renderWindow) override;
 		void Resize(UINT width, UINT height) override;
-		void BuildShader(const Shader* shader) override;
 
-		void Render();
+		void BuildMaterial(Material* material) override;
+		void BuildMesh(Mesh* mesh) override;
+		void BuildTexture(Texture* texture) override;
+		void BuildShader(Shader* shader) override;
 
 	private:
+		void CreateInputLayout();
 		void CreateFactoryAndDevice();
 		void CreateCommonObjects();
-		void CreateDescriptorAllocator();
 		void CreateSwapChain(const WinId& winId);
-		void CreateInputLayout();
-
-		void CreateCommonRootSignature();
+		void CreateDescriptorAllocator();
 
 		D3D12_VIEWPORT m_screenViewport = D3D12_VIEWPORT();
 		D3D12_RECT m_scissorRect = D3D12_RECT();
+		std::vector<D3D12_INPUT_ELEMENT_DESC> m_inputLayoutList;
 
 		std::unique_ptr<DxFactory> m_factory = nullptr;
 		std::unique_ptr<Dx12Device> m_device = nullptr;
-
-		std::unique_ptr<Dx12DescriptorAllocator> m_cbvSrvUavAllocator = nullptr;
-		std::unique_ptr<Dx12DescriptorAllocator> m_rtvAllocator = nullptr;
-		std::unique_ptr<Dx12DescriptorAllocator> m_dsvAllocator = nullptr;
 
 		std::unique_ptr<Dx12CommandAllocator> m_commandAllocator = nullptr;
 		std::unique_ptr<Dx12CommandQueue> m_commandQueue = nullptr;
 		std::unique_ptr<Dx12GraphicsCommandList> m_commandList = nullptr;
 		std::unique_ptr<Dx12Fence> m_fence = nullptr;
-
 		std::unique_ptr<DxSwapChain> m_swapChain = nullptr;
+
+		std::unique_ptr<Dx12DescriptorAllocator> m_cbvSrvUavAllocator = nullptr;
+		std::unique_ptr<Dx12DescriptorAllocator> m_rtvAllocator = nullptr;
+		std::unique_ptr<Dx12DescriptorAllocator> m_dsvAllocator = nullptr;
 
 		std::vector<std::unique_ptr<Dx12RenderTargetBuffer>> m_backBufferList;
 		std::vector<std::unique_ptr<Dx12RenderTargetBuffer>> m_renderTargetList;
 		std::unique_ptr<Dx12DepthStencilBuffer> m_depthStencilBuffer = nullptr;
 
-		std::vector<D3D12_INPUT_ELEMENT_DESC> m_inputLayoutList;
-		std::unordered_map<const Shader*, RootSignaturePipelineStatePair> m_shaderPipelineStateMap;
-
-		std::unique_ptr<Dx12RootSignature> m_commonRootSignature = nullptr;
+		std::unordered_map<void*, std::vector<Dx12Buffer>> m_constantBufferMap;
+		std::unordered_map<Texture*, std::vector<Dx12ShaderResourceBuffer>> m_textureMap;
+		std::unordered_map<Mesh*, std::unique_ptr<Dx12MeshBuffer>> m_meshBufferMap;
+		std::unordered_map<Shader*, RootSignaturePipelineStatePair> m_shaderPipelineStateMap;
 	};
 }

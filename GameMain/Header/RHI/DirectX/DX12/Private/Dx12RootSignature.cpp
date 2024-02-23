@@ -73,7 +73,7 @@ namespace XusoryEngine
 	{
 		if (m_rangeTempList.empty())
 		{
-			m_rangeTempList.emplace_back(std::vector<D3D12_DESCRIPTOR_RANGE>());
+			m_rangeTempList.emplace_back();
 		}
 
 		CD3DX12_DESCRIPTOR_RANGE range;
@@ -90,25 +90,25 @@ namespace XusoryEngine
 		rootParameter.InitAsDescriptorTable(static_cast<UINT>(rangeList->size()), rangeList->data(), D3D12_SHADER_VISIBILITY_ALL);
 		m_parameterList.push_back(std::move(rootParameter));
 
-		m_rangeTempList.emplace_back(std::vector<D3D12_DESCRIPTOR_RANGE>());
+		m_rangeTempList.emplace_back();
 	}
 
 	void Dx12RootSignature::AddStaticSampler(UINT shaderRegister, D3D12_FILTER filter, D3D12_TEXTURE_ADDRESS_MODE addressMode)
 	{
-		CD3DX12_STATIC_SAMPLER_DESC t_sampler(shaderRegister, filter,
+		CD3DX12_STATIC_SAMPLER_DESC sampler(shaderRegister, filter,
 			addressMode,
 			addressMode,
 			addressMode);
-		m_staticSamplerList.push_back(std::move(t_sampler));
+		m_staticSamplerList.push_back(std::move(sampler));
 	}
 
 	void Dx12RootSignature::AddStaticSampler(UINT shaderRegister, D3D12_FILTER filter, D3D12_TEXTURE_ADDRESS_MODE addressModeX, D3D12_TEXTURE_ADDRESS_MODE addressModeY, D3D12_TEXTURE_ADDRESS_MODE addressModeZ)
 	{
-		CD3DX12_STATIC_SAMPLER_DESC t_sampler(shaderRegister, filter,
+		CD3DX12_STATIC_SAMPLER_DESC sampler(shaderRegister, filter,
 			addressModeX,
 			addressModeY,
 			addressModeZ);
-		m_staticSamplerList.push_back(std::move(t_sampler));
+		m_staticSamplerList.push_back(std::move(sampler));
 	}
 
 	void Dx12RootSignature::AddSize(UINT8 size)

@@ -1,4 +1,7 @@
 #include "../GraphicsManager.h"
+
+#include "../Common/GraphicsDefine.h"
+#include "../Mesh.h"
 #include "../Shader.h"
 
 namespace XusoryEngine
@@ -12,12 +15,11 @@ namespace XusoryEngine
 
 	void GiDx12GraphicsManager::InitGraphicsObject(void* renderWindow)
 	{
+		CreateInputLayout();
 		CreateFactoryAndDevice();
 		CreateCommonObjects();
-		CreateDescriptorAllocator();
 		CreateSwapChain(static_cast<WinId>(renderWindow));
-		CreateInputLayout();
-		CreateCommonRootSignature();
+		CreateDescriptorAllocator();
 
 		Resize(1, 1);
 	}
@@ -68,15 +70,83 @@ namespace XusoryEngine
 		m_scissorRect = { 0, 0, static_cast<LONG>(width), static_cast<LONG>(height) };
 	}
 
-	void GiDx12GraphicsManager::BuildShader(const Shader* shader)
+	void GiDx12GraphicsManager::BuildMaterial(Material* material)
+	{
+		
+	}
+
+	void GiDx12GraphicsManager::BuildMesh(Mesh* mesh)
+	{
+		auto& vertices = mesh->GetVertices();
+		auto& indices = mesh->GetIndices();
+
+		auto* meshBuffer = new Dx12MeshBuffer;
+		meshBuffer->CreateMeshBuffer(m_device.get(), static_cast<UINT>(vertices.size()), sizeof(Vertex),
+			static_cast<UINT>(indices.size()), static_cast<DXGI_FORMAT>(mesh->indexFormat));
+		meshBuffer->UploadMeshResource(m_device.get(), m_commandList.get(), vertices.data(), indices.data());
+
+		m_meshBufferMap.emplace(mesh, meshBuffer);
+	}
+
+	void GiDx12GraphicsManager::BuildTexture(Texture* texture)
+	{
+
+	}
+
+	void GiDx12GraphicsManager::BuildShader(Shader* shader)
 	{
 		DxShaderCompiler shaderCompiler;
 		shaderCompiler.CompileShader(shader->GetShaderFilePath(), shader->GetShaderEntryPoint(), nullptr);
 
-		const auto rootSignature = new Dx12RootSignature;
-		for (const auto& cBufferDesc : shaderCompiler.m_constantBufferDescMap)
+		UINT propertyIndexTemp = 0;
+		for (const auto& cBuffer : shaderCompiler.m_constantBufferDescMap)
 		{
-			rootSignature->AddConstantBufferView(cBufferDesc.first.bindPoint, cBufferDesc.first.space);
+			for (const auto& variableDesc : cBuffer.second)
+			{
+				ShaderProperty property;
+				property.name = variableDesc.variableName;
+				property.index = propertyIndexTemp;
+				property.offset = variableDesc.Offset;
+				property.slot = cBuffer.first.bindPoint;
+				property.space = cBuffer.first.space;
+				if (variableDesc.typeName == "float") property.propertyType = ShaderPropertyType::FLOAT;
+				else if (variableDesc.typeName == "float2") property.propertyType = ShaderPropertyType::FLOAT2;
+				else if (variableDesc.typeName == "float3") property.propertyType = ShaderPropertyType::FLOAT3;
+				else if (variableDesc.typeName == "float4") property.propertyType = ShaderPropertyType::FLOAT4;
+				else if (variableDesc.typeName == "float2x2") property.propertyType = ShaderPropertyType::MATRIX2;
+				else if (variableDesc.typeName == "float3x3") property.propertyType = ShaderPropertyType::MATRIX3;
+				else if (variableDesc.typeName == "float4x4") property.propertyType = ShaderPropertyType::MATRIX4;
+				else
+				{
+					ThrowWithErrName(RuntimeError, "Unrecognized property type");
+				}
+				property.dimension = TextureDimension::UNKNOWN;
+
+				propertyIndexTemp++;
+				shader->m_shaderPropertyList.push_back(std::move(property));
+				shader->m_shaderPropertyMap.emplace(variableDesc.variableName, *(shader->m_shaderPropertyList.end() - 1));
+			}
+		}
+		for (const auto& resourceDesc : shaderCompiler.m_shaderResourceDescList)
+		{
+			ShaderProperty property;
+			property.name = resourceDesc.resourceName;
+			property.index = propertyIndexTemp;
+			property.offset = 0;
+			property.slot = resourceDesc.BindPoint;
+			property.space = resourceDesc.Space;
+			property.propertyType = ShaderPropertyType::TEXTURE;
+			property.dimension = static_cast<TextureDimension>(resourceDesc.Dimension);
+
+			propertyIndexTemp++;
+			shader->m_shaderPropertyList.push_back(std::move(property));
+			shader->m_shaderPropertyMap.emplace(resourceDesc.resourceName, *(shader->m_shaderPropertyList.end() - 1));
+		}
+
+		auto* rootSignature = new Dx12RootSignature;
+		for (const auto& cBuffer : shaderCompiler.m_constantBufferDescMap)
+		{
+			rootSignature->AddConstantBufferView(cBuffer.first.bindPoint, cBuffer.first.space);
 		}
 		for (const auto& resourceDesc : shaderCompiler.m_shaderResourceDescList)
 		{
@@ -86,7 +156,7 @@ namespace XusoryEngine
 		rootSignature->AddStaticSampler(0, D3D12_FILTER_MIN_MAG_MIP_LINEAR, D3D12_TEXTURE_ADDRESS_MODE_WRAP);
 		rootSignature->Create(m_device.get());
 
-		const auto pipelineState = new Dx12GraphicsPipelineState;
+		auto* pipelineState = new Dx12GraphicsPipelineState;
 		pipelineState->SetInputLayout({ m_inputLayoutList.data(), static_cast<UINT>(m_inputLayoutList.size()) });
 		pipelineState->SetRootSignature(rootSignature);
 
@@ -111,30 +181,20 @@ namespace XusoryEngine
 		m_shaderPipelineStateMap.emplace(shader, std::make_pair(rootSignature, pipelineState));
 	}
 
-	void GiDx12GraphicsManager::Render()
+	void GiDx12GraphicsManager::CreateInputLayout()
 	{
-		m_commandAllocator->ReSetCommandAllocator();
-		m_commandList->ResetCommandList(m_commandAllocator.get(), nullptr);
-
-		auto* currentBackBuffer = m_backBufferList[m_swapChain->GetCurrentBackBufferIndex()].get();
-		m_commandList->TranslationBufferState(currentBackBuffer, D3D12_RESOURCE_STATE_RENDER_TARGET);
-
-		m_commandList->SetViewport(m_screenViewport);
-		m_commandList->SetScissorRect(m_scissorRect);
-
-		m_commandList->ClearRenderTarget(currentBackBuffer, DirectX::Colors::LightSteelBlue);
-		m_commandList->ClearDepthStencil(m_depthStencilBuffer.get(), 1.0f, 0);
-
-		m_commandList->SetRenderTarget(currentBackBuffer, m_depthStencilBuffer.get());
-
-		m_commandList->TranslationBufferState(currentBackBuffer, D3D12_RESOURCE_STATE_PRESENT, false);
-
-		m_commandList->EndCommand();
-		m_commandQueue->ExecuteCommandList({ m_commandList.get() });
-
-		m_swapChain->Present(0);
-
-		m_commandQueue->SignalAndWaitForNextFence(m_fence.get());
+		m_inputLayoutList =
+		{
+			{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+			{ "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+			{ "TANGENT", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 24, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+			{ "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 36, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+			{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 52, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+			{ "TEXCOORD", 1, DXGI_FORMAT_R32G32_FLOAT, 0, 60, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+			{ "TEXCOORD", 2, DXGI_FORMAT_R32G32_FLOAT, 0, 68, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+			{ "TEXCOORD", 3, DXGI_FORMAT_R32G32_FLOAT, 0, 76, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+			{ "TEXCOORD", 4, DXGI_FORMAT_R32G32_FLOAT, 0, 84, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }
+		};
 	}
 
 	void GiDx12GraphicsManager::CreateFactoryAndDevice()
@@ -162,43 +222,16 @@ namespace XusoryEngine
 		m_fence->Create(m_device.get());
 	}
 
-	void GiDx12GraphicsManager::CreateDescriptorAllocator()
-	{
-		m_cbvSrvUavAllocator = std::make_unique<Dx12DescriptorAllocator>(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, true);
-		m_rtvAllocator = std::make_unique<Dx12DescriptorAllocator>(D3D12_DESCRIPTOR_HEAP_TYPE_RTV, false);
-		m_dsvAllocator = std::make_unique<Dx12DescriptorAllocator>(D3D12_DESCRIPTOR_HEAP_TYPE_DSV, false);
-	}
-
 	void GiDx12GraphicsManager::CreateSwapChain(const WinId& winId)
 	{
 		m_swapChain = std::make_unique<DxSwapChain>();
 		m_swapChain->Create(m_factory.get(), m_commandQueue.get()->GetDxObjectPtr(), winId, 1, 1, DXGI_FORMAT_R8G8B8A8_UNORM, 2);
 	}
 
-	void GiDx12GraphicsManager::CreateInputLayout()
+	void GiDx12GraphicsManager::CreateDescriptorAllocator()
 	{
-		m_inputLayoutList =
-		{
-			{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
-			{ "NORMAL", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
-			{ "TANGENT", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 24, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
-			{ "COLOR", 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 36, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
-			{ "TEXCOORD", 0, DXGI_FORMAT_R32G32_FLOAT, 0, 52, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
-			{ "TEXCOORD", 1, DXGI_FORMAT_R32G32_FLOAT, 0, 60, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
-			{ "TEXCOORD", 2, DXGI_FORMAT_R32G32_FLOAT, 0, 68, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
-			{ "TEXCOORD", 3, DXGI_FORMAT_R32G32_FLOAT, 0, 76, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
-			{ "TEXCOORD", 4, DXGI_FORMAT_R32G32_FLOAT, 0, 84, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 }
-		};
-	}
-
-	void GiDx12GraphicsManager::CreateCommonRootSignature()
-	{
-		m_commonRootSignature = std::make_unique<Dx12RootSignature>();
-		m_commonRootSignature->AddDescriptorRange(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 0);
-		m_commonRootSignature->AddDescriptorRange(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, 1);
-		m_commonRootSignature->AddDescriptorTable();
-		m_commonRootSignature->AddConstantBufferView(1);
-		m_commonRootSignature->AddStaticSampler(0, D3D12_FILTER_MIN_MAG_MIP_LINEAR, D3D12_TEXTURE_ADDRESS_MODE_WRAP);
-		m_commonRootSignature->Create(m_device.get());
+		m_cbvSrvUavAllocator = std::make_unique<Dx12DescriptorAllocator>(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, true);
+		m_rtvAllocator = std::make_unique<Dx12DescriptorAllocator>(D3D12_DESCRIPTOR_HEAP_TYPE_RTV, false);
+		m_dsvAllocator = std::make_unique<Dx12DescriptorAllocator>(D3D12_DESCRIPTOR_HEAP_TYPE_DSV, false);
 	}
 }

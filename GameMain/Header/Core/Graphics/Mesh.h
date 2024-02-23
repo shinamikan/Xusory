@@ -1,13 +1,14 @@
 #pragma once
 
-#include "../../Core/Core.h"
+#include <vector>
+#include "Geometry/Vertex.h"
 
 namespace XusoryEngine
 {
 	enum class IndexFormat
 	{
-		INDEX_UINT16,
-        INDEX_UINT32
+		UINT16 = 57,
+        UINT32 = 42
 	};
 
 	class Mesh
@@ -16,6 +17,7 @@ namespace XusoryEngine
         Mesh() = default;
         Mesh(UINT verticesNum, UINT indicesNum);
 
+        const std::wstring& GetMeshFilePath() const;
         const std::vector<Vertex>& GetVertices() const;
         const std::vector<UINT>& GetIndices() const;
         void SetVertices(std::vector<Vertex>& vertices);
@@ -31,10 +33,12 @@ namespace XusoryEngine
         void SetUv3(const std::vector<Float2>& uvList);
         void SetUv4(const std::vector<Float2>& uvList);
 
-        std::string name;
-        IndexFormat indexFormat = IndexFormat::INDEX_UINT32;
+        
+        IndexFormat indexFormat = IndexFormat::UINT32;
 
     private:
+        std::wstring m_meshFilePath;
+
         std::vector<Vertex> vertices{};
         std::vector<UINT> indices{};
 	};

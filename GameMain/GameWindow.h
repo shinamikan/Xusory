@@ -97,6 +97,16 @@ public:
 class GameWindow : public Window
 {
 public:
+	void BindMaterialList(const std::vector<Material*>& materialList)
+	{
+		m_materialList = materialList;
+	}
+
+	void BindMeshList(const std::vector<Mesh*>& meshList)
+	{
+		m_meshList = meshList;
+	}
+
 	void BindShaderList(const std::vector<Shader*>& shaderList)
 	{
 		m_shaderList = shaderList;
@@ -113,6 +123,7 @@ public:
 		{
 		case GraphicsLibrary::Direct3D_12:
 			m_graphicsManager = std::make_unique<GiDx12GraphicsManager>();
+			m_commandContext = std::make_unique<GiDx12CommandContext>();
 			break;
 
 		default:
@@ -130,6 +141,16 @@ public:
 		try
 		{
 			m_graphicsManager->InitGraphicsObject(GetWinId());
+			m_commandContext->InitCommandContext(m_graphicsManager.get());
+
+			for (const auto& material : m_materialList)
+			{
+				m_graphicsManager->BuildMaterial(material);
+			}
+			for (const auto& mesh : m_meshList)
+			{
+				m_graphicsManager->BuildMesh(mesh);
+			}
 			for (const auto& shader : m_shaderList)
 			{
 				m_graphicsManager->BuildShader(shader);
@@ -168,14 +189,16 @@ public:
 
 	void OnLoop() override
 	{
-		//m_renderPipeline->Render();
-		dynamic_cast<GiDx12GraphicsManager*>(m_graphicsManager.get())->Render();
+		m_renderPipeline->Render(m_commandContext.get());
+		//dynamic_cast<GiDx12GraphicsManager*>(m_graphicsManager.get())->Render();
 	}
 
 private:
 	std::unique_ptr<GraphicsManager> m_graphicsManager = nullptr;
-	//std::unique_ptr<CommandContext> m_commandContext = nullptr;
+	std::unique_ptr<CommandContext> m_commandContext = nullptr;
 
+	std::vector<Material*> m_materialList;
+	std::vector<Mesh*> m_meshList;
 	std::vector<Shader*> m_shaderList;
 	RenderPipeline* m_renderPipeline = nullptr;
 

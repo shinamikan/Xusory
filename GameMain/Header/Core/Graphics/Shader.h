@@ -1,21 +1,25 @@
 #pragma once
 
 #include <iostream>
+#include <unordered_map>
+#include <vector>
+
 #include "../../RHI/RHI.h"
+#include "Common/GraphicsDefine.h"
 
 namespace XusoryEngine
 {
 	enum class GraphicsFillMode
 	{
-		FILL_MODE_WIRE_FRAME = 2,
-		FILL_MODE_SOLID = 3
+		WIRE_FRAME = 2,
+		SOLID = 3
 	};
 
 	enum class GraphicsCullMode
 	{
-		CULL_MODE_NONE = 1,
-		CULL_MODE_FRONT = 2,
-		CULL_MODE_BACK = 3
+		NONE = 1,
+		FRONT = 2,
+		BACK = 3
 	};
 
 	enum class TriangleWindingOrder
@@ -24,14 +28,46 @@ namespace XusoryEngine
 		CLOCK_WISE
 	};
 
+	enum class ShaderPropertyType
+	{
+		FLOAT = 0,
+		FLOAT2,
+		FLOAT3,
+		FLOAT4,
+		MATRIX2,
+		MATRIX3,
+		MATRIX4,
+		TEXTURE
+	};
+
+	struct ShaderCBufferProperty
+	{
+		std::string name;
+
+		UINT size;
+		UINT variableNum;
+	};
+
+	struct ShaderProperty
+	{
+		std::string name;
+		UINT index;
+
+		ShaderPropertyType propertyType;
+		TextureDimension dimension;
+		UINT offset;
+		UINT slot;
+		UINT space;
+	};
+
 	class Shader
 	{
+		friend class GiDx12GraphicsManager;
+
 	public:
-		Shader() = default;
 		explicit Shader(const std::wstring_view& path);
 
 		const std::wstring& GetShaderFilePath() const;
-
 		const std::array<std::string, 5>& GetShaderEntryPoint() const;
 		const std::string& GetVertexShaderEntryPoint() const;
 		const std::string& GetPixelShaderEntryPoint() const;
@@ -42,6 +78,23 @@ namespace XusoryEngine
 		GraphicsFillMode GetFillMode() const;
 		GraphicsCullMode GetCullMode() const;
 		TriangleWindingOrder GetTriangleWindingOrder() const;
+
+		UINT GetCBufferCount() const;
+		const ShaderCBufferProperty& GetCBufferProperty(UINT index) const;
+
+		UINT GetPropertyCount() const;
+		const std::string& GetPropertyNameByIndex(UINT index) const;
+		UINT GetPropertyIndexByName(const std::string_view& name) const;
+		const ShaderProperty& GetPropertyByIndex(UINT index) const;
+		const ShaderProperty& GetPropertyByName(const std::string_view& name) const;
+		ShaderPropertyType GetPropertyTypeByIndex(UINT index) const;
+		ShaderPropertyType GetPropertyTypeByName(const std::string_view& name) const;
+		UINT GetPropertyOffsetByIndex(UINT index) const;
+		UINT GetPropertyOffsetByName(const std::string_view& name) const;
+		UINT GetPropertySlotByIndex(UINT index) const;
+		UINT GetPropertySlotByName(const std::string_view& name) const;
+		UINT GetPropertySpaceByIndex(UINT index) const;
+		UINT GetPropertySpaceByName(const std::string_view& name) const;
 
 		void SetShaderFilePath(const std::wstring_view& path);
 		void SetVertexShaderEntryPoint(const std::string_view& entryPoint);
@@ -58,8 +111,12 @@ namespace XusoryEngine
 		std::wstring m_shaderFilePath;
 		std::array<std::string, 5> m_shaderEntryPointList;
 
-		GraphicsFillMode m_fillMode = GraphicsFillMode::FILL_MODE_SOLID;
-		GraphicsCullMode m_cullMode = GraphicsCullMode::CULL_MODE_BACK;
+		GraphicsFillMode m_fillMode = GraphicsFillMode::SOLID;
+		GraphicsCullMode m_cullMode = GraphicsCullMode::BACK;
 		TriangleWindingOrder m_triangleWindingOrder = TriangleWindingOrder::CLOCK_WISE;
+
+		std::vector<ShaderCBufferProperty> m_shaderCBufferPropertyList;
+		std::vector<ShaderProperty> m_shaderPropertyList;
+		std::unordered_map<std::string, ShaderProperty&> m_shaderPropertyMap;
 	};
 }

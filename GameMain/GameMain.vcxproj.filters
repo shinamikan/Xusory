@@ -84,16 +84,22 @@
     <ClCompile Include="Header\RHI\DirectX\Private\DxShaderCompiler.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Header\Resource\GameAsset\Private\Mesh.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="Header\Core\Graphics\Private\Shader.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Header\Core\Graphics\Private\CommandContext.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Header\Engine\Component\Behaviour\Renderer\ParticleRenderer.h">
+    <ClCompile Include="Header\Core\Graphics\Private\Mesh.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\Core\Graphics\Private\Material.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\RHI\DirectX\DX12\Buffer\Private\Dx12UploadBuffer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\Core\Graphics\Private\Texture.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -212,19 +218,13 @@
     <ClInclude Include="Header\Platform\Platform.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Header\Resource\GameAsset\AudioClip.h">
+    <ClInclude Include="Header\Core\AudioPlayer\AudioClip.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Header\Resource\GameAsset\Mesh.h">
+    <ClInclude Include="Header\Core\Graphics\Mesh.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Header\Core\Graphics\Shader.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\Resource\GameAsset\TextAsset.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\Resource\GameAsset\Texture.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Header\StdEx\StringEx\StringEx.h">
@@ -293,9 +293,6 @@
     <ClInclude Include="Header\RHI\DirectX\DX12\Buffer\Dx12UploadBuffer.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Header\RHI\DirectX\DX12\Buffer\Dx12ReadBackBuffer.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="Header\RHI\DirectX\DX12\Dx12CommandList.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -335,7 +332,7 @@
     <ClInclude Include="Header\RHI\DirectX\DxShaderCompiler.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Header\Resource\GameAsset\Material.h">
+    <ClInclude Include="Header\Core\Graphics\Material.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Header\Core\Graphics\Geometry\Vertex.h">
@@ -345,9 +342,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="GameWindow.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\Resource\GameAsset\Loader\MeshLoader.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Header\Engine\Component\Transform\Transform.h">
@@ -360,6 +354,33 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="GameMainDefine.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Core\Graphics\Common\GraphicsDefine.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Core\Graphics\Texture.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Engine\Common\EngineDefine.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Engine\Component\Behaviour\Actor\Actor.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Engine\Component\Behaviour\Behaviour.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Engine\Component\Behaviour\Camera\Camera.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Engine\Component\Behaviour\Light\Light.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Engine\Input\Input.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\RHI\DirectX\DxTextureLoader.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

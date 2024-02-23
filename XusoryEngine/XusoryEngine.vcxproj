@@ -271,7 +271,6 @@
     <ClInclude Include="Header\CppEx\Error\Throw.h" />
     <ClInclude Include="Header\CppEx\Error\TraceBack.h" />
     <ClInclude Include="Header\CppEx\Reflector\Reflector.h" />
-    <ClInclude Include="Header\Resource\GameAsset\Material.h" />
     <ClInclude Include="Header\XsCommon\AsyncInfo.h" />
     <ClInclude Include="Header\XusoryEngine.h" />
     <ClInclude Include="Header\Platform\Common\PlatformDefine.h" />
@@ -293,11 +292,6 @@
     <ClInclude Include="Header\Platform\Window\Common\WindowDefine.h" />
     <ClInclude Include="Header\Platform\Window\Common\WindowEvent.h" />
     <ClInclude Include="Header\Platform\Window\WindowFactory.h" />
-    <ClInclude Include="Header\Resource\GameAsset\AudioClip.h" />
-    <ClInclude Include="Header\Resource\GameAsset\Mesh.h" />
-    <ClInclude Include="Header\Resource\GameAsset\Shader.h" />
-    <ClInclude Include="Header\Resource\GameAsset\TextAsset.h" />
-    <ClInclude Include="Header\Resource\GameAsset\Texture.h" />
     <ClInclude Include="Header\StdEx\StdEx.h" />
     <ClInclude Include="Header\StdEx\StringEx\StringEx.h" />
     <ClInclude Include="Header\XsCommon\DllDefine.h" />

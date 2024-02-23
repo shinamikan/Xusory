@@ -15,9 +15,3 @@ inline void StdErrorOutput(const std::exception& e)
 	Debug::LogError(completeErrorMsg);
 	TraceBack::ClearStack();
 }
-
-#define StdTryCatch(tryContext, catchContext)	\
-	try											\
-	tryContext									\
-	catch (const std::exception& e)				\
-	catchContext

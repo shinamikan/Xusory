@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 #include <vector>
 #include <future>
 #include <DirectXMath.h>
@@ -23,7 +24,9 @@ public:
 
 	void Render(CommandContext* commandContext) override
 	{
-		
+		commandContext->BeginCommand();
+		commandContext->ClearRenderTarget(true, true, { 0.941176534f, 0.501960814f, 0.501960814f, 1.f }, 1.0f);
+		commandContext->EndCommand();
 	}
 };
 
@@ -77,6 +80,8 @@ int WinMain(HINSTANCE hIns, HINSTANCE hPreIns, LPSTR lpCmdLine, int nCmdShow)
 
 		gameWindow = dynamic_cast<GameWindow*>(WindowFactory::CreateWindowInstance<GameWindow>(TEXT("MainWindow"), TEXT("Application"), 400, 400, true));
 		gameWindow->InitGraphicsManager(GraphicsLibrary::Direct3D_12);
+
+		gameWindow->BindMeshList({ mesh.get() });
 		gameWindow->BindShaderList({ shader.get() });
 		gameWindow->BindRenderPipeline({ renderPipeline.get() });
 	}
