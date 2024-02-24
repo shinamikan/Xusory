@@ -61,7 +61,7 @@ namespace XusoryEngine
 		Vector3 Max(const Vector3& other) const;
 		Vector3 Min(const Vector3& other) const;
 
-		static Vector3 Cross(const Vector3& lhs, const Vector3 & rhs);
+		static Vector3 Cross(const Vector3& lhs, const Vector3& rhs);
 		static Vector3 Lerp(const Vector3& vec, const Vector3& end, FLOAT weight);
 
 		static const Vector3 Zero;

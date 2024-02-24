@@ -66,65 +66,95 @@ namespace XusoryEngine
 
 	Matrix4x4 Matrix4x4::operator+(const Matrix4x4& other) const
 	{
-		return Matrix4x4(
-			_mm_add_ps(m_row0, other.m_row0), 
+		return { _mm_add_ps(m_row0, other.m_row0),
 			_mm_add_ps(m_row1, other.m_row1),
 			_mm_add_ps(m_row2, other.m_row2),
-			_mm_add_ps(m_row3, other.m_row3));
+			_mm_add_ps(m_row3, other.m_row3)
+		};
 	}
 
 	Matrix4x4 Matrix4x4::operator-(const Matrix4x4& other) const
 	{
-		return Matrix4x4(
+		return {
 			_mm_sub_ps(m_row0, other.m_row0),
 			_mm_sub_ps(m_row1, other.m_row1),
 			_mm_sub_ps(m_row2, other.m_row2),
-			_mm_sub_ps(m_row3, other.m_row3));
+			_mm_sub_ps(m_row3, other.m_row3)
+		};
 	}
 
 	Matrix4x4 Matrix4x4::operator*(FLOAT scalar) const
 	{
-		return Matrix4x4(
+		return {
 			_mm_mul_ps(m_row0, _mm_set_ps1(scalar)),
 			_mm_mul_ps(m_row1, _mm_set_ps1(scalar)),
 			_mm_mul_ps(m_row2, _mm_set_ps1(scalar)),
-			_mm_mul_ps(m_row3, _mm_set_ps1(scalar)));
+			_mm_mul_ps(m_row3, _mm_set_ps1(scalar))
+		};
 	}
 
 	Matrix4x4 Matrix4x4::operator*(const Matrix4x4& other) const
 	{
-		return Matrix4x4(
-			_mm_mul_ps(m_row0, other.m_row0),
-			_mm_mul_ps(m_row1, other.m_row1),
-			_mm_mul_ps(m_row2, other.m_row2),
-			_mm_mul_ps(m_row3, other.m_row3));
+		const __m128 m128Temp0 = _mm_setr_ps(other.m_row0.m128_f32[0], other.m_row1.m128_f32[0], other.m_row2.m128_f32[0], other.m_row3.m128_f32[0]);
+		const __m128 m128Temp1 = _mm_setr_ps(other.m_row0.m128_f32[1], other.m_row1.m128_f32[1], other.m_row2.m128_f32[1], other.m_row3.m128_f32[1]);
+		const __m128 m128Temp2 = _mm_setr_ps(other.m_row0.m128_f32[2], other.m_row1.m128_f32[2], other.m_row2.m128_f32[2], other.m_row3.m128_f32[2]);
+		const __m128 m128Temp3 = _mm_setr_ps(other.m_row0.m128_f32[2], other.m_row1.m128_f32[2], other.m_row2.m128_f32[2], other.m_row3.m128_f32[3]);
+
+		const FLOAT row00 = _mm_dp_ps(m_row0, m128Temp0, 0xff).m128_f32[0];
+		const FLOAT row01 = _mm_dp_ps(m_row0, m128Temp1, 0xff).m128_f32[0];
+		const FLOAT row02 = _mm_dp_ps(m_row0, m128Temp2, 0xff).m128_f32[0];
+		const FLOAT row03 = _mm_dp_ps(m_row0, m128Temp3, 0xff).m128_f32[0];
+
+		const FLOAT row10 = _mm_dp_ps(m_row1, m128Temp0, 0xff).m128_f32[0];
+		const FLOAT row11 = _mm_dp_ps(m_row1, m128Temp1, 0xff).m128_f32[0];
+		const FLOAT row12 = _mm_dp_ps(m_row1, m128Temp2, 0xff).m128_f32[0];
+		const FLOAT row13 = _mm_dp_ps(m_row1, m128Temp3, 0xff).m128_f32[0];
+
+		const FLOAT row20 = _mm_dp_ps(m_row2, m128Temp0, 0xff).m128_f32[0];
+		const FLOAT row21 = _mm_dp_ps(m_row2, m128Temp1, 0xff).m128_f32[0];
+		const FLOAT row22 = _mm_dp_ps(m_row2, m128Temp2, 0xff).m128_f32[0];
+		const FLOAT row23 = _mm_dp_ps(m_row2, m128Temp3, 0xff).m128_f32[0];
+
+		const FLOAT row30 = _mm_dp_ps(m_row3, m128Temp0, 0xff).m128_f32[0];
+		const FLOAT row31 = _mm_dp_ps(m_row3, m128Temp1, 0xff).m128_f32[0];
+		const FLOAT row32 = _mm_dp_ps(m_row3, m128Temp2, 0xff).m128_f32[0];
+		const FLOAT row33 = _mm_dp_ps(m_row3, m128Temp3, 0xff).m128_f32[0];
+
+		return {
+			row00, row01, row02, row03,
+			row10, row11, row12, row13,
+			row20, row21, row22, row23,
+			row30, row31, row32, row33 };
 	}
 
 	Matrix4x4 Matrix4x4::operator/(FLOAT scalar) const
 	{
-		return Matrix4x4(
+		return {
 			_mm_div_ps(m_row0, _mm_set_ps1(scalar)),
 			_mm_div_ps(m_row1, _mm_set_ps1(scalar)),
 			_mm_div_ps(m_row2, _mm_set_ps1(scalar)),
-			_mm_div_ps(m_row3, _mm_set_ps1(scalar)));
+			_mm_div_ps(m_row3, _mm_set_ps1(scalar))
+		};
 	}
 
 	Matrix4x4 Matrix4x4::operator/(const Matrix4x4& other) const
 	{
-		return Matrix4x4(
+		return {
 			_mm_div_ps(m_row0, other.m_row0),
 			_mm_div_ps(m_row1, other.m_row1),
 			_mm_div_ps(m_row2, other.m_row2),
-			_mm_div_ps(m_row3, other.m_row3));
+			_mm_div_ps(m_row3, other.m_row3)
+		};
 	}
 
 	Matrix4x4 Matrix4x4::operator==(const Matrix4x4& other) const
 	{
-		return Matrix4x4(
+		return {
 			_mm_cmpeq_ps(m_row0, other.m_row0),
 			_mm_cmpeq_ps(m_row1, other.m_row1),
 			_mm_cmpeq_ps(m_row2, other.m_row2),
-			_mm_cmpeq_ps(m_row3, other.m_row3));
+			_mm_cmpeq_ps(m_row3, other.m_row3)
+		};
 	}
 
 	Matrix4x4& Matrix4x4::operator+=(const Matrix4x4& other)
@@ -159,11 +189,7 @@ namespace XusoryEngine
 
 	Matrix4x4& Matrix4x4::operator*=(const Matrix4x4& other)
 	{
-		m_row0 = _mm_mul_ps(m_row0, other.m_row0);
-		m_row1 = _mm_mul_ps(m_row1, other.m_row1);
-		m_row2 = _mm_mul_ps(m_row2, other.m_row2);
-		m_row3 = _mm_mul_ps(m_row3, other.m_row3);
-
+		*this = *this * other;
 		return *this;
 	}
 
@@ -293,11 +319,12 @@ namespace XusoryEngine
 		const __m128 m128Temp2 = _mm_unpackhi_ps(m_row0, m_row1);
 		const __m128 m128Temp3 = _mm_unpackhi_ps(m_row2, m_row3);
 
-		return Matrix4x4(
+		return {
 			_mm_movelh_ps(m128Temp0, m128Temp1),
 			_mm_movehl_ps(m128Temp1, m128Temp0),
 			_mm_movelh_ps(m128Temp2, m128Temp3),
-			_mm_movehl_ps(m128Temp3, m128Temp2));
+			_mm_movehl_ps(m128Temp3, m128Temp2)
+		};
 	}
 
 	Vector3 Matrix4x4::PreTransPoint3(const Vector3& vector, const Matrix4x4& matrix)
@@ -375,36 +402,12 @@ namespace XusoryEngine
 
 	Matrix4x4 Matrix4x4::MultiMatrix(const Matrix4x4& lhs, const Matrix4x4& rhs)
 	{
-		const __m128 m128Temp0 = _mm_setr_ps(rhs.m_row0.m128_f32[0], rhs.m_row1.m128_f32[0], rhs.m_row2.m128_f32[0], rhs.m_row3.m128_f32[0]);
-		const __m128 m128Temp1 = _mm_setr_ps(rhs.m_row0.m128_f32[1], rhs.m_row1.m128_f32[1], rhs.m_row2.m128_f32[1], rhs.m_row3.m128_f32[1]);
-		const __m128 m128Temp2 = _mm_setr_ps(rhs.m_row0.m128_f32[2], rhs.m_row1.m128_f32[2], rhs.m_row2.m128_f32[2], rhs.m_row3.m128_f32[2]);
-		const __m128 m128Temp3 = _mm_setr_ps(rhs.m_row0.m128_f32[2], rhs.m_row1.m128_f32[2], rhs.m_row2.m128_f32[2], rhs.m_row3.m128_f32[3]);
+		const __m128 row0 = _mm_mul_ps(lhs.m_row0, rhs.m_row0);
+		const __m128 row1 = _mm_mul_ps(lhs.m_row1, rhs.m_row1);
+		const __m128 row2 = _mm_mul_ps(lhs.m_row2, rhs.m_row2);
+		const __m128 row3 = _mm_mul_ps(lhs.m_row3, rhs.m_row3);
 
-		const FLOAT row00 = _mm_dp_ps(lhs.m_row0, m128Temp0, 0xff).m128_f32[0];
-		const FLOAT row01 = _mm_dp_ps(lhs.m_row0, m128Temp1, 0xff).m128_f32[0];
-		const FLOAT row02 = _mm_dp_ps(lhs.m_row0, m128Temp2, 0xff).m128_f32[0];
-		const FLOAT row03 = _mm_dp_ps(lhs.m_row0, m128Temp3, 0xff).m128_f32[0];
-
-		const FLOAT row10 = _mm_dp_ps(lhs.m_row1, m128Temp0, 0xff).m128_f32[0];
-		const FLOAT row11 = _mm_dp_ps(lhs.m_row1, m128Temp1, 0xff).m128_f32[0];
-		const FLOAT row12 = _mm_dp_ps(lhs.m_row1, m128Temp2, 0xff).m128_f32[0];
-		const FLOAT row13 = _mm_dp_ps(lhs.m_row1, m128Temp3, 0xff).m128_f32[0];
-
-		const FLOAT row20 = _mm_dp_ps(lhs.m_row2, m128Temp0, 0xff).m128_f32[0];
-		const FLOAT row21 = _mm_dp_ps(lhs.m_row2, m128Temp1, 0xff).m128_f32[0];
-		const FLOAT row22 = _mm_dp_ps(lhs.m_row2, m128Temp2, 0xff).m128_f32[0];
-		const FLOAT row23 = _mm_dp_ps(lhs.m_row2, m128Temp3, 0xff).m128_f32[0];
-
-		const FLOAT row30 = _mm_dp_ps(lhs.m_row3, m128Temp0, 0xff).m128_f32[0];
-		const FLOAT row31 = _mm_dp_ps(lhs.m_row3, m128Temp1, 0xff).m128_f32[0];
-		const FLOAT row32 = _mm_dp_ps(lhs.m_row3, m128Temp2, 0xff).m128_f32[0];
-		const FLOAT row33 = _mm_dp_ps(lhs.m_row3, m128Temp3, 0xff).m128_f32[0];
-
-		return {
-			row00, row01, row02, row03,
-			row10, row11, row12, row13,
-			row20, row21, row22, row23,
-			row30, row31, row32, row33 };
+		return { row0, row1, row2, row3 };
 	}
 
 	Matrix4x4 Matrix4x4::BuildScaleMatrix(FLOAT scalar)

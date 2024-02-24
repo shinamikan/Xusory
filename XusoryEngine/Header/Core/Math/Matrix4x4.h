@@ -81,8 +81,7 @@ namespace XusoryEngine
 		static const Matrix4x4 Identity;
 
 	private:
-		explicit Matrix4x4(const __m128& mRow0, const __m128& mRow1,
-			const __m128& mRow2, const __m128& mRow3);
+		Matrix4x4(const __m128& mRow0, const __m128& mRow1, const __m128& mRow2, const __m128& mRow3);
 
 		__m128 m_row0;
 		__m128 m_row1;
