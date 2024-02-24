@@ -42,21 +42,6 @@ namespace XusoryEngine
 		return m_shaderEntryPointList.at(4);
 	}
 
-	GraphicsFillMode Shader::GetFillMode() const
-	{
-		return m_fillMode;
-	}
-
-	GraphicsCullMode Shader::GetCullMode() const
-	{
-		return m_cullMode;
-	}
-
-	TriangleWindingOrder Shader::GetTriangleWindingOrder() const
-	{
-		return m_triangleWindingOrder;
-	}
-
 	UINT Shader::GetCBufferCount() const
 	{
 		return static_cast<UINT>(m_shaderCBufferPropertyList.size());
@@ -160,20 +145,5 @@ namespace XusoryEngine
 	void Shader::SetGeometryShaderEntryPoint(const std::string_view& entryPoint)
 	{
 		m_shaderEntryPointList.at(4) = entryPoint;
-	}
-
-	void Shader::SetFillMode(GraphicsFillMode fillMode)
-	{
-		m_fillMode = fillMode;
-	}
-
-	void Shader::SetCullMode(GraphicsCullMode cullMode)
-	{
-		m_cullMode = cullMode;
-	}
-
-	void Shader::SetTriangleWindingOrder(TriangleWindingOrder triangleWindingOrder)
-	{
-		m_triangleWindingOrder = triangleWindingOrder;
 	}
 }

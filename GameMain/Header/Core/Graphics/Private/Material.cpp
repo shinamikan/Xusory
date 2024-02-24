@@ -4,45 +4,16 @@
 
 namespace XusoryEngine
 {
-	Material::Material(const Shader* shader) : m_bindShader(shader)
+	Material::Material(const Shader* shader) : m_bindShader(shader) { }
+
+	BOOL Material::existProperty(const std::string_view& name)
 	{
-		UINT propertyIndexTemp = 0;
-		for (UINT i = 0; i < shader->GetCBufferCount(); i++)
-		{
-			auto& cBufferProperty = shader->GetCBufferProperty(i);
-			auto* cBuffer = new BYTE(cBufferProperty.size);
-
-			for (UINT j = 0; i < cBufferProperty.variableNum; j++)
-			{
-				auto& property = shader->GetPropertyByIndex(propertyIndexTemp);
-				m_materialValueList.push_back(cBuffer + property.offset);
-				m_materialValueMap.emplace(property.name, cBuffer + property.offset);
-
-				propertyIndexTemp++;
-			}
-
-			m_constantBufferList.emplace_back(cBuffer);
-		}
-
-		const UINT textureCount = shader->GetPropertyCount() - propertyIndexTemp;
-		for (UINT i = 0; i < textureCount; i++)
-		{
-			auto& property = shader->GetPropertyByIndex(propertyIndexTemp);
-			m_materialValueList.push_back(nullptr);
-			m_materialValueMap.emplace(property.name, nullptr);
-
-			propertyIndexTemp++;
-		}
+		return m_materialValueMap.find(name.data()) == m_materialValueMap.end();
 	}
 
 	const std::wstring& Material::GetMaterialFilePath() const
 	{
 		return m_materialFilePath;
-	}
-
-	BOOL Material::existProperty(const std::string_view& name)
-	{
-		return m_materialValueMap.find(name.data()) == m_materialValueMap.end();
 	}
 
 	const Shader* Material::GetShader() const
@@ -214,5 +185,36 @@ namespace XusoryEngine
 
 		m_materialValueList.at(property.index) = value;
 		m_materialValueMap.at(name.data()) = value;
+	}
+
+	void Material::BindShader()
+	{
+		UINT propertyIndexTemp = 0;
+		for (UINT i = 0; i < m_bindShader->GetCBufferCount(); i++)
+		{
+			auto& cBufferProperty = m_bindShader->GetCBufferProperty(i);
+			auto* cBuffer = new BYTE(cBufferProperty.size);
+
+			for (UINT j = 0; j < cBufferProperty.variableNum; j++)
+			{
+				auto& property = m_bindShader->GetPropertyByIndex(propertyIndexTemp);
+				m_materialValueList.push_back(cBuffer + property.offset);
+				m_materialValueMap.emplace(property.name, cBuffer + property.offset);
+
+				propertyIndexTemp++;
+			}
+
+			m_constantBufferList.emplace_back(cBuffer);
+		}
+
+		const UINT textureCount = m_bindShader->GetPropertyCount() - propertyIndexTemp;
+		for (UINT i = 0; i < textureCount; i++)
+		{
+			auto& property = m_bindShader->GetPropertyByIndex(propertyIndexTemp);
+			m_materialValueList.push_back(nullptr);
+			m_materialValueMap.emplace(property.name, nullptr);
+
+			propertyIndexTemp++;
+		}
 	}
 }

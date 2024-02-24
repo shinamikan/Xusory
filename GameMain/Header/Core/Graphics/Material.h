@@ -9,13 +9,16 @@ namespace XusoryEngine
 	class Texture;
 	class Material
 	{
+		friend class GiDx12CommandContext;
+		friend class GiDx12GraphicsManager;
+
 	public:
 		explicit Material(const Shader* shader);
-
-		const std::wstring& GetMaterialFilePath() const;
 		BOOL existProperty(const std::string_view& name);
 
+		const std::wstring& GetMaterialFilePath() const;
 		const Shader* GetShader() const;
+
 		FLOAT GetFloatByIndex(UINT index) const;
 		const Float2& GetFloat2ByIndex(UINT index) const;
 		const Float3& GetFloat3ByIndex(UINT index) const;
@@ -55,6 +58,8 @@ namespace XusoryEngine
 		void SetTextureByName(const std::string_view& name, Texture* value);
 
 	private:
+		void BindShader();
+
 		std::wstring m_materialFilePath;
 
 		const Shader* m_bindShader;

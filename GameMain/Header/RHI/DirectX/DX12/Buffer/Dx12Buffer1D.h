@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Dx12Buffer.h"
-#include "../Dx12DescriptorHeap.h"
 
 namespace XusoryEngine
 {

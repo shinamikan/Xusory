@@ -28,6 +28,11 @@ namespace XusoryEngine
 		m_staticSamplerList.clear();
 	}
 
+	BOOL Dx12RootSignature::IsRangeTempListNull() const
+	{
+		return m_rangeTempList.empty();
+	}
+
 	D3D12_ROOT_PARAMETER_TYPE Dx12RootSignature::GetParameterType(UINT parameterIndex) const
 	{
 		return m_parameterList.at(parameterIndex).ParameterType;

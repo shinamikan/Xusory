@@ -80,9 +80,9 @@ namespace XusoryEngine
 		std::vector<std::unique_ptr<Dx12RenderTargetBuffer>> m_renderTargetList;
 		std::unique_ptr<Dx12DepthStencilBuffer> m_depthStencilBuffer = nullptr;
 
-		std::unordered_map<void*, std::vector<Dx12Buffer>> m_constantBufferMap;
-		std::unordered_map<Texture*, std::vector<Dx12ShaderResourceBuffer>> m_textureMap;
+		std::unordered_map<void*, std::unique_ptr<Dx12UploadBuffer>> m_constantBufferMap;
 		std::unordered_map<Mesh*, std::unique_ptr<Dx12MeshBuffer>> m_meshBufferMap;
+		std::unordered_map<Texture*, std::unique_ptr<Dx12ShaderResourceBuffer>> m_textureMap;
 		std::unordered_map<Shader*, RootSignaturePipelineStatePair> m_shaderPipelineStateMap;
 	};
 }

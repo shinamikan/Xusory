@@ -23,9 +23,7 @@ namespace XusoryEngine
 		virtual void EndCommand() = 0;
 
 		virtual void ClearRenderTarget(BOOL ifClearRenderTarget, BOOL ifClearDepth, Float4 color, FLOAT depth) = 0;
-		//virtual void DrawRenderer(std::vector<const Material*> material, const Mesh* mesh) = 0;
-
-		//virtual void SetViewport() = 0;
+		virtual void DrawRenderer(const Material* material, const Mesh* mesh) = 0;
 	};
 
 	class GiDx12GraphicsManager;
@@ -40,9 +38,12 @@ namespace XusoryEngine
 		void EndCommand() override;
 
 		void ClearRenderTarget(BOOL ifClearRenderTarget, BOOL ifClearDepth, Float4 color, FLOAT depth) override;
+		void DrawRenderer(const Material* material, const Mesh* mesh) override;
 
 	private:
-		const GiDx12GraphicsManager* m_dx12Manager;
+		const GiDx12GraphicsManager* m_dx12Manager = nullptr;
+		Dx12GraphicsCommandList* m_commandList = nullptr;
+
 		Dx12RenderTargetBuffer* m_currentBackBuffer;
 	};
 }

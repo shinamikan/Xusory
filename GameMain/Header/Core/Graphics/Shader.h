@@ -75,10 +75,6 @@ namespace XusoryEngine
 		const std::string& GetHullShaderEntryPoint() const;
 		const std::string& GetGeometryShaderEntryPoint() const;
 
-		GraphicsFillMode GetFillMode() const;
-		GraphicsCullMode GetCullMode() const;
-		TriangleWindingOrder GetTriangleWindingOrder() const;
-
 		UINT GetCBufferCount() const;
 		const ShaderCBufferProperty& GetCBufferProperty(UINT index) const;
 
@@ -103,17 +99,13 @@ namespace XusoryEngine
 		void SetHullShaderEntryPoint(const std::string_view& entryPoint);
 		void SetGeometryShaderEntryPoint(const std::string_view& entryPoint);
 
-		void SetFillMode(GraphicsFillMode fillMode);
-		void SetCullMode(GraphicsCullMode cullMode);
-		void SetTriangleWindingOrder(TriangleWindingOrder triangleWindingOrder);
+		GraphicsFillMode fillMode = GraphicsFillMode::SOLID;
+		GraphicsCullMode cullMode = GraphicsCullMode::BACK;
+		TriangleWindingOrder triangleWindingOrder = TriangleWindingOrder::CLOCK_WISE;
 
 	private:
 		std::wstring m_shaderFilePath;
 		std::array<std::string, 5> m_shaderEntryPointList;
-
-		GraphicsFillMode m_fillMode = GraphicsFillMode::SOLID;
-		GraphicsCullMode m_cullMode = GraphicsCullMode::BACK;
-		TriangleWindingOrder m_triangleWindingOrder = TriangleWindingOrder::CLOCK_WISE;
 
 		std::vector<ShaderCBufferProperty> m_shaderCBufferPropertyList;
 		std::vector<ShaderProperty> m_shaderPropertyList;

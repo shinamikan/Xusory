@@ -9,6 +9,7 @@
 #include "../Buffer/Dx12RenderTargetBuffer.h"
 #include "../Buffer/Dx12ShaderResourceBuffer.h"
 #include "../Buffer/Dx12UnorderedAccessBuffer.h"
+#include "../Buffer/Dx12UploadBuffer.h"
 
 #include "../Dx12CommandAllocator.h"
 #include "../Dx12DescriptorHeap.h"
@@ -149,20 +150,20 @@ namespace XusoryEngine
 		(*this)->ClearUnorderedAccessViewFloat(gpuHandle, cpuHandle, buffer->GetDxObjectPtr(), clearValue, 0, nullptr);
 	}
 
-	void Dx12GraphicsCommandList::SetVertexBuffer(const D3D12_VERTEX_BUFFER_VIEW& vbView) const
+	void Dx12GraphicsCommandList::SetVertexBufferView(const D3D12_VERTEX_BUFFER_VIEW& vbView) const
 	{
 		(*this)->IASetVertexBuffers(0, 1, &vbView);
 	}
 
-	void Dx12GraphicsCommandList::SetIndexBuffer(const D3D12_INDEX_BUFFER_VIEW& ibView) const
+	void Dx12GraphicsCommandList::SetIndexBufferView(const D3D12_INDEX_BUFFER_VIEW& ibView) const
 	{
 		(*this)->IASetIndexBuffer(&ibView);
 	}
 
 	void Dx12GraphicsCommandList::SetMeshBuffer(const Dx12MeshBuffer* buffer) const
 	{
-		SetVertexBuffer(buffer->GetVertexBufferView());
-		SetIndexBuffer(buffer->GetIndexBufferView());
+		SetVertexBufferView(buffer->GetVertexBufferView());
+		SetIndexBufferView(buffer->GetIndexBufferView());
 	}
 
 	void Dx12GraphicsCommandList::SetPrimitiveTopology(D3D12_PRIMITIVE_TOPOLOGY primitiveTopology) const
@@ -273,6 +274,15 @@ namespace XusoryEngine
 	}
 
 	void Dx12GraphicsCommandList::SetGraphicsRootCbv(UINT parameterIndex, const Dx12ConstantBuffer* buffer) const
+	{
+		if (m_rootSignature->GetParameterType(parameterIndex) != D3D12_ROOT_PARAMETER_TYPE_CBV)
+		{
+			ThrowWithErrName(DxLogicError, "the parameter type is not match");
+		}
+		(*this)->SetGraphicsRootConstantBufferView(parameterIndex, buffer->GetGpuVirtualAddress());
+	}
+
+	void Dx12GraphicsCommandList::SetGraphicsRootCbv(UINT parameterIndex, const Dx12UploadBuffer* buffer) const
 	{
 		if (m_rootSignature->GetParameterType(parameterIndex) != D3D12_ROOT_PARAMETER_TYPE_CBV)
 		{

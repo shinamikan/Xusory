@@ -1,6 +1,9 @@
-cbuffer cbPerObject : register(b1)
+cbuffer cbPerObject : register(b0)
 {
 	float4x4 gWorldViewProj;
+	float4 color1;
+	float4 color2;
+	float4 color3;
 };
 
 Texture2D Diffuse : register(t0);

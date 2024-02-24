@@ -102,6 +102,9 @@
     <ClCompile Include="Header\Core\Graphics\Private\Texture.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Header\Engine\EngineMath\Private\XsMath.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header\Core\Debug\Debug.h">
@@ -381,6 +384,12 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Header\RHI\DirectX\DxTextureLoader.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Engine\Engine.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Engine\EngineMath\XsMath.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

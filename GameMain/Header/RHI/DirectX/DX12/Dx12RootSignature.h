@@ -17,13 +17,14 @@ namespace XusoryEngine
 		void Create(const Dx12Device* device);
 		void ReSet() override;
 
+		BOOL IsRangeTempListNull() const;
 		D3D12_ROOT_PARAMETER_TYPE GetParameterType(UINT parameterIndex) const;
 
-		void AddConstants(UINT constantValueNum, UINT shaderRegister, UINT registerSpace = 0);
-		void AddConstantBufferView(UINT shaderRegister, UINT registerSpace = 0);
-		void AddShaderResourceView(UINT shaderRegister, UINT registerSpace = 0);
-		void AddUnorderedAccessView(UINT shaderRegister, UINT registerSpace = 0);
-		void AddDescriptorRange(D3D12_DESCRIPTOR_RANGE_TYPE rangeType, UINT descriptorNum, UINT shaderRegister, UINT registerSpace = 0);
+		void AddConstants(UINT constantValueNum, UINT shaderRegister, UINT registerSpace);
+		void AddConstantBufferView(UINT shaderRegister, UINT registerSpace);
+		void AddShaderResourceView(UINT shaderRegister, UINT registerSpace);
+		void AddUnorderedAccessView(UINT shaderRegister, UINT registerSpace);
+		void AddDescriptorRange(D3D12_DESCRIPTOR_RANGE_TYPE rangeType, UINT descriptorNum, UINT shaderRegister, UINT registerSpace);
 		void AddDescriptorTable();
 		void AddStaticSampler(UINT shaderRegister, D3D12_FILTER filter, D3D12_TEXTURE_ADDRESS_MODE addressMode);
 		void AddStaticSampler(UINT shaderRegister, D3D12_FILTER filter,

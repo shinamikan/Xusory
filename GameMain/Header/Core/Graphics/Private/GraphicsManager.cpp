@@ -1,5 +1,6 @@
 #include "../GraphicsManager.h"
 
+#include "../Material.h"
 #include "../Common/GraphicsDefine.h"
 #include "../Mesh.h"
 #include "../Shader.h"
@@ -72,7 +73,18 @@ namespace XusoryEngine
 
 	void GiDx12GraphicsManager::BuildMaterial(Material* material)
 	{
-		
+		material->BindShader();
+		const auto* shader = material->GetShader();
+
+		for (UINT i = 0; i < shader->GetCBufferCount(); i++)
+		{
+			auto& property = shader->GetCBufferProperty(i);
+
+			auto* uploadBuffer = new Dx12UploadBuffer(true);
+			uploadBuffer->CreateUploadBuffer(m_device.get(), property.size);
+
+			m_constantBufferMap.emplace(material->m_constantBufferList.at(i).get(), uploadBuffer);
+		}
 	}
 
 	void GiDx12GraphicsManager::BuildMesh(Mesh* mesh)
@@ -101,12 +113,19 @@ namespace XusoryEngine
 		UINT propertyIndexTemp = 0;
 		for (const auto& cBuffer : shaderCompiler.m_constantBufferDescMap)
 		{
+			const auto& cBufferDesc = cBuffer.first;
+			ShaderCBufferProperty cBufferProperty;
+			cBufferProperty.name = cBufferDesc.bufferName;
+			cBufferProperty.size = cBufferDesc.Size;
+			cBufferProperty.variableNum = cBufferDesc.Variables;
+			shader->m_shaderCBufferPropertyList.push_back(std::move(cBufferProperty));
+
 			for (const auto& variableDesc : cBuffer.second)
 			{
 				ShaderProperty property;
 				property.name = variableDesc.variableName;
 				property.index = propertyIndexTemp;
-				property.offset = variableDesc.Offset;
+				property.offset = variableDesc.StartOffset;
 				property.slot = cBuffer.first.bindPoint;
 				property.space = cBuffer.first.space;
 				if (variableDesc.typeName == "float") property.propertyType = ShaderPropertyType::FLOAT;
@@ -152,7 +171,10 @@ namespace XusoryEngine
 		{
 			rootSignature->AddDescriptorRange(D3D12_DESCRIPTOR_RANGE_TYPE_SRV, 1, resourceDesc.BindPoint, resourceDesc.Space);
 		}
-		rootSignature->AddDescriptorTable();
+		if (!rootSignature->IsRangeTempListNull())
+		{
+			rootSignature->AddDescriptorTable();
+		}
 		rootSignature->AddStaticSampler(0, D3D12_FILTER_MIN_MAG_MIP_LINEAR, D3D12_TEXTURE_ADDRESS_MODE_WRAP);
 		rootSignature->Create(m_device.get());
 
@@ -168,9 +190,9 @@ namespace XusoryEngine
 
 		pipelineState->SetBlendState(CD3DX12_BLEND_DESC(D3D12_DEFAULT));
 		pipelineState->SetDepthStencilState(CD3DX12_DEPTH_STENCIL_DESC(D3D12_DEFAULT));
-		pipelineState->SetFillMode(static_cast<D3D12_FILL_MODE>(shader->GetFillMode()));
-		pipelineState->SetCullMode(static_cast<D3D12_CULL_MODE>(shader->GetCullMode()));
-		pipelineState->SetFrontCounterClockwise(static_cast<BOOL>(shader->GetTriangleWindingOrder()));
+		pipelineState->SetFillMode(static_cast<D3D12_FILL_MODE>(shader->fillMode));
+		pipelineState->SetCullMode(static_cast<D3D12_CULL_MODE>(shader->cullMode));
+		pipelineState->SetFrontCounterClockwise(static_cast<BOOL>(shader->triangleWindingOrder));
 
 		pipelineState->SetPrimitiveTopologyType(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE);
 		pipelineState->SetRenderTargetNum(1);

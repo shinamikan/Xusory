@@ -245,6 +245,7 @@
     <ClCompile Include="Header\Core\Graphics\Private\Mesh.cpp" />
     <ClCompile Include="Header\Core\Graphics\Private\Shader.cpp" />
     <ClCompile Include="Header\Core\Graphics\Private\Texture.cpp" />
+    <ClCompile Include="Header\Engine\EngineMath\Private\XsMath.cpp" />
     <ClCompile Include="Header\RHI\DirectX\DX12\Buffer\Private\Dx12Buffer.cpp" />
     <ClCompile Include="Header\RHI\DirectX\DX12\Buffer\Private\Dx12Buffer1D.cpp" />
     <ClCompile Include="Header\RHI\DirectX\DX12\Buffer\Private\Dx12Buffer2D.cpp" />
@@ -303,6 +304,8 @@
     <ClInclude Include="Header\Engine\Component\Behaviour\Light\Light.h" />
     <ClInclude Include="Header\Engine\Component\Behaviour\Renderer\MeshRenderer.h" />
     <ClInclude Include="Header\Engine\Component\Transform\Transform.h" />
+    <ClInclude Include="Header\Engine\Engine.h" />
+    <ClInclude Include="Header\Engine\EngineMath\XsMath.h" />
     <ClInclude Include="Header\Engine\GameObject\GameObject.h" />
     <ClInclude Include="Header\Engine\Input\Input.h" />
     <ClInclude Include="Header\Platform\Common\PlatformDefine.h" />

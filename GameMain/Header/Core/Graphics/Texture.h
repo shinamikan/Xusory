@@ -30,15 +30,15 @@ namespace XusoryEngine
 
 		const std::wstring& GetTextureFilePath() const;
 
-		TextureDimension m_dimension = TextureDimension::UNKNOWN;
-		AddressMode m_addressModeU = AddressMode::WRAP;
-		AddressMode m_addressModeV = AddressMode::WRAP;
-		AddressMode m_addressModeW = AddressMode::WRAP;
-		FilterMode m_filterMode = FilterMode::LINEAR;
+		TextureDimension dimension = TextureDimension::UNKNOWN;
+		AddressMode addressModeU = AddressMode::WRAP;
+		AddressMode addressModeV = AddressMode::WRAP;
+		AddressMode addressModeW = AddressMode::WRAP;
+		FilterMode filterMode = FilterMode::LINEAR;
 
-		UINT m_width = 0;
-		UINT m_height = 0;
-		UINT16 m_mipLevels = 0;
+		UINT width = 0;
+		UINT height = 0;
+		UINT16 mipLevels = 0;
 
 	private:
 		std::wstring m_textureFilePath;

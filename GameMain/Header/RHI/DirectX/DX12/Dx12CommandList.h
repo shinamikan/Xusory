@@ -12,6 +12,7 @@ namespace XusoryEngine
 	class Dx12RenderTargetBuffer;
 	class Dx12ShaderResourceBuffer;
 	class Dx12UnorderedAccessBuffer;
+	class Dx12UploadBuffer;
 
 	class Dx12CommandAllocator;
 	class Dx12DescriptorHandle;
@@ -63,8 +64,8 @@ namespace XusoryEngine
 		void ClearUnorderedAccessUint(const Dx12UnorderedAccessBuffer* buffer, const UINT clearValue[4]) const;
 		void ClearUnorderedAccessFloat(const Dx12UnorderedAccessBuffer* buffer, const FLOAT clearValue[4]) const;
 
-		void SetVertexBuffer(const D3D12_VERTEX_BUFFER_VIEW& vbView) const;
-		void SetIndexBuffer(const D3D12_INDEX_BUFFER_VIEW& ibView) const;
+		void SetVertexBufferView(const D3D12_VERTEX_BUFFER_VIEW& vbView) const;
+		void SetIndexBufferView(const D3D12_INDEX_BUFFER_VIEW& ibView) const;
 		void SetMeshBuffer(const Dx12MeshBuffer* buffer) const;
 		void SetPrimitiveTopology(D3D12_PRIMITIVE_TOPOLOGY primitiveTopology) const;
 
@@ -87,6 +88,7 @@ namespace XusoryEngine
 		void SetGraphicsRootConstant(UINT parameterIndex, UINT data, UINT offset) const;
 		void SetGraphicsRootConstants(UINT parameterIndex, UINT dataNum, const UINT* data, UINT offset) const;
 		void SetGraphicsRootCbv(UINT parameterIndex, const Dx12ConstantBuffer* buffer) const;
+		void SetGraphicsRootCbv(UINT parameterIndex, const Dx12UploadBuffer* buffer) const;
 		void SetGraphicsRootSrv(UINT parameterIndex, const Dx12ShaderResourceBuffer* buffer) const;
 		void SetGraphicsRootUav(UINT parameterIndex, const Dx12UnorderedAccessBuffer* buffer) const;
 		void SetGraphicsRootDescriptorTable(UINT parameterIndex, const Dx12DescriptorHandle& handle) const;
