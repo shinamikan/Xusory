@@ -16,7 +16,6 @@ namespace XusoryEngine
 			IID_PPV_ARGS(GetDxObjectAddressOf())));
 
 		m_usingState = initState;
-		m_gpuVirtualAddress = (*this)->GetGPUVirtualAddress();
 	}
 
 	void Dx12Buffer1D::CreateTex1DBuffer(const Dx12Device* device, D3D12_RESOURCE_STATES initState, D3D12_RESOURCE_FLAGS flag, UINT64 size, UINT16 arraySize, UINT16 mipLevels, DXGI_FORMAT format)
@@ -30,7 +29,6 @@ namespace XusoryEngine
 			IID_PPV_ARGS(GetDxObjectAddressOf())));
 
 		m_usingState = initState;
-		m_gpuVirtualAddress = (*this)->GetGPUVirtualAddress();
 	}
 
 	UINT64 Dx12Buffer1D::GetSize() const

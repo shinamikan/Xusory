@@ -6,7 +6,7 @@ namespace XusoryEngine
 	{
 		const auto scaleMat = Matrix4x4::BuildScaleMatrix(scale.X(), scale.Y(), scale.Z());
 		const auto translateMat = Matrix4x4::BuildTranslateMatrix(position.X(), position.Y(), position.Z());
-		return scaleMat * translateMat;
+		return scaleMat;
 	}
 
 	Matrix4x4 XsMath::BuildViewMatrixLookUp(const Vector3& cameraPosition, const Vector3& targetPosition, const Vector3& worldUpDirection)
@@ -26,10 +26,10 @@ namespace XusoryEngine
 	Matrix4x4 XsMath::BuildPerspectiveMatrixFov(FLOAT fovAngle, FLOAT aspect, FLOAT nearZ, FLOAT farZ)
 	{
 		return {
-			1 / (aspect * std::tan(fovAngle / 2)), 0.0f, 0.0f, 0.0f,
+			1.0f / (aspect * std::tan(fovAngle / 2)), 0.0f, 0.0f, 0.0f,
 			0.0f, 1 / std::tan(fovAngle / 2), 0.0f, 0.0f,
 			0.0f, 0.0f, farZ / (farZ - nearZ), 1.0f,
-			0.0f, 0.0f, -farZ * nearZ / (farZ - nearZ), 1.0f
+			0.0f, 0.0f, -farZ * nearZ / (farZ - nearZ), 0.0f
 		};
 	}
 }

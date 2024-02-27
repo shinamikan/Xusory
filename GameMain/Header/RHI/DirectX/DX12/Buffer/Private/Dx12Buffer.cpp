@@ -10,22 +10,11 @@ namespace XusoryEngine
 	{
 		DxObject::ReSet();
 		m_usingState = D3D12_RESOURCE_STATES_UNKNOWN;
-		m_transitioningState = D3D12_RESOURCE_STATES_UNKNOWN;
-		m_gpuVirtualAddress = D3D12_GPU_VIRTUAL_ADDRESS_NULL;
 	}
 
-	void Dx12Buffer::UploadResource(const Dx12Device* device, Dx12CommandList* commandList, D3D12_RESOURCE_STATES finishState, const void* pData, UINT64 dataSize)
+	void Dx12Buffer::UploadResource(const Dx12CommandList* commandList, D3D12_RESOURCE_STATES finishState, const Dx12Buffer* uploadBuffer, const void* pData, UINT64 dataSize)
 	{
 		ThrowIfDxObjectNotCreated(GetDxObjectPtr(), "buffer");
-
-		const auto heapProperties = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_UPLOAD);
-		const auto resourceDesc = GetBufferDesc();
-
-		auto uploadBuffer = Dx12Buffer(D3D12_HEAP_TYPE_UPLOAD);
-		ThrowIfDxFailed((*device)->CreateCommittedResource(
-			&heapProperties, D3D12_HEAP_FLAG_NONE,
-			&resourceDesc, D3D12_RESOURCE_STATE_GENERIC_READ, nullptr,
-			IID_PPV_ARGS(uploadBuffer.GetDxObjectAddressOf())));
 
 		D3D12_SUBRESOURCE_DATA subResourceData;
 		subResourceData.pData = pData;
@@ -33,8 +22,8 @@ namespace XusoryEngine
 		subResourceData.SlicePitch = subResourceData.RowPitch;
 
 		commandList->TranslationBufferState(this, D3D12_RESOURCE_STATE_COPY_DEST);
-		UpdateSubresources<1>(commandList->GetDxObjectPtr(), GetDxObjectPtr(), uploadBuffer.GetDxObjectPtr(), 0, 0, 1, &subResourceData);
-		commandList->TranslationBufferState(this, finishState, true);
+		UpdateSubresources<1>(commandList->GetDxObjectPtr(), GetDxObjectPtr(), uploadBuffer->GetDxObjectPtr(), 0, 0, 1, &subResourceData);
+		commandList->TranslationBufferState(this, finishState);
 	}
 
 	D3D12_RESOURCE_DESC Dx12Buffer::GetBufferDesc() const
@@ -47,13 +36,8 @@ namespace XusoryEngine
 		return m_usingState;
 	}
 
-	D3D12_RESOURCE_STATES Dx12Buffer::GetTransitioningState() const
-	{
-		return m_transitioningState;
-	}
-
 	D3D12_GPU_VIRTUAL_ADDRESS Dx12Buffer::GetGpuVirtualAddress() const
 	{
-		return m_gpuVirtualAddress;
+		return (*this)->GetGPUVirtualAddress();
 	}
 }

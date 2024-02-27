@@ -16,6 +16,9 @@ namespace XusoryEngine
 		m_dx12Manager->m_commandAllocator->ReSetCommandAllocator();
 		m_commandList->ResetCommandList(m_dx12Manager->m_commandAllocator.get(), nullptr);
 
+		m_commandList->SetViewport(m_dx12Manager->m_screenViewport);
+		m_commandList->SetScissorRect(m_dx12Manager->m_scissorRect);
+
 		const UINT currentBackBufferIndex = m_dx12Manager->m_swapChain->GetCurrentBackBufferIndex();
 		m_currentBackBuffer = m_dx12Manager->m_backBufferList[currentBackBufferIndex].get();
 		m_commandList->TranslationBufferState(m_currentBackBuffer, D3D12_RESOURCE_STATE_RENDER_TARGET);
@@ -25,7 +28,7 @@ namespace XusoryEngine
 
 	void GiDx12CommandContext::EndCommand()
 	{
-		m_commandList->TranslationBufferState(m_currentBackBuffer, D3D12_RESOURCE_STATE_PRESENT, false);
+		m_commandList->TranslationBufferState(m_currentBackBuffer, D3D12_RESOURCE_STATE_PRESENT);
 		m_commandList->EndCommand();
 
 		m_dx12Manager->m_commandQueue->ExecuteCommandList({ m_dx12Manager->m_commandList.get() });
@@ -59,6 +62,7 @@ namespace XusoryEngine
 		for (const auto& cBuffer : material->m_constantBufferList)
 		{
 			const auto* dxCBuffer = m_dx12Manager->m_constantBufferMap.at(cBuffer.get()).get();
+			dxCBuffer->CopyDataToBuffer(cBuffer.get());
 			m_commandList->SetGraphicsRootCbv(parameterIndex, dxCBuffer);
 
 			parameterIndex++;

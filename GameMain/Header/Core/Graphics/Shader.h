@@ -100,7 +100,7 @@ namespace XusoryEngine
 		void SetGeometryShaderEntryPoint(const std::string_view& entryPoint);
 
 		GraphicsFillMode fillMode = GraphicsFillMode::SOLID;
-		GraphicsCullMode cullMode = GraphicsCullMode::BACK;
+		GraphicsCullMode cullMode = GraphicsCullMode::NONE;
 		TriangleWindingOrder triangleWindingOrder = TriangleWindingOrder::CLOCK_WISE;
 
 	private:

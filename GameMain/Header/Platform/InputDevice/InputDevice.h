@@ -5,13 +5,13 @@
 
 namespace XusoryEngine
 {
-	enum MouseEventCode
+	enum class MouseEventCode
 	{
-		MOUSE_LEFT,
-		MOUSE_RIGHT,
-		MOUSE_MID,
-		MOUSE_EX1,
-		MOUSE_EX2,
+		LEFT,
+		RIGHT,
+		MID,
+		EX1,
+		EX2,
 	};
 
 	DLL_STATIC_CLASS(Cursor)

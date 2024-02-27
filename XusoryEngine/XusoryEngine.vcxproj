@@ -263,7 +263,7 @@
     <ClInclude Include="Header\Core\Math\Vector3.h" />
     <ClInclude Include="Header\Core\Math\Vector4.h" />
     <ClInclude Include="Header\CppEx\ClassEx\ClassEx.h" />
-    <ClInclude Include="Header\CppEx\ClassEx\Name.h" />
+    <ClInclude Include="Header\CppEx\Name\Name.h" />
     <ClInclude Include="Header\CppEx\CppEx.h" />
     <ClInclude Include="Header\CppEx\CppInfo\CppInfo.h" />
     <ClInclude Include="Header\CppEx\Enum\Enum.h" />
@@ -271,7 +271,7 @@
     <ClInclude Include="Header\CppEx\Error\Throw.h" />
     <ClInclude Include="Header\CppEx\Error\TraceBack.h" />
     <ClInclude Include="Header\CppEx\Reflector\Reflector.h" />
-    <ClInclude Include="Header\XsCommon\AsyncInfo.h" />
+    <ClInclude Include="Header\CppEx\AsyncInfo\AsyncInfo.h" />
     <ClInclude Include="Header\XusoryEngine.h" />
     <ClInclude Include="Header\Platform\Common\PlatformDefine.h" />
     <ClInclude Include="Header\Platform\File\Directory.h" />
@@ -281,7 +281,7 @@
     <ClInclude Include="Header\Platform\Internet\Internet.h" />
     <ClInclude Include="Header\Platform\Internet\Socket.h" />
     <ClInclude Include="Header\Platform\Platform.h" />
-    <ClInclude Include="Header\Platform\DLL\Dll.h" />
+    <ClInclude Include="Header\Platform\Dll\Dll.h" />
     <ClInclude Include="Header\Platform\System\SystemMonitor.h" />
     <ClInclude Include="Header\Platform\System\SystemInfo.h" />
     <ClInclude Include="Header\Platform\Time\Date.h" />
@@ -294,7 +294,7 @@
     <ClInclude Include="Header\Platform\Window\WindowFactory.h" />
     <ClInclude Include="Header\StdEx\StdEx.h" />
     <ClInclude Include="Header\StdEx\StringEx\StringEx.h" />
-    <ClInclude Include="Header\XsCommon\DllDefine.h" />
+    <ClInclude Include="Header\CppEx\DllDefine\DllDefine.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Header\Core\Debug\Private\Debug.cpp" />
@@ -307,7 +307,7 @@
     <ClCompile Include="Header\CppEx\Error\Private\TraceBack.cpp" />
     <ClCompile Include="Header\Platform\Console\Private\Console.cpp" />
     <ClCompile Include="Header\Platform\File\Private\Directory.cpp" />
-    <ClCompile Include="Header\Platform\DLL\Private\Dll.cpp" />
+    <ClCompile Include="Header\Platform\Dll\Private\Dll.cpp" />
     <ClCompile Include="Header\Platform\File\Private\File.cpp" />
     <ClCompile Include="Header\Platform\InputDevice\Private\InputDevice.cpp" />
     <ClCompile Include="Header\Platform\Internet\Private\Socket.cpp" />

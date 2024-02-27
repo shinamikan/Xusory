@@ -18,7 +18,6 @@ namespace XusoryEngine
 			IID_PPV_ARGS(GetDxObjectAddressOf())));
 
 		m_usingState = initState;
-		m_gpuVirtualAddress = (*this)->GetGPUVirtualAddress();
 	}
 
 	void Dx12Buffer2D::CreateTex2DCubeBuffer(const Dx12Device* device,
@@ -34,7 +33,6 @@ namespace XusoryEngine
 			IID_PPV_ARGS(GetDxObjectAddressOf())));
 
 		m_usingState = initState;
-		m_gpuVirtualAddress = (*this)->GetGPUVirtualAddress();
 	}
 
 	DXGI_FORMAT Dx12Buffer2D::GetFormat() const

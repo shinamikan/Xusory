@@ -1,9 +1,6 @@
 #pragma once
 
-#include <iostream>
-#include <Windows.h>
-
-#include "../../CppEx/ClassEx/ClassEx.h"
+#include "../Common/PlatformDefine.h"
 
 namespace XusoryEngine
 {
@@ -11,7 +8,7 @@ namespace XusoryEngine
 	{
 	public:
 		Dll() = default;
-		Dll(const std::wstring_view& path);
+		explicit Dll(const std::wstring_view& path);
 
 		void LoadDll(const std::wstring_view& path);
 		template <typename FuncT>

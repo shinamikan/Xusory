@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../../XsCommon/DllDefine.h"
-#include "Name.h"
+#include "../DllDefine/DllDefine.h"
+#include "../Name/Name.h"
 
 #define CLASS(className) class className
 #define DLL_CLASS(className) class DLL_FUNC className

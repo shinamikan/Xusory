@@ -60,7 +60,7 @@ namespace XusoryEngine
 		static Matrix2x2 MultiMatrix(const Matrix2x2& lhs, const Matrix2x2& rhs);
 
 	private:
-		explicit Matrix2x2(const __m128& mRow0, const __m128& mRow1);
+		Matrix2x2(const __m128& mRow0, const __m128& mRow1);
 
 		__m128 m_row0;
 		__m128 m_row1;

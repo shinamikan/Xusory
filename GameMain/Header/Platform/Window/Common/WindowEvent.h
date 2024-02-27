@@ -29,6 +29,7 @@ namespace XusoryEngine
 
 	struct MouseMoveEvent
 	{
+		MouseKeyCode mouseClickKeyCode;
 		INT16 mouseMovePosX;
 		INT16 mouseMovePosY;
 	};

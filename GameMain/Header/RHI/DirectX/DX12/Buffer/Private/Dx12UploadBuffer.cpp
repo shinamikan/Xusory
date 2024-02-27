@@ -23,6 +23,7 @@ namespace XusoryEngine
 
 	void Dx12UploadBuffer::CreateUploadBuffer(const Dx12Device* device, UINT64 size)
 	{
+		m_originalBufferSize = size;
 		if (m_isConstantBuffer)
 		{
 			size = CalcConstantBufferByteSize(size);
@@ -37,14 +38,12 @@ namespace XusoryEngine
 			IID_PPV_ARGS(GetDxObjectAddressOf())));
 
 		m_usingState = D3D12_RESOURCE_STATE_GENERIC_READ;
-		m_gpuVirtualAddress = (*this)->GetGPUVirtualAddress();
-
 		m_bufferSize = size;
-		ThrowIfDxFailed((*this)->Map(0, nullptr, reinterpret_cast<void**>(&m_mappedData)));
+		ThrowIfDxFailed((*this)->Map(0, nullptr, &m_mappedData));
 	}
 
 	void Dx12UploadBuffer::CopyDataToBuffer(const void* srcData) const
 	{
-		memcpy(m_mappedData, srcData, m_bufferSize);
+		memcpy(m_mappedData, srcData, m_originalBufferSize);
 	}
 }

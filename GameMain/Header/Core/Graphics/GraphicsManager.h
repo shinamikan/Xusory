@@ -19,6 +19,9 @@ namespace XusoryEngine
 		virtual void InitGraphicsObject(void* renderWindow) = 0;
 		virtual void Resize(UINT width, UINT height) = 0;
 
+		virtual void ReSetCommandList() = 0;
+		virtual void ExecuteCommandAndWait() = 0;
+
 		virtual void BuildMaterial(Material* material) = 0;
 		virtual void BuildMesh(Mesh* mesh) = 0;
 		virtual void BuildTexture(Texture* texture) = 0;
@@ -47,12 +50,15 @@ namespace XusoryEngine
 		void InitGraphicsObject(void* renderWindow) override;
 		void Resize(UINT width, UINT height) override;
 
+		void ExecuteCommandAndWait() override;
+		void ReSetCommandList() override;
+
 		void BuildMaterial(Material* material) override;
 		void BuildMesh(Mesh* mesh) override;
 		void BuildTexture(Texture* texture) override;
 		void BuildShader(Shader* shader) override;
 
-	private:
+	public:
 		void CreateInputLayout();
 		void CreateFactoryAndDevice();
 		void CreateCommonObjects();

@@ -35,30 +35,43 @@ namespace XusoryEngine
 
 	Matrix2x2 Matrix2x2::operator+(const Matrix2x2& other) const
 	{
-		return Matrix2x2(
+		return {
 			_mm_add_ps(m_row0, other.m_row0),
-			_mm_add_ps(m_row1, other.m_row1));
+			_mm_add_ps(m_row1, other.m_row1)
+		};
 	}
 
 	Matrix2x2 Matrix2x2::operator-(const Matrix2x2& other) const
 	{
-		return Matrix2x2(
+		return {
 			_mm_sub_ps(m_row0, other.m_row0),
-			_mm_sub_ps(m_row1, other.m_row1));
+			_mm_sub_ps(m_row1, other.m_row1)
+		};
 	}
 
 	Matrix2x2 Matrix2x2::operator*(FLOAT scalar) const
 	{
-		return Matrix2x2(
+		return {
 			_mm_mul_ps(m_row0, _mm_setr_ps(scalar, scalar, 0.0f, 0.0f)),
-			_mm_mul_ps(m_row1, _mm_setr_ps(scalar, scalar, 0.0f, 0.0f)));
+			_mm_mul_ps(m_row1, _mm_setr_ps(scalar, scalar, 0.0f, 0.0f))
+		};
 	}
 
 	Matrix2x2 Matrix2x2::operator*(const Matrix2x2& other) const
 	{
-		return Matrix2x2(
-			_mm_mul_ps(m_row0, other.m_row0),
-			_mm_mul_ps(m_row1, other.m_row1));
+		const __m128 m128Temp0 = _mm_setr_ps(other.m_row0.m128_f32[0], other.m_row1.m128_f32[0], 0.0f, 0.0f);
+		const __m128 m128Temp1 = _mm_setr_ps(other.m_row0.m128_f32[1], other.m_row1.m128_f32[1], 0.0f, 0.0f);
+
+		const FLOAT row00 = _mm_dp_ps(m_row0, m128Temp0, 0xff).m128_f32[0];
+		const FLOAT row01 = _mm_dp_ps(m_row0, m128Temp1, 0xff).m128_f32[0];
+
+		const FLOAT row10 = _mm_dp_ps(m_row1, m128Temp0, 0xff).m128_f32[0];
+		const FLOAT row11 = _mm_dp_ps(m_row1, m128Temp1, 0xff).m128_f32[0];
+
+		return {
+			row00, row01,
+			row10, row11
+		};
 	}
 
 	Matrix2x2 Matrix2x2::operator/(FLOAT scalar) const
@@ -71,7 +84,7 @@ namespace XusoryEngine
 		m128Temp1.m128_f32[2] = 0;
 		m128Temp1.m128_f32[3] = 0;
 
-		return Matrix2x2(m128Temp0, m128Temp1);
+		return { m128Temp0, m128Temp1 };
 	}
 
 	Matrix2x2 Matrix2x2::operator/(const Matrix2x2& other) const
@@ -84,7 +97,7 @@ namespace XusoryEngine
 		m128Temp1.m128_f32[2] = 0;
 		m128Temp1.m128_f32[3] = 0;
 
-		return Matrix2x2(m128Temp0, m128Temp1);
+		return { m128Temp0, m128Temp1 };
 	}
 
 	Matrix2x2 Matrix2x2::operator==(const Matrix2x2& other) const
@@ -97,7 +110,7 @@ namespace XusoryEngine
 		m128Temp1.m128_f32[2] = 0;
 		m128Temp1.m128_f32[3] = 0;
 
-		return Matrix2x2(m128Temp0, m128Temp1);
+		return { m128Temp0, m128Temp1 };
 	}
 
 	Matrix2x2& Matrix2x2::operator+=(const Matrix2x2& other)
@@ -126,9 +139,7 @@ namespace XusoryEngine
 
 	Matrix2x2& Matrix2x2::operator*=(const Matrix2x2& other)
 	{
-		m_row0 = _mm_mul_ps(m_row0, other.m_row0);
-		m_row1 = _mm_mul_ps(m_row1, other.m_row1);
-
+		*this = *this * other;
 		return *this;
 	}
 
@@ -201,9 +212,10 @@ namespace XusoryEngine
 		const __m128 m128Temp0 = _mm_unpacklo_ps(m_row0, m_row1);
 		const __m128 m128Temp1 = _mm_set_ps1(0.0f);
 
-		return Matrix2x2(
+		return {
 			_mm_movelh_ps(m128Temp0, m128Temp1),
-			_mm_movehl_ps(m128Temp1, m128Temp0));
+			_mm_movehl_ps(m128Temp1, m128Temp0)
+		};
 	}
 
 	Vector2 Matrix2x2::PreMultiVector2(const Vector2& vector, const Matrix2x2& matrix)
@@ -227,19 +239,10 @@ namespace XusoryEngine
 
 	Matrix2x2 Matrix2x2::MultiMatrix(const Matrix2x2& lhs, const Matrix2x2& rhs)
 	{
-
-		const __m128 m128Temp0 = _mm_setr_ps(rhs.m_row0.m128_f32[0], rhs.m_row1.m128_f32[0], 0.0f, 0.0f);
-		const __m128 m128Temp1 = _mm_setr_ps(rhs.m_row0.m128_f32[1], rhs.m_row1.m128_f32[1], 0.0f, 0.0f);
-
-		const FLOAT row00 = _mm_dp_ps(lhs.m_row0, m128Temp0, 0xff).m128_f32[0];
-		const FLOAT row01 = _mm_dp_ps(lhs.m_row0, m128Temp1, 0xff).m128_f32[0];
-
-		const FLOAT row10 = _mm_dp_ps(lhs.m_row1, m128Temp0, 0xff).m128_f32[0];
-		const FLOAT row11 = _mm_dp_ps(lhs.m_row1, m128Temp1, 0xff).m128_f32[0];
-
 		return {
-			row00, row01,
-			row10, row11 };
+			_mm_mul_ps(lhs.m_row0, rhs.m_row0),
+			_mm_mul_ps(lhs.m_row1, rhs.m_row1)
+		};
 	}
 
 	Matrix2x2::Matrix2x2(const __m128& mRow0, const __m128& mRow1) :

@@ -50,26 +50,32 @@ namespace XusoryEngine
 		return m_cmdListType;
 	}
 
-	void Dx12CommandList::CopyBuffer(Dx12Buffer* destBuffer, Dx12Buffer* srcBuffer)
+	void Dx12CommandList::CopyBuffer(Dx12Buffer* destBuffer, Dx12Buffer* srcBuffer) const
 	{
+		const auto destBufferStateTemp = destBuffer->GetCurrentState();
+		const auto srcBufferStateTemp = srcBuffer->GetCurrentState();
+
 		TranslationBufferState(destBuffer, D3D12_RESOURCE_STATE_COPY_DEST);
 		TranslationBufferState(srcBuffer, D3D12_RESOURCE_STATE_COPY_SOURCE);
 
 		(*this)->CopyResource(destBuffer->GetDxObjectPtr(), srcBuffer->GetDxObjectPtr());
 
-		TranslationBufferState(destBuffer, destBuffer->GetCurrentState());
-		TranslationBufferState(srcBuffer, srcBuffer->GetCurrentState());
+		TranslationBufferState(destBuffer, destBufferStateTemp);
+		TranslationBufferState(srcBuffer, srcBufferStateTemp);
 	}
 
-	void Dx12CommandList::CopyBufferRegion(Dx12Buffer* destBuffer, Dx12Buffer* srcBuffer, UINT64 dstOffset, UINT64 srcOffset, UINT64 copySize)
+	void Dx12CommandList::CopyBufferRegion(Dx12Buffer* destBuffer, Dx12Buffer* srcBuffer, UINT64 dstOffset, UINT64 srcOffset, UINT64 copySize) const
 	{
+		const auto destBufferStateTemp = destBuffer->GetCurrentState();
+		const auto srcBufferStateTemp = srcBuffer->GetCurrentState();
+
 		TranslationBufferState(destBuffer, D3D12_RESOURCE_STATE_COPY_DEST);
 		TranslationBufferState(srcBuffer, D3D12_RESOURCE_STATE_COPY_SOURCE);
 
 		(*this)->CopyBufferRegion(destBuffer->GetDxObjectPtr(), dstOffset, srcBuffer->GetDxObjectPtr(), srcOffset, copySize);
 
-		TranslationBufferState(destBuffer, destBuffer->GetCurrentState());
-		TranslationBufferState(srcBuffer, srcBuffer->GetCurrentState());
+		TranslationBufferState(destBuffer, destBufferStateTemp);
+		TranslationBufferState(srcBuffer, srcBufferStateTemp);
 	}
 
 	void Dx12CommandList::SetDescriptorHeaps(const Dx12DescriptorHeap* viewDescHeap, const Dx12DescriptorHeap* samplerDescHeap) const
@@ -82,29 +88,17 @@ namespace XusoryEngine
 		(*this)->SetDescriptorHeaps(heapNum, descriptorHeaps);
 	}
 
-	void Dx12CommandList::TranslationBufferState(Dx12Buffer* buffer, D3D12_RESOURCE_STATES translationState, BOOL hasTransBeforeEnd)
+	void Dx12CommandList::TranslationBufferState(Dx12Buffer* buffer, D3D12_RESOURCE_STATES translationState) const
 	{
-		if (buffer->GetCurrentState() == translationState || buffer->GetTransitioningState() == translationState)
+		if (buffer->GetCurrentState() == translationState)
 		{
 			return;
 		}
 
-		const auto barrier = CD3DX12_RESOURCE_BARRIER::Transition(buffer->GetDxObjectPtr(),
-			buffer->GetTransitioningState() == D3D12_RESOURCE_STATES_UNKNOWN ? buffer->GetCurrentState() : buffer->GetTransitioningState(), translationState);
+		const auto barrier = CD3DX12_RESOURCE_BARRIER::Transition(buffer->GetDxObjectPtr(), buffer->GetCurrentState(), translationState);
 		(*this)->ResourceBarrier(1, &barrier);
 
-		buffer->m_transitioningState = translationState;
-
-		if (!hasTransBeforeEnd)
-		{
-			auto finishEvent = [=]() -> void
-			{
-				buffer->m_usingState = buffer->m_transitioningState;
-				buffer->m_transitioningState = D3D12_RESOURCE_STATES_UNKNOWN;
-			};
-
-			m_delegationList.push_back(std::move(finishEvent));
-		}
+		buffer->m_usingState = translationState;
 	}
 
 	void Dx12CommandList::EndCommand() const
@@ -241,7 +235,7 @@ namespace XusoryEngine
 
 	void Dx12GraphicsCommandList::DrawIndexedInstanced(UINT indexNumPerInstance, UINT instanceNum, UINT startIndexLocation, INT baseVertexLocation, UINT startInstanceLocation) const
 	{
-		(*this)->DrawIndexedInstanced(indexNumPerInstance, instanceNum, startInstanceLocation, baseVertexLocation, startInstanceLocation);
+		(*this)->DrawIndexedInstanced(indexNumPerInstance, instanceNum, startIndexLocation, baseVertexLocation, startInstanceLocation);
 	}
 
 	void Dx12GraphicsCommandList::SetGraphicsPipelineState(const Dx12GraphicsPipelineState* pipelineState) const

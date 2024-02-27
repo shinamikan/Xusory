@@ -30,7 +30,7 @@ namespace XusoryEngine
 		static BOOL CreateConsole();
 		static void RedirectToStd();
 
-		static BOOL IsCreatedConsole();
+		static BOOL IsConsoleCreated();
 
 		static void SetSize(INT16 width, INT16 height);
 		static void SetTextColor(ConsoleTextColor consoleTextColor);

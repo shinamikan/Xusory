@@ -42,7 +42,7 @@ namespace XusoryEngine
 			Microsoft::WRL::ComPtr<ID3DBlob> errors;
 			ThrowIfDxFailed(D3DCompileFromFile(shaderFilePath.data(), defines, D3D_COMPILE_STANDARD_FILE_INCLUDE,
 				shaderEntryPointList[i].data(), shaderTarget[i].data(),
-				D3DCOMPILE_SKIP_OPTIMIZATION, NULL, m_shaderBytesList[i].GetAddressOf(), errors.GetAddressOf()));
+				D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, NULL, m_shaderBytesList[i].GetAddressOf(), errors.GetAddressOf()));
 
 			Microsoft::WRL::ComPtr<ID3D12ShaderReflection> shaderReflection;
 			ThrowIfDxFailed(D3DReflect(m_shaderBytesList[i]->GetBufferPointer(),

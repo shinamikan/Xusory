@@ -31,7 +31,7 @@ namespace XusoryEngine
 		}
 
 		D3D12_CONSTANT_BUFFER_VIEW_DESC cbvDesc;
-		cbvDesc.BufferLocation = m_gpuVirtualAddress;
+		cbvDesc.BufferLocation = GetGpuVirtualAddress();
 		cbvDesc.SizeInBytes = static_cast<UINT>(GetSize());
 
 		if (m_cbvHandle.IsNull())

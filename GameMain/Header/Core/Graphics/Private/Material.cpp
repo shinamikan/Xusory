@@ -193,7 +193,7 @@ namespace XusoryEngine
 		for (UINT i = 0; i < m_bindShader->GetCBufferCount(); i++)
 		{
 			auto& cBufferProperty = m_bindShader->GetCBufferProperty(i);
-			auto* cBuffer = new BYTE(cBufferProperty.size);
+			auto* cBuffer = new BYTE[cBufferProperty.size];
 
 			for (UINT j = 0; j < cBufferProperty.variableNum; j++)
 			{

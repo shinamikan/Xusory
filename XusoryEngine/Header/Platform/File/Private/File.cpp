@@ -7,17 +7,17 @@ namespace XusoryEngine
 	using FileTime = FILETIME;
 
 	template <typename... Args>
-	void ThrowIfOpenModeError(HANDLE handle, OpenMode mode, Args... args)
+	void ThrowIfOpenModeError(HANDLE handle, FileOpenMode mode, Args... args)
 	{
 		ThrowIfObjectNotCreated(handle, "file");
 
-		if (!((mode == args || mode == args + 1) || ...))
+		if (!((mode == args ||  mode == static_cast<FileOpenMode>(static_cast<DWORD>(args) + 1)) || ...))
 		{
 			ThrowWithErrName(LogicError, "Open mode does not current");
 		}
 	}
 
-	File::File(const std::wstring_view& path, OpenMode openMode)
+	File::File(const std::wstring_view& path, FileOpenMode openMode)
 	{
 		Open(path, openMode);
 	}
@@ -27,31 +27,31 @@ namespace XusoryEngine
 		Close();
 	}
 
-	void File::Open(const std::wstring_view& path, OpenMode openMode)
+	void File::Open(const std::wstring_view& path, FileOpenMode openMode)
 	{
 		UINT dwDisposition = NULL;
 
 		switch (openMode)
 		{
-		case OPEN_MODE_NULL:
-		case OPEN_MODE_READ:
-		case OPEN_MODE_APPEND:
+		case FileOpenMode::UNKNOWN:
+		case FileOpenMode::READ:
+		case FileOpenMode::APPEND:
 			TryToFindFile(path);
 			dwDisposition = OPEN_EXISTING;
 			break;
-		case OPEN_MODE_WRITE:
+		case FileOpenMode::WRITE:
 			TryToFindFile(path);
 			dwDisposition = CREATE_ALWAYS;
 			break;
-		case OPEN_MODE_READ_ADD:
-		case OPEN_MODE_WRITE_ADD:
-		case OPEN_MODE_APPEND_ADD:
+		case FileOpenMode::READ_ADD:
+		case FileOpenMode::WRITE_ADD:
+		case FileOpenMode::APPEND_ADD:
 			dwDisposition = OPEN_ALWAYS;
 			break;
 		}
 
 		m_openMode = openMode;
-		m_fileHandle = CreateFile(path.data(), openMode, NULL, nullptr,
+		m_fileHandle = CreateFile(path.data(), static_cast<DWORD>(openMode), NULL, nullptr,
 			dwDisposition, FILE_ATTRIBUTE_NORMAL, nullptr);
 
 		if (m_fileHandle == INVALID_HANDLE_VALUE)
@@ -70,7 +70,7 @@ namespace XusoryEngine
 
 	void File::Read(void* pData) const
 	{
-		ThrowIfOpenModeError(m_fileHandle, m_openMode, OPEN_MODE_READ, OPEN_MODE_READ_ADD);
+		ThrowIfOpenModeError(m_fileHandle, m_openMode, FileOpenMode::READ, FileOpenMode::READ_ADD);
 
 		const DWORD fileSize = GetFileSize(m_fileHandle, nullptr);
 		ThrowIfWinFuncFailed(ReadFile(m_fileHandle, pData, fileSize, nullptr, nullptr), "read file");
@@ -78,7 +78,7 @@ namespace XusoryEngine
 
 	void File::ReadText(std::string& str) const
 	{
-		ThrowIfOpenModeError(m_fileHandle, m_openMode, OPEN_MODE_READ, OPEN_MODE_READ_ADD);
+		ThrowIfOpenModeError(m_fileHandle, m_openMode, FileOpenMode::READ, FileOpenMode::READ_ADD);
 
 		const DWORD fileSize = GetFileSize(m_fileHandle, nullptr);
 		str.resize(fileSize, 0);
@@ -88,7 +88,7 @@ namespace XusoryEngine
 
 	void File::Write(const void* data, SIZE_T size) const
 	{
-		ThrowIfOpenModeError(m_fileHandle, m_openMode, OPEN_MODE_WRITE, OPEN_MODE_APPEND);
+		ThrowIfOpenModeError(m_fileHandle, m_openMode, FileOpenMode::WRITE, FileOpenMode::APPEND);
 
 		DWORD writtenBytes;
 		const std::string str(static_cast<const char*>(data), size);
@@ -103,7 +103,7 @@ namespace XusoryEngine
 		TryToFindFile(path);
 
 		File fileTemp;
-		fileTemp.Open(path, OPEN_MODE_NULL);
+		fileTemp.Open(path, FileOpenMode::UNKNOWN);
 
 		LARGE_INTEGER large;
 		ThrowIfWinFuncFailed(GetFileSizeEx(fileTemp.m_fileHandle, &large), "get file size");
@@ -116,7 +116,7 @@ namespace XusoryEngine
 		TryToFindFile(path);
 
 		File fileTemp;
-		fileTemp.Open(path, OPEN_MODE_NULL);
+		fileTemp.Open(path, FileOpenMode::UNKNOWN);
 
 		BY_HANDLE_FILE_INFORMATION info;
 		GetFileInformationByHandle(fileTemp.m_fileHandle, &info);
@@ -125,13 +125,13 @@ namespace XusoryEngine
 		FileTime fileTime;
 		switch (timeInfo)
 		{
-		case FILE_CREATION_TIME:
+		case FileTimeInfo::CREATION_TIME:
 			result = GetFileTime(fileTemp.m_fileHandle, &fileTime, nullptr, nullptr);
 			break;
-		case FILE_LAST_ACCESS_TIME:
+		case FileTimeInfo::LAST_ACCESS_TIME:
 			result = GetFileTime(fileTemp.m_fileHandle, nullptr, &fileTime, nullptr);
 			break;
-		case FILE_LAST_WRITE_TIME:
+		case FileTimeInfo::LAST_WRITE_TIME:
 			result = GetFileTime(fileTemp.m_fileHandle, nullptr, nullptr, &fileTime);
 			break;
 		}
@@ -152,13 +152,13 @@ namespace XusoryEngine
 		BOOL result = false;
 		switch (timeInfo)
 		{
-		case FILE_CREATION_TIME:
+		case FileTimeInfo::CREATION_TIME:
 			result = SetFileTime(handle, &fileTime, nullptr, nullptr);
 			break;
-		case FILE_LAST_ACCESS_TIME:
+		case FileTimeInfo::LAST_ACCESS_TIME:
 			result = SetFileTime(handle, nullptr, &fileTime, nullptr);
 			break;
-		case FILE_LAST_WRITE_TIME:
+		case FileTimeInfo::LAST_WRITE_TIME:
 			result = SetFileTime(handle, nullptr, nullptr, &fileTime);
 			break;
 		}
@@ -178,7 +178,7 @@ namespace XusoryEngine
 	{
 		ThrowIfFileExist(path);
 
-		const auto handle = CreateFile(path.data(), OPEN_MODE_NULL, NULL, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
+		const auto handle = CreateFile(path.data(), static_cast<DWORD>(FileOpenMode::UNKNOWN), NULL, nullptr, CREATE_ALWAYS, FILE_ATTRIBUTE_NORMAL, nullptr);
 		if (!handle)
 		{
 			ThrowWithErrName(RuntimeError, WinFailedInfo("create file"));

@@ -140,7 +140,7 @@
     <ClInclude Include="Header\CppEx\ClassEx\ClassEx.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Header\CppEx\ClassEx\Name.h">
+    <ClInclude Include="Header\CppEx\Name\Name.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Header\CppEx\CppInfo\CppInfo.h">
@@ -170,7 +170,7 @@
     <ClInclude Include="Header\Platform\Console\Console.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Header\Platform\DLL\Dll.h">
+    <ClInclude Include="Header\Platform\Dll\Dll.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Header\Platform\File\Common\FileDefine.h">
@@ -236,7 +236,7 @@
     <ClInclude Include="Header\StdEx\StdEx.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Header\XsCommon\DllDefine.h">
+    <ClInclude Include="Header\CppEx\DllDefine\DllDefine.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Header\XusoryEngine.h">
@@ -263,7 +263,7 @@
     <ClInclude Include="Header\RHI\RHI.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Header\XsCommon\AsyncInfo.h">
+    <ClInclude Include="Header\CppEx\AsyncInfo\AsyncInfo.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Header\RHI\DirectX\DX12\Dx12RootSignature.h">
@@ -392,9 +392,13 @@
     <ClInclude Include="Header\Engine\EngineMath\XsMath.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Header\Engine\Component\Component.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\color2.hlsl" />
     <None Include="Shaders\color1.hlsl" />
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

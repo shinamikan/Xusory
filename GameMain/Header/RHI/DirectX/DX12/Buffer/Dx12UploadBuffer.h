@@ -19,6 +19,7 @@ namespace XusoryEngine
 	private:
 		BOOL m_isConstantBuffer = false;
 		UINT64 m_bufferSize = 0;
+		UINT64 m_originalBufferSize = 0;
 
 		void* m_mappedData = nullptr;
 	};

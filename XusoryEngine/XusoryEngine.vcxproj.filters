@@ -18,7 +18,7 @@
     <ClInclude Include="Header\CppEx\ClassEx\ClassEx.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Header\CppEx\ClassEx\Name.h">
+    <ClInclude Include="Header\CppEx\Name\Name.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Header\CppEx\CppInfo\CppInfo.h">
@@ -54,7 +54,7 @@
     <ClInclude Include="Header\Platform\File\Common\FileDefine.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Header\Platform\DLL\Dll.h">
+    <ClInclude Include="Header\Platform\Dll\Dll.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Header\Platform\System\SystemMonitor.h">
@@ -87,7 +87,7 @@
     <ClInclude Include="Header\XusoryEngine.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Header\XsCommon\DllDefine.h">
+    <ClInclude Include="Header\CppEx\DllDefine\DllDefine.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Header\Platform\InputDevice\Commom\KeyCode.h">
@@ -141,7 +141,7 @@
     <ClInclude Include="Header\Core\Math\Matrix2x2.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Header\XsCommon\AsyncInfo.h">
+    <ClInclude Include="Header\CppEx\AsyncInfo\AsyncInfo.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -149,7 +149,7 @@
     <ClCompile Include="Header\Platform\File\Private\Directory.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Header\Platform\DLL\Private\Dll.cpp">
+    <ClCompile Include="Header\Platform\Dll\Private\Dll.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Header\Platform\System\Private\SystemMonitor.cpp">

@@ -66,7 +66,8 @@ namespace XusoryEngine
 
 	Matrix4x4 Matrix4x4::operator+(const Matrix4x4& other) const
 	{
-		return { _mm_add_ps(m_row0, other.m_row0),
+		return {
+			_mm_add_ps(m_row0, other.m_row0),
 			_mm_add_ps(m_row1, other.m_row1),
 			_mm_add_ps(m_row2, other.m_row2),
 			_mm_add_ps(m_row3, other.m_row3)
@@ -98,7 +99,7 @@ namespace XusoryEngine
 		const __m128 m128Temp0 = _mm_setr_ps(other.m_row0.m128_f32[0], other.m_row1.m128_f32[0], other.m_row2.m128_f32[0], other.m_row3.m128_f32[0]);
 		const __m128 m128Temp1 = _mm_setr_ps(other.m_row0.m128_f32[1], other.m_row1.m128_f32[1], other.m_row2.m128_f32[1], other.m_row3.m128_f32[1]);
 		const __m128 m128Temp2 = _mm_setr_ps(other.m_row0.m128_f32[2], other.m_row1.m128_f32[2], other.m_row2.m128_f32[2], other.m_row3.m128_f32[2]);
-		const __m128 m128Temp3 = _mm_setr_ps(other.m_row0.m128_f32[2], other.m_row1.m128_f32[2], other.m_row2.m128_f32[2], other.m_row3.m128_f32[3]);
+		const __m128 m128Temp3 = _mm_setr_ps(other.m_row0.m128_f32[3], other.m_row1.m128_f32[3], other.m_row2.m128_f32[3], other.m_row3.m128_f32[3]);
 
 		const FLOAT row00 = _mm_dp_ps(m_row0, m128Temp0, 0xff).m128_f32[0];
 		const FLOAT row01 = _mm_dp_ps(m_row0, m128Temp1, 0xff).m128_f32[0];
@@ -124,7 +125,8 @@ namespace XusoryEngine
 			row00, row01, row02, row03,
 			row10, row11, row12, row13,
 			row20, row21, row22, row23,
-			row30, row31, row32, row33 };
+			row30, row31, row32, row33
+		};
 	}
 
 	Matrix4x4 Matrix4x4::operator/(FLOAT scalar) const
@@ -402,12 +404,12 @@ namespace XusoryEngine
 
 	Matrix4x4 Matrix4x4::MultiMatrix(const Matrix4x4& lhs, const Matrix4x4& rhs)
 	{
-		const __m128 row0 = _mm_mul_ps(lhs.m_row0, rhs.m_row0);
-		const __m128 row1 = _mm_mul_ps(lhs.m_row1, rhs.m_row1);
-		const __m128 row2 = _mm_mul_ps(lhs.m_row2, rhs.m_row2);
-		const __m128 row3 = _mm_mul_ps(lhs.m_row3, rhs.m_row3);
-
-		return { row0, row1, row2, row3 };
+		return {
+			_mm_mul_ps(lhs.m_row0, rhs.m_row0),
+			_mm_mul_ps(lhs.m_row1, rhs.m_row1),
+			_mm_mul_ps(lhs.m_row2, rhs.m_row2),
+			_mm_mul_ps(lhs.m_row3, rhs.m_row3)
+		};
 	}
 
 	Matrix4x4 Matrix4x4::BuildScaleMatrix(FLOAT scalar)

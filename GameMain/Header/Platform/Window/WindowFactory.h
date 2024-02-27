@@ -4,7 +4,6 @@
 #include <unordered_map>
 
 #include "../Common/PlatformDefine.h"
-
 #include "Common/WindowDefine.h"
 #include "Window.h"
 
@@ -20,9 +19,9 @@ namespace XusoryEngine
 
 	public:
 		static void StartNewWindowClass();
-		static void SetWindowCursor(SysCursorId sysCursor);
+		static void SetWindowCursor(SysCursor sysCursor);
 		static void SetWindowCursor(const std::wstring_view& imagePath);
-		static void SetWindowIcon(INT sysIcon);
+		static void SetWindowIcon(SysIcon sysIcon);
 		static void SetWindowIcon(const std::wstring_view& imagePath);
 		static void RegisterWindowClass(HINSTANCE hInstance, const std::wstring_view& className);
 
@@ -34,8 +33,8 @@ namespace XusoryEngine
 		static void DestroyWindowInstance(Window*& window);
 		static void DestroyAllWindowInstance();
 
-		static MessageBoxCode MessageWindow(WinId winId, const std::wstring_view& caption, const std::wstring_view& text,
-			MessageBoxStyle style = MSG_BOX_OK_CANCEL, MessageBoxIcon icon = MSG_ICON_INFORMATION);
+		static MessageBoxCode MessageWindow(WinId winId, const std::wstring_view & caption, const std::wstring_view & text,
+			MessageBoxStyle style = MessageBoxStyle::OK_CANCEL, MessageBoxIcon icon = MessageBoxIcon::INFORMATION);
 
 	private:
 		static void DeleteWindowInstance(Window*& window);

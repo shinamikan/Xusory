@@ -6,11 +6,11 @@ namespace XusoryEngine
 {
 	using CompleteTime = SYSTEMTIME;
 
-	enum Month
+	enum class Month
 	{
-		MONTH_JAN = 1, MONTH_FEB, MONTH_MAR, MONTH_APR,
-		MONTH_MAY, MONTH_JUN, MONTH_JUL, MONTH_AUG,
-		MONTH_SEP, MONTH_OCT, MONTH_NOV, MONTH_DEC
+		JAN = 1, FEB, MAR, APR,
+		MAY, JUN, JUL, AUG,
+		SEP, OCT, NOV, DEC
 	};
 
 	DLL_STATIC_CLASS(Date)

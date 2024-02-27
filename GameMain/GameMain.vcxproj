@@ -289,7 +289,7 @@
     <ClInclude Include="Header\Core\Math\Vector3.h" />
     <ClInclude Include="Header\Core\Math\Vector4.h" />
     <ClInclude Include="Header\CppEx\ClassEx\ClassEx.h" />
-    <ClInclude Include="Header\CppEx\ClassEx\Name.h" />
+    <ClInclude Include="Header\CppEx\Name\Name.h" />
     <ClInclude Include="Header\CppEx\CppEx.h" />
     <ClInclude Include="Header\CppEx\CppInfo\CppInfo.h" />
     <ClInclude Include="Header\CppEx\Enum\Enum.h" />
@@ -303,6 +303,7 @@
     <ClInclude Include="Header\Engine\Component\Behaviour\Camera\Camera.h" />
     <ClInclude Include="Header\Engine\Component\Behaviour\Light\Light.h" />
     <ClInclude Include="Header\Engine\Component\Behaviour\Renderer\MeshRenderer.h" />
+    <ClInclude Include="Header\Engine\Component\Component.h" />
     <ClInclude Include="Header\Engine\Component\Transform\Transform.h" />
     <ClInclude Include="Header\Engine\Engine.h" />
     <ClInclude Include="Header\Engine\EngineMath\XsMath.h" />
@@ -310,7 +311,7 @@
     <ClInclude Include="Header\Engine\Input\Input.h" />
     <ClInclude Include="Header\Platform\Common\PlatformDefine.h" />
     <ClInclude Include="Header\Platform\Console\Console.h" />
-    <ClInclude Include="Header\Platform\DLL\Dll.h" />
+    <ClInclude Include="Header\Platform\Dll\Dll.h" />
     <ClInclude Include="Header\Platform\File\Common\FileDefine.h" />
     <ClInclude Include="Header\Platform\File\Directory.h" />
     <ClInclude Include="Header\Platform\File\File.h" />
@@ -363,11 +364,12 @@
     <ClInclude Include="Header\RHI\RHI.h" />
     <ClInclude Include="Header\StdEx\StdEx.h" />
     <ClInclude Include="Header\StdEx\StringEx\StringEx.h" />
-    <ClInclude Include="Header\XsCommon\AsyncInfo.h" />
-    <ClInclude Include="Header\XsCommon\DllDefine.h" />
+    <ClInclude Include="Header\CppEx\AsyncInfo\AsyncInfo.h" />
+    <ClInclude Include="Header\CppEx\DllDefine\DllDefine.h" />
     <ClInclude Include="Header\XusoryEngine.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="Shaders\color2.hlsl">
       <FileType>Document</FileType>
     </None>
@@ -379,5 +381,12 @@
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
+    <Import Project="..\packages\WinPixEventRuntime.1.0.231030001\build\WinPixEventRuntime.targets" Condition="Exists('..\packages\WinPixEventRuntime.1.0.231030001\build\WinPixEventRuntime.targets')" />
   </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>这台计算机上缺少此项目引用的 NuGet 程序包。使用“NuGet 程序包还原”可下载这些程序包。有关更多信息，请参见 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的文件是 {0}。</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\WinPixEventRuntime.1.0.231030001\build\WinPixEventRuntime.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\WinPixEventRuntime.1.0.231030001\build\WinPixEventRuntime.targets'))" />
+  </Target>
 </Project>

@@ -55,11 +55,9 @@ namespace XusoryEngine
 		m_depthStencilBuffer->CreateDepthStencilBuffer(m_device.get(), D3D12_RESOURCE_STATE_COMMON, 1.0f, 0, width, height);
 		m_depthStencilBuffer->DescribeAsDsv(m_device.get(), m_dsvAllocator.get());
 
-		m_commandList->TranslationBufferState(m_depthStencilBuffer.get(), D3D12_RESOURCE_STATE_DEPTH_WRITE, false);
-		m_commandList->EndCommand();
-
-		m_commandQueue->ExecuteCommandList({ m_commandList.get() });
-		m_commandQueue->SignalAndWaitForNextFence(m_fence.get());
+		m_commandList->TranslationBufferState(m_depthStencilBuffer.get(), D3D12_RESOURCE_STATE_DEPTH_WRITE);
+		
+		ExecuteCommandAndWait();
 
 		m_screenViewport.TopLeftX = 0;
 		m_screenViewport.TopLeftY = 0;
@@ -69,6 +67,18 @@ namespace XusoryEngine
 		m_screenViewport.MaxDepth = 1.0f;
 
 		m_scissorRect = { 0, 0, static_cast<LONG>(width), static_cast<LONG>(height) };
+	}
+
+	void GiDx12GraphicsManager::ExecuteCommandAndWait()
+	{
+		m_commandList->EndCommand();
+		m_commandQueue->ExecuteCommandList({ m_commandList.get() });
+		m_commandQueue->SignalAndWaitForNextFence(m_fence.get());
+	}
+
+	void GiDx12GraphicsManager::ReSetCommandList()
+	{
+		m_commandList->ResetCommandList(m_commandAllocator.get(), nullptr);
 	}
 
 	void GiDx12GraphicsManager::BuildMaterial(Material* material)
@@ -95,7 +105,7 @@ namespace XusoryEngine
 		auto* meshBuffer = new Dx12MeshBuffer;
 		meshBuffer->CreateMeshBuffer(m_device.get(), static_cast<UINT>(vertices.size()), sizeof(Vertex),
 			static_cast<UINT>(indices.size()), static_cast<DXGI_FORMAT>(mesh->indexFormat));
-		meshBuffer->UploadMeshResource(m_device.get(), m_commandList.get(), vertices.data(), indices.data());
+		meshBuffer->UploadMeshResource(m_commandList.get(), vertices.data(), indices.data());
 
 		m_meshBufferMap.emplace(mesh, meshBuffer);
 	}

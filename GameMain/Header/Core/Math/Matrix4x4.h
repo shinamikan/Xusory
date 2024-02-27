@@ -33,24 +33,24 @@ namespace XusoryEngine
 			FLOAT m20, FLOAT m21, FLOAT m22, FLOAT m23,
 			FLOAT m30, FLOAT m31, FLOAT m32, FLOAT m33);
 		explicit Matrix4x4(FLOAT scalar);
-		explicit Matrix4x4(const Float4x4& m);
+		explicit Matrix4x4(const Float4x4 & m);
 		DEFAULT_COPY_OPERATOR(Matrix4x4);
 		DEFAULT_MOVE_OPERATOR(Matrix4x4);
 		~Matrix4x4() = default;
 
-		Matrix4x4 operator+(const Matrix4x4& other) const;
-		Matrix4x4 operator-(const Matrix4x4& other) const;
+		Matrix4x4 operator+(const Matrix4x4 & other) const;
+		Matrix4x4 operator-(const Matrix4x4 & other) const;
 		Matrix4x4 operator*(FLOAT scalar) const;
-		Matrix4x4 operator*(const Matrix4x4& other) const;
+		Matrix4x4 operator*(const Matrix4x4 & other) const;
 		Matrix4x4 operator/(FLOAT scalar) const;
-		Matrix4x4 operator/(const Matrix4x4& other) const;
-		Matrix4x4 operator==(const Matrix4x4& other) const;
-		Matrix4x4& operator+=(const Matrix4x4& other);
-		Matrix4x4& operator-=(const Matrix4x4& other);
+		Matrix4x4 operator/(const Matrix4x4 & other) const;
+		Matrix4x4 operator==(const Matrix4x4 & other) const;
+		Matrix4x4& operator+=(const Matrix4x4 & other);
+		Matrix4x4& operator-=(const Matrix4x4 & other);
 		Matrix4x4& operator*=(FLOAT scalar);
-		Matrix4x4& operator*=(const Matrix4x4& other);
+		Matrix4x4& operator*=(const Matrix4x4 & other);
 		Matrix4x4& operator/=(FLOAT scalar);
-		Matrix4x4& operator/=(const Matrix4x4& other);
+		Matrix4x4& operator/=(const Matrix4x4 & other);
 
 		Float4x4 GetMatrix() const;
 		void SetMatrix(

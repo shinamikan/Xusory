@@ -16,6 +16,7 @@ namespace XusoryEngine
         UNDEFINED = 0,
         POINT_LIST,
         LINE_LIST,
+        LINE_STRIP,
         TRIANGLE_LIST,
         TRIANGLE_STRIP,
         LINE_LIST_ADJ = 10,

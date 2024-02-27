@@ -30,19 +30,19 @@ namespace XusoryEngine
 	{
 		switch (mouseEventCode)
 		{
-		case MOUSE_LEFT:
+		case MouseEventCode::LEFT:
 			mouse_event(MOUSEEVENTF_LEFTDOWN, NULL, NULL, NULL, NULL);
 			break;
-		case MOUSE_RIGHT:
+		case MouseEventCode::RIGHT:
 			mouse_event(MOUSEEVENTF_RIGHTDOWN, NULL, NULL, NULL, NULL);
 			break;
-		case MOUSE_MID:
+		case MouseEventCode::MID:
 			mouse_event(MOUSEEVENTF_MIDDLEDOWN, NULL, NULL, NULL, NULL);
 			break;
-		case MOUSE_EX1:
+		case MouseEventCode::EX1:
 			mouse_event(MOUSEEVENTF_XDOWN, NULL, NULL, XBUTTON1, NULL);
 			break;
-		case MOUSE_EX2:
+		case MouseEventCode::EX2:
 			mouse_event(MOUSEEVENTF_XDOWN, NULL, NULL, XBUTTON2, NULL);
 			break;
 		}
@@ -52,19 +52,19 @@ namespace XusoryEngine
 	{
 		switch (mouseEventCode)
 		{
-		case MOUSE_LEFT:
+		case MouseEventCode::LEFT:
 			mouse_event(MOUSEEVENTF_LEFTUP, NULL, NULL, NULL, NULL);
 			break;
-		case MOUSE_RIGHT:
+		case MouseEventCode::RIGHT:
 			mouse_event(MOUSEEVENTF_RIGHTUP, NULL, NULL, NULL, NULL);
 			break;
-		case MOUSE_MID:
+		case MouseEventCode::MID:
 			mouse_event(MOUSEEVENTF_MIDDLEUP, NULL, NULL, NULL, NULL);
 			break;
-		case MOUSE_EX1:
+		case MouseEventCode::EX1:
 			mouse_event(MOUSEEVENTF_XUP, NULL, NULL, XBUTTON1, NULL);
 			break;
-		case MOUSE_EX2:
+		case MouseEventCode::EX2:
 			mouse_event(MOUSEEVENTF_XUP, NULL, NULL, XBUTTON2, NULL);
 			break;
 		}
@@ -78,11 +78,11 @@ namespace XusoryEngine
 
 	void KeyBoard::VirtualPressKey(KeyCode keyCode)
 	{
-		keybd_event(keyCode, NULL, NULL, NULL);
+		keybd_event(static_cast<BYTE>(keyCode), NULL, NULL, NULL);
 	}
 
 	void KeyBoard::VirtualReleaseKey(KeyCode keyCode)
 	{
-		keybd_event(keyCode, NULL, KEYEVENTF_KEYUP, NULL);
+		keybd_event(static_cast<BYTE>(keyCode), NULL, KEYEVENTF_KEYUP, NULL);
 	}
 }

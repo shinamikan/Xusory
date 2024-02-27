@@ -108,6 +108,7 @@ namespace XusoryEngine
 		case WM_MOUSEMOVE:
 		{
 			MouseMoveEvent event;
+			event.mouseClickKeyCode = static_cast<MouseKeyCode>(wParam);
 			event.mouseMovePosX = GET_X_LPARAM(lParam);
 			event.mouseMovePosY = GET_Y_LPARAM(lParam);
 			window->OnMouseMove(event);
@@ -200,7 +201,7 @@ namespace XusoryEngine
 		sm_windowClass = new WindowClassEx();
 	}
 
-	void WindowFactory::SetWindowCursor(SysCursorId sysCursor)
+	void WindowFactory::SetWindowCursor(SysCursor sysCursor)
 	{
 		ThrowIfWindowClassNull();
 		sm_windowClass->hCursor = LoadCursor(nullptr, MAKEINTRESOURCE(sysCursor));
@@ -214,7 +215,7 @@ namespace XusoryEngine
 		sm_windowClass->hCursor = static_cast<HCURSOR>(LoadImage(nullptr, imagePath.data(), IMAGE_ICON, 0, 0, LR_LOADFROMFILE | LR_DEFAULTSIZE));
 	}
 
-	void WindowFactory::SetWindowIcon(INT sysIcon)
+	void WindowFactory::SetWindowIcon(SysIcon sysIcon)
 	{
 		ThrowIfWindowClassNull();
 		sm_windowClass->hIcon = LoadIcon(nullptr, MAKEINTRESOURCE(sysIcon));
@@ -278,7 +279,7 @@ namespace XusoryEngine
 
 	MessageBoxCode WindowFactory::MessageWindow(WinId winId, const std::wstring_view& caption, const std::wstring_view& text, MessageBoxStyle style, MessageBoxIcon icon)
 	{
-		return static_cast<MessageBoxCode>(MessageBox(winId, text.data(), caption.data(), static_cast<int>(style) | icon | MB_DEFBUTTON1));
+		return static_cast<MessageBoxCode>(MessageBox(winId, text.data(), caption.data(), static_cast<INT>(style) | static_cast<INT>(icon) | MB_DEFBUTTON1));
 	}
 
 	void WindowFactory::DeleteWindowInstance(Window*& window)

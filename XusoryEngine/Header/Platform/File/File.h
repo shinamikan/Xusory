@@ -6,34 +6,34 @@ namespace XusoryEngine
 {
 	using CompleteTime = SYSTEMTIME;
 
-	enum OpenMode : DWORD
+	enum class FileOpenMode : DWORD
 	{
-		OPEN_MODE_NULL = NULL,
-		OPEN_MODE_READ = GENERIC_READ,
-		OPEN_MODE_WRITE = GENERIC_WRITE,
-		OPEN_MODE_APPEND = FILE_APPEND_DATA,
-		OPEN_MODE_READ_ADD = OPEN_MODE_READ + 1,
-		OPEN_MODE_WRITE_ADD = OPEN_MODE_WRITE + 1,
-		OPEN_MODE_APPEND_ADD = OPEN_MODE_APPEND + 1
+		UNKNOWN = NULL,
+		READ = GENERIC_READ,
+		WRITE = GENERIC_WRITE,
+		APPEND = FILE_APPEND_DATA,
+		READ_ADD = READ + 1,
+		WRITE_ADD = WRITE + 1,
+		APPEND_ADD = APPEND + 1
 	};
 
-	enum FileTimeInfo
+	enum class FileTimeInfo
 	{
-		FILE_CREATION_TIME = 0,
-		FILE_LAST_ACCESS_TIME,
-		FILE_LAST_WRITE_TIME
+		CREATION_TIME = 0,
+		LAST_ACCESS_TIME,
+		LAST_WRITE_TIME
 	};
 
 	DLL_CLASS(File)
 	{
 	public:
 		File() = default;
-		File(const std::wstring_view& path, OpenMode openMode);
+		File(const std::wstring_view& path, FileOpenMode openMode);
 		DEFAULT_COPY_OPERATOR(File);
 		DEFAULT_MOVE_OPERATOR(File);
 		~File();
 
-		void Open(const std::wstring_view& path, OpenMode openMode);
+		void Open(const std::wstring_view& path, FileOpenMode openMode);
 		void Close() const;
 		void Read(void* pData) const;
 		void ReadText(std::string& str) const;
@@ -54,6 +54,6 @@ namespace XusoryEngine
 
 	private:
 		HANDLE m_fileHandle = nullptr;
-		OpenMode m_openMode;
+		FileOpenMode m_openMode = FileOpenMode::UNKNOWN;
 	};
 }

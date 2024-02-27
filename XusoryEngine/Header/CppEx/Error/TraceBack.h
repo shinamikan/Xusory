@@ -13,10 +13,9 @@ DLL_STATIC_CLASS(TraceBack)
 public:
 	static const std::vector<std::string>& GetTraceBackInfoList();
 
-	static void AddTraceBackInfo(const std::string& info);
-	static void RemoveTraceBackInfo();
+	static void AddEndTraceBackInfo(const std::string& info);
+	static void RemoveEndTraceBackInfo();
 
-	static void AddFunctionPtr(void* pFunc);
 	static void CaptureCurrentStack(UINT captureFrames);
 	static void ClearStack();
 	
@@ -33,6 +32,6 @@ private:
 		UINT m_frameCount = 0;
 
 		std::vector<void*> m_funcStack;
-		std::vector<std::string> m_backTraceInfoList;
+		std::vector<std::string> m_traceBackInfoList;
 	};
 };

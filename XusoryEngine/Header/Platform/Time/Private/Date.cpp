@@ -1,8 +1,6 @@
 #include "../Date.h"
 #include "../Time.h"
 
-#include <unordered_map>
-
 namespace XusoryEngine
 {
 	std::wstring Date::FormatDate(const CompleteTime& compDate, const std::wstring_view& formatInfo)
@@ -51,20 +49,20 @@ namespace XusoryEngine
 
 			switch (compDate.wMonth)
 			{
-			case MONTH_JAN:
-			case MONTH_MAR:
-			case MONTH_MAY:
-			case MONTH_JUL:
-			case MONTH_AUG:
-			case MONTH_OCT:
-			case MONTH_DEC:
+			case Month::JAN:
+			case Month::MAR:
+			case Month::MAY:
+			case Month::JUL:
+			case Month::AUG:
+			case Month::OCT:
+			case Month::DEC:
 				compDate.wDay -= 31;
 				AddMonth(compDate);
 				break;
-			case MONTH_APR:
-			case MONTH_JUN:
-			case MONTH_SEP:
-			case MONTH_NOV:
+			case Month::APR:
+			case Month::JUN:
+			case Month::SEP:
+			case Month::NOV:
 				compDate.wDay -= 30;
 				AddMonth(compDate);
 				break;
@@ -144,21 +142,21 @@ namespace XusoryEngine
 
 		switch (compDate.wMonth)
 		{
-		case MONTH_JAN:
-		case MONTH_MAR:
-		case MONTH_MAY:
-		case MONTH_JUL:
-		case MONTH_AUG:
-		case MONTH_OCT:
-		case MONTH_DEC:
+		case Month::JAN:
+		case Month::MAR:
+		case Month::MAY:
+		case Month::JUL:
+		case Month::AUG:
+		case Month::OCT:
+		case Month::DEC:
 			if (compDate.wDay <= 31)
 			{
 				return true;
 			}
-		case MONTH_APR:
-		case MONTH_JUN:
-		case MONTH_SEP:
-		case MONTH_NOV:
+		case Month::APR:
+		case Month::JUN:
+		case Month::SEP:
+		case Month::NOV:
 			if (compDate.wDay <= 30)
 			{
 				return true;

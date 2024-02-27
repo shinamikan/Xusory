@@ -5,8 +5,6 @@
 #include "Exception.h"
 #include "TraceBack.h"
 
-constexpr char IN_CODE_INFO[] = "In Code: ";
-
 // All standard library errors can be thrown using the following function and macros.
 // These functions and macros can capture the function stack when an error is thrown.
 
@@ -15,7 +13,7 @@ void StdThrow(const std::string& errorInfo, std::errc errCode = std::errc::inval
 {
 	static_assert(std::is_base_of_v<Exception, ErrorT>);
 	TraceBack::CaptureCurrentStack(UINT8_MAX);
-	TraceBack::RemoveTraceBackInfo();
+	TraceBack::RemoveEndTraceBackInfo();
 	throw ErrorT(errorInfo);
 }
 
@@ -23,7 +21,7 @@ template <>
 [[noreturn]] inline void StdThrow<SystemError>(const std::string& errorInfo, std::errc errCode)
 {
 	TraceBack::CaptureCurrentStack(UINT8_MAX);
-	TraceBack::RemoveTraceBackInfo();
+	TraceBack::RemoveEndTraceBackInfo();
 	throw SystemError(std::make_error_code(errCode), errorInfo);
 }
 
@@ -42,14 +40,14 @@ template <>
 inline void CaptureStdFunc(const std::string& info)
 {
 	TraceBack::CaptureCurrentStack(UINT8_MAX);
-	TraceBack::AddTraceBackInfo(info);
+	TraceBack::AddEndTraceBackInfo(info);
 }
 
-#define CaptureFunc(function, result)										\
-	CaptureStdFunc(std::string(IN_CODE_INFO) + (#function));				\
+#define CaptureFunc(function, result)							\
+	CaptureStdFunc(std::string("In Code: ") + (#function));		\
 	result = function													
-#define CaptureNoReturnFunc(function)										\
-	CaptureStdFunc(std::string(IN_CODE_INFO) + (#function));				\
+#define CaptureNoReturnFunc(function)							\
+	CaptureStdFunc(std::string("In Code: ") + (#function));		\
 	function
 
 // The Assertion Function of Nova Engine Expansion

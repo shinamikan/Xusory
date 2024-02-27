@@ -2,13 +2,13 @@
 #include <string>
 #include <vector>
 #include <future>
-#include <cmath>
-#include <DirectXMath.h>
 
 #define DLL_IMPORT
 
 #include "Header/XusoryEngine.h"
 #include "GameMainDefine.h"
+
+#include "pix3.h"
 
 #pragma comment(lib, "XusoryEngine.lib")
 
@@ -16,6 +16,10 @@ using namespace std;
 using namespace XusoryEngine;
 
 constexpr float PI = 3.1415926535f;
+
+std::shared_ptr<Mesh> mesh;
+std::shared_ptr<Shader> shader;
+std::shared_ptr<Material> material;
 
 class UserRenderPipeline : public RenderPipeline
 {
@@ -25,20 +29,18 @@ public:
 	void Render(CommandContext* commandContext) override
 	{
 		commandContext->BeginCommand();
-		commandContext->ClearRenderTarget(true, true, { 0.941176534f, 0.501960814f, 0.501960814f, 1.f }, 1.0f);
+		commandContext->ClearRenderTarget(true, true, { 0.235294133f, 0.701960802f, 0.443137288f, 1.f }, 1.0f);
+		commandContext->DrawRenderer(material.get(), mesh.get());
 		commandContext->EndCommand();
 	}
 };
 
-std::shared_ptr<Mesh> mesh;
-std::shared_ptr<Shader> shader;
-std::shared_ptr<Material> material;
 std::shared_ptr<UserRenderPipeline> renderPipeline;
 
 Vector3 position{ 0.0f, 0.0f, 0.0f };
 Vector3 scale{ 1.0f, 1.0f, 1.0f };
 
-Vector3 cameraPosition{ 0.0f, 0.0f, 10.0f };
+Vector3 cameraPosition{ 0.0f, 0.0f, 40.0f };
 Vector3 targetPosition{ 0.0f, 0.0f, 0.0f };
 Vector3 worldUp{ 0.0f, 1.0f, 0.0f };
 
@@ -71,9 +73,11 @@ public:
 			m_graphicsManager->InitGraphicsObject(GetWinId());
 			m_commandContext->InitCommandContext(m_graphicsManager.get());
 
+			m_graphicsManager->ReSetCommandList();
 			m_graphicsManager->BuildMesh(mesh.get());
 			m_graphicsManager->BuildShader(shader.get());
 			m_graphicsManager->BuildMaterial(material.get());
+			m_graphicsManager->ExecuteCommandAndWait();
 		}
 		catch (const std::exception& e)
 		{
@@ -89,31 +93,19 @@ public:
 			const FLOAT aspect = static_cast<FLOAT>(event.sizeX) / static_cast<FLOAT>(event.sizeY);
 			m_projMat = XsMath::BuildPerspectiveMatrixFov(0.25f * PI, aspect, 1.0f, 1000.0f);
 
-			if (m_graphicsManager != nullptr)
-			{
-				m_graphicsManager->Resize(event.sizeX, event.sizeY);
-			}
+			m_graphicsManager->Resize(event.sizeX, event.sizeY);
 		}
 		catch (const std::exception& e)
 		{
 			StdErrorOutput(e);
-			WindowFactory::DestroyAllWindowInstance();
 		}
 	}
 
 	void OnKeyPress(const KeyEvent& event) override
 	{
-		if (event.keyCode == KEY_1)
+		if (event.keyCode == KeyCode::KEY_A)
 		{
 			Debug::LogInfo("Test Press");
-		}
-		else if (event.keyCode == KEY_2)
-		{
-			Debug::LogInfo("\n", XsMath::BuildViewMatrixLookUp(cameraPosition, targetPosition, worldUp));
-		}
-		else if (event.keyCode == KEY_3)
-		{
-			Debug::LogInfo("\n", XsMath::BuildPerspectiveMatrixFov(0.25f * PI, 2.0f, 1.0f, 1000.0f));
 		}
 	}
 
@@ -123,6 +115,8 @@ public:
 		{
 			auto modelMatrix = XsMath::BuildModelMatrix(position, scale);
 			auto viewMatrix = XsMath::BuildViewMatrixLookUp(cameraPosition, targetPosition, worldUp);
+			auto modelToProj = modelMatrix * viewMatrix * m_projMat;
+			material->SetMatrix4ByIndex(0, modelToProj.Transpose());
 
 			renderPipeline->Render(m_commandContext.get());
 		}
@@ -144,6 +138,8 @@ int WinMain(HINSTANCE hIns, HINSTANCE hPreIns, LPSTR lpCmdLine, int nCmdShow)
 	cout.setf(ios_base::fixed, ios_base::floatfield);
 	cout.precision(4);
 
+	PIXLoadLatestWinPixGpuCapturerLibrary();
+
 	GameWindow* gameWindow = nullptr;
 
 	try
@@ -153,7 +149,8 @@ int WinMain(HINSTANCE hIns, HINSTANCE hPreIns, LPSTR lpCmdLine, int nCmdShow)
 		Console::SetTitle(TEXT("Xusory Console"));
 
 		WindowFactory::StartNewWindowClass();
-		WindowFactory::SetWindowIcon(SYS_ICON_INFORMATION);
+		WindowFactory::SetWindowCursor(SysCursor::ARROW);
+		WindowFactory::SetWindowIcon(SysIcon::APPLICATION);
 		WindowFactory::RegisterWindowClass(hIns, TEXT("MainWindow"));
 
 		const std::vector position =
@@ -187,7 +184,7 @@ int WinMain(HINSTANCE hIns, HINSTANCE hPreIns, LPSTR lpCmdLine, int nCmdShow)
 		material = std::make_shared<Material>(shader.get());
 		renderPipeline = std::make_shared<UserRenderPipeline>();
 
-		gameWindow = dynamic_cast<GameWindow*>(WindowFactory::CreateWindowInstance<GameWindow>(TEXT("MainWindow"), TEXT("Application"), 400, 400, true));
+		gameWindow = dynamic_cast<GameWindow*>(WindowFactory::CreateWindowInstance<GameWindow>(TEXT("MainWindow"), TEXT("Application"), 800, 600, true));
 		gameWindow->InitGraphicsManager(GraphicsLibrary::Direct3D_12);
 	}
 	catch (const std::exception& e)

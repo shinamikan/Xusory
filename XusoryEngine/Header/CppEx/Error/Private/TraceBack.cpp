@@ -14,24 +14,20 @@ struct SymbolInfo : SYMBOL_INFO
 TraceBack::TraceBack_Internal TraceBack::sm_internalTraceBack;
 const std::vector<std::string>& TraceBack::GetTraceBackInfoList()
 {
-	return sm_internalTraceBack.m_backTraceInfoList;
+	return sm_internalTraceBack.m_traceBackInfoList;
 }
 
-void TraceBack::AddTraceBackInfo(const std::string& info)
+void TraceBack::AddEndTraceBackInfo(const std::string& info)
 {
-	sm_internalTraceBack.m_backTraceInfoList.push_back(info);
+	sm_internalTraceBack.m_traceBackInfoList.push_back(info);
 }
 
-void TraceBack::RemoveTraceBackInfo()
+void TraceBack::RemoveEndTraceBackInfo()
 {
-	sm_internalTraceBack.m_backTraceInfoList.erase(sm_internalTraceBack.m_backTraceInfoList.end() - 1);
-}
-
-void TraceBack::AddFunctionPtr(void* pFunc)
-{
-	sm_internalTraceBack.m_funcStack.insert(sm_internalTraceBack.m_funcStack.begin(), pFunc);
-	sm_internalTraceBack.m_frameCount++;
-	CreateTraceBackInfo(false);
+	if (!sm_internalTraceBack.m_traceBackInfoList.empty())
+	{
+		sm_internalTraceBack.m_traceBackInfoList.erase(sm_internalTraceBack.m_traceBackInfoList.end() - 1);
+	}
 }
 
 void TraceBack::CaptureCurrentStack(UINT captureFrames)
@@ -50,7 +46,7 @@ void TraceBack::ClearStack()
 	}
 
 	sm_internalTraceBack.m_frameCount = 0;
-	sm_internalTraceBack.m_backTraceInfoList.clear();
+	sm_internalTraceBack.m_traceBackInfoList.clear();
 }
 
 void TraceBack::CreateTraceBackInfo(BOOL isCapture)
@@ -74,7 +70,7 @@ void TraceBack::CreateTraceBackInfo(BOOL isCapture)
 	auto addTraceBackInfo = [&]() -> void
 	{
 		const std::string tempTraceBackInfo("Function: " + symbolName + " (file: " + line.FileName + ", line: " + std::to_string(line.LineNumber) + ")");
-		AddTraceBackInfo(tempTraceBackInfo);
+		AddEndTraceBackInfo(tempTraceBackInfo);
 	};
 
 	if (isCapture)

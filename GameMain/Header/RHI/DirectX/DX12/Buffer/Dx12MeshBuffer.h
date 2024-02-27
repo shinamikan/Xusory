@@ -4,6 +4,7 @@
 
 namespace XusoryEngine
 {
+	class Dx12Buffer;
 	class Dx12Buffer1D;
 	class Dx12CommandList;
 	class Dx12Device;
@@ -15,6 +16,10 @@ namespace XusoryEngine
 		DELETE_MOVE_OPERATOR(Dx12MeshBuffer);
 		~Dx12MeshBuffer();
 
+		void CreateMeshBuffer(const Dx12Device* device, UINT vertexNum, UINT vertexSize, UINT indexNum, DXGI_FORMAT indexFormat);
+		void UploadMeshResource(const Dx12CommandList* commandList, const void* vertexList, const void* indexList) const;
+		void Reset();
+
 		const Dx12Buffer1D* GetVertexBuffer() const;
 		const Dx12Buffer1D* GetIndexBuffer() const;
 		D3D12_VERTEX_BUFFER_VIEW GetVertexBufferView() const;
@@ -22,13 +27,11 @@ namespace XusoryEngine
 		UINT64 GetVertexBufferSize() const;
 		UINT64 GetIndexBufferSize() const;
 
-		void CreateMeshBuffer(const Dx12Device* device, UINT vertexNum, UINT vertexSize, UINT indexNum, DXGI_FORMAT indexFormat);
-		void UploadMeshResource(const Dx12Device* device, Dx12CommandList* commandList, const void* vertexList, const void* indexList) const;
-		void Reset();
-
 	private:
 		Dx12Buffer1D* m_vertexBuffer = nullptr;
 		Dx12Buffer1D* m_indexBuffer = nullptr;
+		Dx12Buffer* m_vertexUploadBuffer = nullptr;
+		Dx12Buffer* m_indexUploadBuffer = nullptr;
 
 		UINT m_vertexNum = 0;
 		UINT m_vertexSize = 0;

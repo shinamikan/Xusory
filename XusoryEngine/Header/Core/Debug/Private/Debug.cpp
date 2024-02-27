@@ -6,18 +6,18 @@ namespace XusoryEngine
 	{
 		switch (logType)
 		{
-		case LOG_INFO:
-			Console::SetTextColor(ConsoleTextColor::COLOR_WHITE);
+		case LogType::LOG_INFO:
+			Console::SetTextColor(ConsoleTextColor::WHITE);
 			std::cout << "[Info]";
 			break;
 
-		case LOG_WARNING:
-			Console::SetTextColor(ConsoleTextColor::COLOR_YELLOW_INTENSITY);
+		case LogType::LOG_WARNING:
+			Console::SetTextColor(ConsoleTextColor::YELLOW_INTENSITY);
 			std::cout << "[Warning]";
 			break;
 
-		case LOG_ERROR:
-			Console::SetTextColor(ConsoleTextColor::COLOR_RED_INTENSITY);
+		case LogType::LOG_ERROR:
+			Console::SetTextColor(ConsoleTextColor::RED_INTENSITY);
 			std::cout << "[Error]";
 			break;
 		}

@@ -35,16 +35,15 @@ namespace XusoryEngine
 
 		D3D12_COMMAND_LIST_TYPE GetCommandListType() const;
 
-		void CopyBuffer(Dx12Buffer* destBuffer, Dx12Buffer* srcBuffer);
-		void CopyBufferRegion(Dx12Buffer* destBuffer, Dx12Buffer* srcBuffer, UINT64 dstOffset, UINT64 srcOffset, UINT64 copySize);
+		void CopyBuffer(Dx12Buffer* destBuffer, Dx12Buffer* srcBuffer) const;
+		void CopyBufferRegion(Dx12Buffer* destBuffer, Dx12Buffer* srcBuffer, UINT64 dstOffset, UINT64 srcOffset, UINT64 copySize) const;
 
 		void SetDescriptorHeaps(const Dx12DescriptorHeap* viewDescHeap, const Dx12DescriptorHeap* samplerDescHeap) const;
-		void TranslationBufferState(Dx12Buffer* buffer, D3D12_RESOURCE_STATES translationState, BOOL hasTransBeforeEnd = true);
+		void TranslationBufferState(Dx12Buffer* buffer, D3D12_RESOURCE_STATES translationState) const;
 
 		void EndCommand() const;
 
 	protected:
-		std::vector<std::function<void()>> m_delegationList;
 		Dx12RootSignature* m_rootSignature = nullptr;
 
 	private:

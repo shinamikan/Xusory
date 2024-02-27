@@ -37,7 +37,6 @@ namespace XusoryEngine
 		{
 		public:
 			PerformanceTime_Internal();
-
 			DOUBLE m_timeCycle;
 		};
 	};

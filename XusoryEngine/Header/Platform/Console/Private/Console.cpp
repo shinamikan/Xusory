@@ -3,7 +3,7 @@
 namespace XusoryEngine
 {
 	HANDLE Console::sm_outputHandle = nullptr;
-	ConsoleTextColor Console::sm_usingColor = ConsoleTextColor::COLOR_WHITE;
+	ConsoleTextColor Console::sm_usingColor = ConsoleTextColor::WHITE;
 
 	BOOL Console::CreateConsole()
 	{
@@ -24,7 +24,7 @@ namespace XusoryEngine
 
 	void Console::RedirectToStd()
 	{
-		ThrowIfObjectNotCreated(sm_outputHandle, "console");
+		if (!IsConsoleCreated()) return;
 
 		FILE* tempFile = nullptr;
 		if (const auto errorConOut = freopen_s(&tempFile, "conout$", "w+t", stdout))
@@ -33,7 +33,7 @@ namespace XusoryEngine
 		}
 	}
 
-	BOOL Console::IsCreatedConsole()
+	BOOL Console::IsConsoleCreated()
 	{
 		return sm_outputHandle != nullptr;
 	}
@@ -49,20 +49,20 @@ namespace XusoryEngine
 
 	void Console::SetTextColor(ConsoleTextColor consoleTextColor)
 	{
+		if (!IsConsoleCreated()) return;
+
 		if (sm_usingColor == consoleTextColor)
 		{
 			return;
 		}
 
-		ThrowIfObjectNotCreated(sm_outputHandle, "console");
 		ThrowIfWinFuncFailed(SetConsoleTextAttribute(sm_outputHandle, static_cast<WORD>(consoleTextColor)), "set console text color");
-
 		sm_usingColor = consoleTextColor;
 	}
 
 	void Console::SetTextFont(const std::wstring_view& fontName, INT16 fontSize)
 	{
-		ThrowIfObjectNotCreated(sm_outputHandle, "console");
+		if (!IsConsoleCreated()) return;
 
 		CONSOLE_FONT_INFOEX cfi = {};
 		cfi.cbSize = sizeof(cfi);
@@ -78,13 +78,13 @@ namespace XusoryEngine
 
 	void Console::SetTitle(const std::wstring_view& title)
 	{
-		ThrowIfObjectNotCreated(sm_outputHandle, "console");
+		if (!IsConsoleCreated()) return;
 		SetConsoleTitle(title.data());
 	}
 
 	void Console::Clear()
 	{
-		ThrowIfObjectNotCreated(sm_outputHandle, "console");
+		if (!IsConsoleCreated()) return;
 
 		CONSOLE_SCREEN_BUFFER_INFO info;
 		GetConsoleScreenBufferInfo(sm_outputHandle, &info);
@@ -102,6 +102,8 @@ namespace XusoryEngine
 
 	void Console::Replace(TCHAR character, Coordinate coordinate, UINT count)
 	{
+		if (!IsConsoleCreated()) return;
+
 		CONSOLE_SCREEN_BUFFER_INFO info;
 		GetConsoleScreenBufferInfo(sm_outputHandle, &info);
 
@@ -115,7 +117,7 @@ namespace XusoryEngine
 
 	void Console::Write(const std::wstring_view& buf)
 	{
-		ThrowIfObjectNotCreated(sm_outputHandle, "console");
+		if (!IsConsoleCreated()) return;
 		WriteConsole(sm_outputHandle, buf.data(), static_cast<DWORD>(buf.size()), nullptr, nullptr);
 	}
 

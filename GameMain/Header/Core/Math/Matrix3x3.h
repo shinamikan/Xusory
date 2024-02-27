@@ -63,7 +63,7 @@ namespace XusoryEngine
 		static Matrix3x3 MultiMatrix(const Matrix3x3& lhs, const Matrix3x3& rhs);
 
 	private:
-		explicit Matrix3x3(const __m128& mRow0, const __m128 & mRow1, const __m128& mRow2);
+		Matrix3x3(const __m128& mRow0, const __m128& mRow1, const __m128& mRow2);
 
 		__m128 m_row0;
 		__m128 m_row1;
