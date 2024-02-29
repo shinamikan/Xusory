@@ -113,6 +113,10 @@ public:
 			position += Vector3(0.0f, 0.2f, 0.0f);
 			Debug::LogInfo(position);
 		}
+		else if (event.keyCode == KeyCode::KEY_B)
+		{
+			Debug::LogInfo(StringEx::BeginWith<std::string>("123", "19"));
+		}
 	}
 
 	void OnLoop() override

@@ -7,15 +7,15 @@ namespace XusoryEngine
         return MultiByteToWideChar(CP_ACP, 0, str.data(), -1, nullptr, NULL);
     }
 
-    INT StringEx::GetWStringByteSize(const std::wstring_view& wStr)
+    INT StringEx::GetWStringByteSize(const std::wstring_view& str)
     {
-        return WideCharToMultiByte(CP_ACP, 0, wStr.data(), -1, nullptr, 0,
+        return WideCharToMultiByte(CP_ACP, 0, str.data(), -1, nullptr, 0,
             nullptr, nullptr);
     }
 
-    std::wstring StringEx::StringToWString(const std::string_view& strSrc)
+    std::wstring StringEx::StringToWString(const std::string_view& str)
     {
-        const INT wideSize = GetStringWideSize(strSrc) - 1;
+        const INT wideSize = GetStringWideSize(str) - 1;
 
         if (wideSize <= 0)
         {
@@ -23,14 +23,14 @@ namespace XusoryEngine
         }
 
         std::wstring wStrTemp(wideSize, 0);
-        MultiByteToWideChar(CP_ACP, 0, strSrc.data(), -1, wStrTemp.data(), wideSize);
+        MultiByteToWideChar(CP_ACP, 0, str.data(), -1, wStrTemp.data(), wideSize);
 
         return wStrTemp;
     }
 
-    std::string StringEx::WStringToString(const std::wstring_view& wStrSrc)
+    std::string StringEx::WStringToString(const std::wstring_view& str)
     {
-        const INT byteSize = GetWStringByteSize(wStrSrc) - 1;
+        const INT byteSize = GetWStringByteSize(str) - 1;
 
         if (byteSize <= 0)
         {
@@ -38,7 +38,7 @@ namespace XusoryEngine
         }
 
         std::string strTemp(byteSize, 0);
-        WideCharToMultiByte(CP_ACP, 0, wStrSrc.data(), -1, strTemp.data(), byteSize,
+        WideCharToMultiByte(CP_ACP, 0, str.data(), -1, strTemp.data(), byteSize,
             nullptr, nullptr);
 
         return strTemp;
