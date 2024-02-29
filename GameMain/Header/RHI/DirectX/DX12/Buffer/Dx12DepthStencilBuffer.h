@@ -13,7 +13,7 @@ namespace XusoryEngine
 
 		void CreateDepthStencilBuffer(const Dx12Device* device, D3D12_RESOURCE_STATES initState, FLOAT clearDepth, UINT8 clearStencil,
 			UINT width, UINT height, UINT sampleCount = 1, UINT sampleQuality = 0, DXGI_FORMAT format = DXGI_FORMAT_D24_UNORM_S8_UINT);
-		void ReSetBuffer(Dx12DescriptorAllocator* allocator);
+		void ReSetBuffer(const Dx12DescriptorAllocator* allocator);
 
 		D3D12_DSV_DIMENSION GetDsvDimension() const;
 		const Dx12DescriptorHandle& GetDsvHandle() const;
@@ -22,6 +22,6 @@ namespace XusoryEngine
 
 	private:
 		D3D12_DSV_DIMENSION m_dsvDimension = D3D12_DSV_DIMENSION_UNKNOWN;
-		Dx12DescriptorHandle m_dsvHandle;
+		Dx12DescriptorHandle* m_dsvHandle = nullptr;
 	};
 }

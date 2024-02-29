@@ -4,7 +4,7 @@
 
 namespace XusoryEngine
 {
-	constexpr UINT DEFAULT_CBV_SRV_UAV_HEAP_SIZE = 256;
+	constexpr UINT DEFAULT_CBV_SRV_UAV_HEAP_SIZE = 128;
 	constexpr UINT DEFAULT_SAMPLER_HEAP_SIZE = 16;
 	constexpr UINT DEFAULT_RTV_DSV_SIZE = 8;
 
@@ -19,22 +19,22 @@ namespace XusoryEngine
 		DELETE_MOVE_OPERATOR(Dx12DescriptorAllocator);
 		~Dx12DescriptorAllocator();
 
+		void Create(const Dx12Device* device) const;
 		void ReSet();
 
 		D3D12_DESCRIPTOR_HEAP_TYPE GetHeapType() const;
 		BOOL GetShaderVisible() const;
 
-		Dx12DescriptorHandle AllocateDescriptor(const Dx12Device* device, UINT descriptorNum);
-		void ReleaseDescriptor(const Dx12DescriptorHandle& startDescriptor, UINT descriptorNum);
+		Dx12DescriptorHandle* AllocateDescriptor(const Dx12Device* device, UINT descriptorNum);
+		void ReleaseDescriptor(const Dx12DescriptorHandle& startDescriptor, UINT descriptorNum) const;
 
 	private:
 		void ExpandHeap(const Dx12Device* device);
 
 		D3D12_DESCRIPTOR_HEAP_TYPE m_descHeapType = D3D12_DESCRIPTOR_HEAP_TYPE_UNKNOWN;
-		BOOL m_shaderVisible;
+		BOOL m_shaderVisible = false;
 
 		Dx12DescriptorHeap* m_heap = nullptr;
-
-		std::vector<Dx12DescriptorHeap> m_heapList;
+		std::vector<std::unique_ptr<Dx12DescriptorHandle>> m_descriptorHandleList;
 	};
 }

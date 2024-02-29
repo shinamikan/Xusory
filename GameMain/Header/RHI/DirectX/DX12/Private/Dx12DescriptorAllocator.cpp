@@ -4,20 +4,43 @@
 namespace XusoryEngine
 {
 	Dx12DescriptorAllocator::Dx12DescriptorAllocator(D3D12_DESCRIPTOR_HEAP_TYPE descHeapType, BOOL shaderVisible) :
-		m_descHeapType(descHeapType), m_shaderVisible(shaderVisible){ }
+		m_descHeapType(descHeapType), m_shaderVisible(shaderVisible)
+	{
+		m_heap = new Dx12DescriptorHeap(descHeapType, shaderVisible);
+	}
 
 	Dx12DescriptorAllocator::~Dx12DescriptorAllocator()
 	{
-		if (m_heap)
+		ReSet();
+	}
+
+	void Dx12DescriptorAllocator::Create(const Dx12Device* device) const
+	{
+		switch (m_descHeapType)
 		{
-			delete m_heap;
-			m_heap = nullptr;
+		case D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV:
+			m_heap->Create(device, DEFAULT_CBV_SRV_UAV_HEAP_SIZE);
+			break;
+
+		case D3D12_DESCRIPTOR_HEAP_TYPE_RTV:
+		case D3D12_DESCRIPTOR_HEAP_TYPE_DSV:
+			m_heap->Create(device, DEFAULT_RTV_DSV_SIZE);
+			break;
+
+		default:
+			m_heap->Create(device, DEFAULT_SAMPLER_HEAP_SIZE);
+			break;
 		}
 	}
 
 	void Dx12DescriptorAllocator::ReSet()
 	{
-		m_heapList.clear();
+		if (m_heap != nullptr)
+		{
+			delete m_heap;
+			m_heap = nullptr;
+		}
+		m_descriptorHandleList.clear();
 	}
 
 	D3D12_DESCRIPTOR_HEAP_TYPE Dx12DescriptorAllocator::GetHeapType() const
@@ -30,31 +53,8 @@ namespace XusoryEngine
 		return m_shaderVisible;
 	}
 
-	Dx12DescriptorHandle Dx12DescriptorAllocator::AllocateDescriptor(const Dx12Device* device, UINT descriptorNum)
+	Dx12DescriptorHandle* Dx12DescriptorAllocator::AllocateDescriptor(const Dx12Device* device, UINT descriptorNum)
 	{
-		if (m_heap == nullptr)
-		{
-			m_heap = new Dx12DescriptorHeap(m_descHeapType, m_shaderVisible);
-			switch (m_descHeapType)
-			{
-			case D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV:
-				m_heap->Create(device, DEFAULT_CBV_SRV_UAV_HEAP_SIZE);
-				break;
-
-			case D3D12_DESCRIPTOR_HEAP_TYPE_RTV:
-			case D3D12_DESCRIPTOR_HEAP_TYPE_DSV:
-				m_heap->Create(device, DEFAULT_RTV_DSV_SIZE);
-				break;
-
-			default:
-				m_heap->Create(device, DEFAULT_SAMPLER_HEAP_SIZE);
-				break;
-			}
-
-			m_heap->SetDescriptorAllocated(0, descriptorNum, true);
-			return (*m_heap)[0];
-		}
-
 		while (m_heap->GetNumOfFreeSlots() < descriptorNum)
 		{
 			ExpandHeap(device);
@@ -98,18 +98,26 @@ namespace XusoryEngine
 		}
 
 		m_heap->SetDescriptorAllocated(findIndex, descriptorNum, true);
-		return (*m_heap)[findIndex];
+
+		const INT addDescriptorNum = findIndex + descriptorNum - static_cast<UINT>(m_descriptorHandleList.size());
+		if (addDescriptorNum > 0)
+		{
+			for (INT i = 0; i < addDescriptorNum; i++)
+			{
+				auto* handle = new Dx12DescriptorHandle;
+				*handle = (*m_heap)[static_cast<UINT>(m_descriptorHandleList.size())];
+				m_descriptorHandleList.emplace_back(handle);
+			}
+		}
+
+		return m_descriptorHandleList.at(findIndex).get();
 	}
 
-	void Dx12DescriptorAllocator::ReleaseDescriptor(const Dx12DescriptorHandle& startDescriptor, UINT descriptorNum)
+	void Dx12DescriptorAllocator::ReleaseDescriptor(const Dx12DescriptorHandle& startDescriptor, UINT descriptorNum) const
 	{
-		for (auto& heap : m_heapList)
+		if (const UINT index = m_heap->FindDescriptor(startDescriptor); index != -1)
 		{
-			if (const UINT index = heap.FindDescriptor(startDescriptor); index != -1)
-			{
-				heap.SetDescriptorAllocated(index, descriptorNum, false);
-				return;
-			}
+			m_heap->SetDescriptorAllocated(index, descriptorNum, false);
 		}
 	}
 
@@ -124,5 +132,10 @@ namespace XusoryEngine
 
 		delete m_heap;
 		m_heap = heap;
+
+		for (UINT i = 0; i < m_descriptorHandleList.size(); i++)
+		{
+			*m_descriptorHandleList.at(i) = (*m_heap)[i];
+		}
 	}
 }

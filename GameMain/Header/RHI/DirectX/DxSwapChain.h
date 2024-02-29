@@ -12,8 +12,7 @@ namespace XusoryEngine
 
 		void Create(const DxFactory* factory, IUnknown* deviceOrDx12CommandQueue, 
 			const WinId& winId, UINT width, UINT height, DXGI_FORMAT format, UINT bufferCount,
-			DXGI_USAGE usage = DXGI_USAGE_RENDER_TARGET_OUTPUT,
-			DXGI_SCALING scaling = DXGI_SCALING_STRETCH, DXGI_SWAP_EFFECT swapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD,
+			DXGI_USAGE usage = DXGI_USAGE_RENDER_TARGET_OUTPUT, DXGI_SCALING scaling = DXGI_SCALING_STRETCH, DXGI_SWAP_EFFECT swapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD,
 			DXGI_ALPHA_MODE alphaMode = DXGI_ALPHA_MODE_UNSPECIFIED, UINT flags = DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH);
 
 		DXGI_FORMAT GetFormat() const;

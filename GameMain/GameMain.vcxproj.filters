@@ -105,6 +105,18 @@
     <ClCompile Include="Header\Engine\EngineMath\Private\XsMath.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Header\RHI\DirectX\Private\DxTextureLoader.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\RHI\DirectX\Common\Private\DDSTextureLoader.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\RHI\DirectX\DX12\Buffer\Private\Dx12TextureBuffer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\Resource\ResourceLoader\Private\TextureLoader.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Header\Core\Debug\Debug.h">
@@ -393,6 +405,21 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Header\Engine\Component\Component.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\RHI\DirectX\Common\DDSTextureLoader.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\RHI\DirectX\DX12\Buffer\Dx12TextureBuffer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Resource\ResourceLoader\TextureLoader.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Core\API\Factory.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Resource\ResourceLoader\MeshLoader.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

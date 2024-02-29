@@ -15,7 +15,7 @@ namespace XusoryEngine
 		//void CreateUnorderedAccessBuffer(const Dx12Device* device, D3D12_RESOURCE_STATES initState, UINT64 size);
 		void CreateUnorderedAccessBuffer2D(const Dx12Device* device, D3D12_RESOURCE_STATES initState, 
 			UINT width, UINT height, UINT16 arraySize = 1, DXGI_FORMAT format = DXGI_FORMAT_R8G8B8A8_UNORM);
-		void ReSetBuffer(Dx12DescriptorAllocator* allocator);
+		void ReSetBuffer(const Dx12DescriptorAllocator* allocator);
 
 		D3D12_UAV_DIMENSION GetUavDimension() const;
 		const Dx12DescriptorHandle& GetUavHandle() const;
@@ -24,6 +24,6 @@ namespace XusoryEngine
 
 	private:
 		D3D12_UAV_DIMENSION m_uavDimension = D3D12_UAV_DIMENSION_UNKNOWN;
-		Dx12DescriptorHandle m_uavHandle;
+		Dx12DescriptorHandle* m_uavHandle;
 	};
 }

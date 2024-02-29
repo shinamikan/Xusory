@@ -57,14 +57,13 @@ namespace XusoryEngine
 		void SetTextureByIndex(UINT index, Texture* value);
 		void SetTextureByName(const std::string_view& name, Texture* value);
 
-	public:
+	private:
 		void BindShader();
 
 		std::wstring m_materialFilePath;
-
 		const Shader* m_bindShader;
-		std::vector<std::unique_ptr<BYTE>> m_constantBufferList;
 
+		std::vector<std::unique_ptr<BYTE>> m_constantBufferList;
 		std::vector<void*> m_materialValueList;
 		std::unordered_map<std::string, void*> m_materialValueMap;
 	};

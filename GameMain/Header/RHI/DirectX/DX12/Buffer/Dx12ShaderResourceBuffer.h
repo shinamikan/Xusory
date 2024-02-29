@@ -13,7 +13,7 @@ namespace XusoryEngine
 
 		void CreateShaderResourceBuffer(const Dx12Device* device, D3D12_RESOURCE_STATES initState,
 			UINT width, UINT height, UINT16 arraySize = 1, UINT16 mipLevels = 0, DXGI_FORMAT format = DXGI_FORMAT_R8G8B8A8_UNORM);
-		void ReSetBuffer(Dx12DescriptorAllocator* allocator);
+		void ReSetBuffer(const Dx12DescriptorAllocator* allocator);
 
 		D3D12_SRV_DIMENSION GetSrvDimension() const;
 		const Dx12DescriptorHandle& GetSrvHandle() const;
@@ -22,6 +22,6 @@ namespace XusoryEngine
 
 	private:
 		D3D12_SRV_DIMENSION m_srvDimension = D3D12_SRV_DIMENSION_UNKNOWN;
-		Dx12DescriptorHandle m_srvHandle;
+		Dx12DescriptorHandle* m_srvHandle;
 	};
 }

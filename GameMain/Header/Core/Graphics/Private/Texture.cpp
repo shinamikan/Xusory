@@ -11,4 +11,14 @@ namespace XusoryEngine
 	{
 		return m_textureFilePath;
 	}
+
+	UINT Texture::GetTextureWidth() const
+	{
+		return m_width;
+	}
+
+	UINT Texture::GetTextureHeight() const
+	{
+		return m_height;
+	}
 }

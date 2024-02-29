@@ -6,7 +6,7 @@
 
 namespace XusoryEngine
 {
-	enum ShaderType
+	enum class ShaderType
 	{
 		VERTEX_SHADER = 0,
 		PIXEL_SHADER,

@@ -29,13 +29,13 @@ namespace XusoryEngine
 		}
 	}
 
-	void Dx12UnorderedAccessBuffer::ReSetBuffer(Dx12DescriptorAllocator* allocator)
+	void Dx12UnorderedAccessBuffer::ReSetBuffer(const Dx12DescriptorAllocator* allocator)
 	{
 		Dx12Buffer::ReSet();
 		m_uavDimension = D3D12_UAV_DIMENSION_UNKNOWN;
 
-		allocator->ReleaseDescriptor(m_uavHandle, 1);
-		m_uavHandle = Dx12DescriptorHandle();
+		if (m_uavHandle != nullptr) allocator->ReleaseDescriptor(*m_uavHandle, 1);
+		m_uavHandle = nullptr;
 	}
 
 	D3D12_UAV_DIMENSION Dx12UnorderedAccessBuffer::GetUavDimension() const
@@ -45,7 +45,7 @@ namespace XusoryEngine
 
 	const Dx12DescriptorHandle& Dx12UnorderedAccessBuffer::GetUavHandle() const
 	{
-		return m_uavHandle;
+		return *m_uavHandle;
 	}
 
 	void Dx12UnorderedAccessBuffer::DescribeAsUav(const Dx12Device* device, Dx12DescriptorAllocator* allocator)
@@ -79,10 +79,10 @@ namespace XusoryEngine
 			ThrowWithErrName(DxLogicError, "The uav dimension is unknown");
 		}
 
-		if (m_uavHandle.IsNull())
+		if (m_uavHandle == nullptr)
 		{
 			m_uavHandle = allocator->AllocateDescriptor(device, 1);
 		}
-		(*device)->CreateUnorderedAccessView(GetDxObjectPtr(), nullptr, &uavDesc, m_uavHandle.GetCpuDescriptorHandle());
+		(*device)->CreateUnorderedAccessView(GetDxObjectPtr(), nullptr, &uavDesc, m_uavHandle->GetCpuDescriptorHandle());
 	}
 }

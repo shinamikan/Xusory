@@ -1,5 +1,6 @@
 #pragma once
 
+#include <vector>
 #include "../Common/DxObject.h"
 
 namespace XusoryEngine
@@ -55,7 +56,7 @@ namespace XusoryEngine
 		UINT GetNumOfFreeSlots() const;
 		BOOL GetDescriptorAllocated(UINT index) const;
 
-		UINT FindDescriptor(const Dx12DescriptorHandle& handle) const;
+		INT FindDescriptor(const Dx12DescriptorHandle& handle) const;
 		static void CopyDescriptor(const Dx12Device* device, const Dx12DescriptorHeap* destHeap, UINT destStartIndex,
 			const Dx12DescriptorHeap* srcHeap, UINT srcStartIndex, UINT descriptorNum);
 
@@ -64,11 +65,12 @@ namespace XusoryEngine
 
 		D3D12_DESCRIPTOR_HEAP_TYPE m_descHeapType = D3D12_DESCRIPTOR_HEAP_TYPE_UNKNOWN;
 		BOOL m_shaderVisible = false;
-		
-		UINT m_heapSize = 0;
 		UINT m_descriptorSize = 0;
-		UINT m_descriptorNum = 0;
+
 		std::vector<CHAR> m_descriptorAllocatedList;
 		Dx12DescriptorHandle m_firstDescriptorHandle;
+
+		UINT m_heapSize = 0;
+		UINT m_descriptorNum = 0;
 	};
 }

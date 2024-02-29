@@ -68,6 +68,8 @@ namespace XusoryEngine
 
     void Dx12DescriptorHeap::Create(const Dx12Device* device, UINT heapSize)
     {
+        m_descriptorSize = (*device)->GetDescriptorHandleIncrementSize(m_descHeapType);
+
         D3D12_DESCRIPTOR_HEAP_DESC heapDesc;
         heapDesc.Type = m_descHeapType;
         heapDesc.NumDescriptors = heapSize;
@@ -75,23 +77,25 @@ namespace XusoryEngine
         heapDesc.NodeMask = 0;
         ThrowIfDxFailed((*device)->CreateDescriptorHeap(&heapDesc, IID_PPV_ARGS(GetDxObjectAddressOf())));
 
-        m_heapSize = heapSize;
-        m_descriptorSize = (*device)->GetDescriptorHandleIncrementSize(heapDesc.Type);
         m_descriptorAllocatedList.resize(heapSize);
         m_firstDescriptorHandle.m_cpuHandle = (*this)->GetCPUDescriptorHandleForHeapStart();
         if (m_shaderVisible)
         {
             m_firstDescriptorHandle.m_gpuHandle = (*this)->GetGPUDescriptorHandleForHeapStart();
         }
+
+        m_heapSize = heapSize;
     }
 
     void Dx12DescriptorHeap::ReSet()
     {
         DxObject::ReSet();
-        m_heapSize = 0;
-        m_descriptorSize = 0;
+
         m_descriptorAllocatedList.clear();
         m_firstDescriptorHandle = Dx12DescriptorHandle();
+
+        m_heapSize = 0;
+        m_descriptorNum = 0;
     }
 
     D3D12_DESCRIPTOR_HEAP_TYPE Dx12DescriptorHeap::GetHeapType() const
@@ -129,7 +133,7 @@ namespace XusoryEngine
         return m_descriptorAllocatedList.at(index);
     }
 
-    UINT Dx12DescriptorHeap::FindDescriptor(const Dx12DescriptorHandle& handle) const
+    INT Dx12DescriptorHeap::FindDescriptor(const Dx12DescriptorHandle& handle) const
     {
         if ((handle.GetCpuDescriptorHandlePtr() - m_firstDescriptorHandle.GetCpuDescriptorHandlePtr()) % m_descriptorSize != 0)
         {
@@ -142,7 +146,7 @@ namespace XusoryEngine
             return -1;
         }
 
-        const UINT index = static_cast<UINT>((handle.GetCpuDescriptorHandlePtr() - m_firstDescriptorHandle.GetCpuDescriptorHandlePtr()) / m_descriptorSize);
+        const INT index = static_cast<INT>(((handle.GetCpuDescriptorHandlePtr() - m_firstDescriptorHandle.GetCpuDescriptorHandlePtr()) / m_descriptorSize));
         return index;
     }
 
@@ -167,7 +171,7 @@ namespace XusoryEngine
         }
         for (UINT i = startIndex; i < startIndex + descriptorNum; i++)
         {
-            m_descriptorAllocatedList[i] = isAllocated;
+            m_descriptorAllocatedList.at(i) = isAllocated;
         }
         m_descriptorNum = isAllocated ? m_descriptorNum + descriptorNum : m_descriptorNum - descriptorNum;
     }

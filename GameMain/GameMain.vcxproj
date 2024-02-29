@@ -239,6 +239,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Header\Resource\ResourceLoader\Private\TextureLoader.cpp" />
     <ClCompile Include="Header\Core\Graphics\Private\CommandContext.cpp" />
     <ClCompile Include="Header\Core\Graphics\Private\GraphicsManager.cpp" />
     <ClCompile Include="Header\Core\Graphics\Private\Material.cpp" />
@@ -246,6 +247,7 @@
     <ClCompile Include="Header\Core\Graphics\Private\Shader.cpp" />
     <ClCompile Include="Header\Core\Graphics\Private\Texture.cpp" />
     <ClCompile Include="Header\Engine\EngineMath\Private\XsMath.cpp" />
+    <ClCompile Include="Header\RHI\DirectX\Common\Private\DDSTextureLoader.cpp" />
     <ClCompile Include="Header\RHI\DirectX\DX12\Buffer\Private\Dx12Buffer.cpp" />
     <ClCompile Include="Header\RHI\DirectX\DX12\Buffer\Private\Dx12Buffer1D.cpp" />
     <ClCompile Include="Header\RHI\DirectX\DX12\Buffer\Private\Dx12Buffer2D.cpp" />
@@ -254,6 +256,7 @@
     <ClCompile Include="Header\RHI\DirectX\DX12\Buffer\Private\Dx12MeshBuffer.cpp" />
     <ClCompile Include="Header\RHI\DirectX\DX12\Buffer\Private\Dx12RenderTargetBuffer.cpp" />
     <ClCompile Include="Header\RHI\DirectX\DX12\Buffer\Private\Dx12ShaderResourceBuffer.cpp" />
+    <ClCompile Include="Header\RHI\DirectX\DX12\Buffer\Private\Dx12TextureBuffer.cpp" />
     <ClCompile Include="Header\RHI\DirectX\DX12\Buffer\Private\Dx12UnorderedAccessBuffer.cpp" />
     <ClCompile Include="Header\RHI\DirectX\DX12\Buffer\Private\Dx12UploadBuffer.cpp" />
     <ClCompile Include="Header\RHI\DirectX\DX12\Private\Dx12CommandAllocator.cpp" />
@@ -268,16 +271,20 @@
     <ClCompile Include="Header\RHI\DirectX\Private\DxShaderCompiler.cpp" />
     <ClCompile Include="Header\RHI\DirectX\Private\DxSwapChain.cpp" />
     <ClCompile Include="Header\RHI\DirectX\Private\DxFactory.cpp" />
+    <ClCompile Include="Header\RHI\DirectX\Private\DxTextureLoader.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameMainDefine.h" />
+    <ClInclude Include="Header\Core\API\Factory.h" />
     <ClInclude Include="Header\Core\Core.h" />
     <ClInclude Include="Header\Core\Debug\Debug.h" />
     <ClInclude Include="Header\Core\Graphics\CommandContext.h" />
     <ClInclude Include="Header\Core\Graphics\Common\GraphicsDefine.h" />
     <ClInclude Include="Header\Core\Graphics\Geometry\Vertex.h" />
     <ClInclude Include="Header\Core\Graphics\GraphicsManager.h" />
+    <ClInclude Include="Header\Resource\ResourceLoader\MeshLoader.h" />
+    <ClInclude Include="Header\Resource\ResourceLoader\TextureLoader.h" />
     <ClInclude Include="Header\Core\Graphics\RenderPipeline.h" />
     <ClInclude Include="Header\Core\Graphics\Texture.h" />
     <ClInclude Include="Header\Core\Math\Common\MathDefine.h" />
@@ -333,6 +340,7 @@
     <ClInclude Include="Header\Core\Graphics\Mesh.h" />
     <ClInclude Include="Header\Core\Graphics\Shader.h" />
     <ClInclude Include="Header\Resource\Resource.h" />
+    <ClInclude Include="Header\RHI\DirectX\Common\DDSTextureLoader.h" />
     <ClInclude Include="Header\RHI\DirectX\DX12\Buffer\Dx12ConstantBuffer.h" />
     <ClInclude Include="Header\RHI\DirectX\DX12\Buffer\Dx12DepthStencilBuffer.h" />
     <ClInclude Include="Header\RHI\DirectX\DX12\Buffer\Dx12MeshBuffer.h" />
@@ -340,6 +348,7 @@
     <ClInclude Include="Header\RHI\DirectX\DX12\Buffer\Dx12ShaderResourceBuffer.h" />
     <ClInclude Include="Header\RHI\DirectX\DX12\Buffer\Dx12UnorderedAccessBuffer.h" />
     <ClInclude Include="Header\RHI\DirectX\DX12\Buffer\Dx12UploadBuffer.h" />
+    <ClInclude Include="Header\RHI\DirectX\DX12\Buffer\Dx12TextureBuffer.h" />
     <ClInclude Include="Header\RHI\DirectX\DX12\Dx12CommandAllocator.h" />
     <ClInclude Include="Header\RHI\DirectX\DX12\Dx12CommandQueue.h" />
     <ClInclude Include="Header\RHI\DirectX\DX12\Dx12CommandList.h" />

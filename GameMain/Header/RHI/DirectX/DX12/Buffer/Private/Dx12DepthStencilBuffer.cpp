@@ -29,13 +29,13 @@ namespace XusoryEngine
 		}
 	}
 
-	void Dx12DepthStencilBuffer::ReSetBuffer(Dx12DescriptorAllocator* allocator)
+	void Dx12DepthStencilBuffer::ReSetBuffer(const Dx12DescriptorAllocator* allocator)
 	{
 		Dx12Buffer::ReSet();
 		m_dsvDimension = D3D12_DSV_DIMENSION_UNKNOWN;
 
-		allocator->ReleaseDescriptor(m_dsvHandle, 1);
-		m_dsvHandle = Dx12DescriptorHandle();
+		if (m_dsvHandle != nullptr) allocator->ReleaseDescriptor(*m_dsvHandle, 1);
+		m_dsvHandle = nullptr;
 	}
 
 	D3D12_DSV_DIMENSION Dx12DepthStencilBuffer::GetDsvDimension() const
@@ -45,7 +45,7 @@ namespace XusoryEngine
 
 	const Dx12DescriptorHandle& Dx12DepthStencilBuffer::GetDsvHandle() const
 	{
-		return m_dsvHandle;
+		return *m_dsvHandle;
 	}
 
 	void Dx12DepthStencilBuffer::DescribeAsDsv(const Dx12Device* device, Dx12DescriptorAllocator* allocator, BOOL useDsvDesc)
@@ -71,10 +71,10 @@ namespace XusoryEngine
 			ThrowWithErrName(DxLogicError, "The uav dimension is unknown");
 		}
 
-		if (m_dsvHandle.IsNull())
+		if (m_dsvHandle == nullptr)
 		{
 			m_dsvHandle = allocator->AllocateDescriptor(device, 1);
 		}
-		(*device)->CreateDepthStencilView(GetDxObjectPtr(), useDsvDesc ? &rtvDesc : nullptr, m_dsvHandle.GetCpuDescriptorHandle());
+		(*device)->CreateDepthStencilView(GetDxObjectPtr(), useDsvDesc ? &rtvDesc : nullptr, m_dsvHandle->GetCpuDescriptorHandle());
 	}
 }

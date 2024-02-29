@@ -38,16 +38,17 @@ namespace XusoryEngine
 		m_isCreateFromSwapChain = true;
 	}
 
-	void Dx12RenderTargetBuffer::ReSetBuffer(Dx12DescriptorAllocator* allocator)
+	void Dx12RenderTargetBuffer::ReSetBuffer(const Dx12DescriptorAllocator* rtvAllocator, const Dx12DescriptorAllocator* srvAllocator)
 	{
 		Dx12Buffer2D::ReSet();
 		m_rtvDimension = D3D12_RTV_DIMENSION_UNKNOWN;
 		m_srvDimension = D3D12_SRV_DIMENSION_UNKNOWN;
 
-		allocator->ReleaseDescriptor(m_rtvHandle, 1);
-		allocator->ReleaseDescriptor(m_srvHandle, 1);
-		m_rtvHandle = Dx12DescriptorHandle();
-		m_srvHandle = Dx12DescriptorHandle();
+		if (m_rtvHandle != nullptr) rtvAllocator->ReleaseDescriptor(*m_rtvHandle, 1);
+		if (m_srvHandle != nullptr) srvAllocator->ReleaseDescriptor(*m_srvHandle, 1);
+			
+		m_rtvHandle = nullptr;
+		m_srvHandle = nullptr;
 
 		m_isCreateFromSwapChain = false;
 	}
@@ -64,12 +65,12 @@ namespace XusoryEngine
 
 	const Dx12DescriptorHandle& Dx12RenderTargetBuffer::GetRtvHandle() const
 	{
-		return m_rtvHandle;
+		return *m_rtvHandle;
 	}
 
 	const Dx12DescriptorHandle& Dx12RenderTargetBuffer::GetSrvHandle() const
 	{
-		return m_srvHandle;
+		return *m_srvHandle;
 	}
 
 	void Dx12RenderTargetBuffer::DescribeAsRtv(const Dx12Device* device, Dx12DescriptorAllocator* allocator)
@@ -80,7 +81,6 @@ namespace XusoryEngine
 			ThrowWithErrName(DxLogicError, "The attribute of the descriptor allocator does not match");
 		}
 
-		
 		D3D12_RENDER_TARGET_VIEW_DESC rtvDesc = {};
 		if (!m_isCreateFromSwapChain)
 		{
@@ -100,12 +100,12 @@ namespace XusoryEngine
 			}
 		}
 
-		if (m_rtvHandle.IsNull())
+		if (m_rtvHandle == nullptr)
 		{
 			m_rtvHandle = allocator->AllocateDescriptor(device, 1);
 		}
 		(*device)->CreateRenderTargetView(GetDxObjectPtr(),
-			m_isCreateFromSwapChain ? nullptr : &rtvDesc, m_rtvHandle.GetCpuDescriptorHandle());
+			m_isCreateFromSwapChain ? nullptr : &rtvDesc, m_rtvHandle->GetCpuDescriptorHandle());
 	}
 
 	void Dx12RenderTargetBuffer::DescribeRenderTargetAsSrv(const Dx12Device* device, Dx12DescriptorAllocator* allocator)
@@ -124,10 +124,10 @@ namespace XusoryEngine
 		srvDesc.Texture2D.MipLevels = -1;
 		srvDesc.Texture2D.MostDetailedMip = 0;
 
-		if (!m_srvHandle.IsNull())
+		if (m_srvHandle == nullptr)
 		{
 			m_srvHandle = allocator->AllocateDescriptor(device, 1);
 		}
-		(*device)->CreateShaderResourceView(GetDxObjectPtr(), &srvDesc, m_srvHandle.GetCpuDescriptorHandle());
+		(*device)->CreateShaderResourceView(GetDxObjectPtr(), &srvDesc, m_srvHandle->GetCpuDescriptorHandle());
 	}
 }

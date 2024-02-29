@@ -18,6 +18,7 @@ namespace XusoryEngine
 
 		void CreateMeshBuffer(const Dx12Device* device, UINT vertexNum, UINT vertexSize, UINT indexNum, DXGI_FORMAT indexFormat);
 		void UploadMeshResource(const Dx12CommandList* commandList, const void* vertexList, const void* indexList) const;
+		void ClearUploadBuffer();
 		void Reset();
 
 		const Dx12Buffer1D* GetVertexBuffer() const;
@@ -28,8 +29,8 @@ namespace XusoryEngine
 		UINT64 GetIndexBufferSize() const;
 
 	private:
-		Dx12Buffer1D* m_vertexBuffer = nullptr;
-		Dx12Buffer1D* m_indexBuffer = nullptr;
+		std::unique_ptr<Dx12Buffer1D> m_vertexBuffer;
+		std::unique_ptr<Dx12Buffer1D> m_indexBuffer;
 		Dx12Buffer* m_vertexUploadBuffer = nullptr;
 		Dx12Buffer* m_indexUploadBuffer = nullptr;
 

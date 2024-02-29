@@ -7,7 +7,7 @@ namespace XusoryEngine
 	void Dx12ShaderResourceBuffer::CreateShaderResourceBuffer(const Dx12Device* device, D3D12_RESOURCE_STATES initState,
 		UINT width, UINT height, UINT16 arraySize, UINT16 mipLevels, DXGI_FORMAT format)
 	{
-		CreateTex2DBuffer(device, initState, D3D12_RESOURCE_FLAG_NONE, nullptr,
+		CreateTex2DBuffer(device, initState, D3D12_RESOURCE_FLAG_DENY_SHADER_RESOURCE, nullptr,
 			width, height, arraySize, mipLevels, 1, 0, format);
 
 		if (arraySize < 1)
@@ -24,13 +24,13 @@ namespace XusoryEngine
 		}
 	}
 
-	void Dx12ShaderResourceBuffer::ReSetBuffer(Dx12DescriptorAllocator* allocator)
+	void Dx12ShaderResourceBuffer::ReSetBuffer(const Dx12DescriptorAllocator* allocator)
 	{
 		Dx12Buffer::ReSet();
 		m_srvDimension = D3D12_SRV_DIMENSION_UNKNOWN;
 
-
-		m_srvHandle = Dx12DescriptorHandle();
+		if (m_srvHandle != nullptr) allocator->ReleaseDescriptor(*m_srvHandle, 1);
+		m_srvHandle = nullptr;
 	}
 
 	D3D12_SRV_DIMENSION Dx12ShaderResourceBuffer::GetSrvDimension() const
@@ -40,7 +40,7 @@ namespace XusoryEngine
 
 	const Dx12DescriptorHandle& Dx12ShaderResourceBuffer::GetSrvHandle() const
 	{
-		return m_srvHandle;
+		return *m_srvHandle;
 	}
 
 	void Dx12ShaderResourceBuffer::DescribeAsSrv(const Dx12Device* device, Dx12DescriptorAllocator* allocator, UINT usedMipLevels, UINT mostDetailedMip)
@@ -80,10 +80,10 @@ namespace XusoryEngine
 			ThrowWithErrName(DxLogicError, "The srv dimension is unknown");
 		}
 
-		if (!m_srvHandle.IsNull())
+		if (m_srvHandle == nullptr)
 		{
 			m_srvHandle = allocator->AllocateDescriptor(device, 1);
 		}
-		(*device)->CreateShaderResourceView(GetDxObjectPtr(), &srvDesc, m_srvHandle.GetCpuDescriptorHandle());
+		(*device)->CreateShaderResourceView(GetDxObjectPtr(), &srvDesc, m_srvHandle->GetCpuDescriptorHandle());
 	}
 }

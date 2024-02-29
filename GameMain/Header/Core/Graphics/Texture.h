@@ -26,9 +26,11 @@ namespace XusoryEngine
 		friend class GiDx12GraphicsManager;
 
 	public:
-		Texture(const std::wstring_view& path);
+		explicit Texture(const std::wstring_view& path);
 
 		const std::wstring& GetTextureFilePath() const;
+		UINT GetTextureWidth() const;
+		UINT GetTextureHeight() const;
 
 		TextureDimension dimension = TextureDimension::UNKNOWN;
 		AddressMode addressModeU = AddressMode::WRAP;
@@ -36,11 +38,13 @@ namespace XusoryEngine
 		AddressMode addressModeW = AddressMode::WRAP;
 		FilterMode filterMode = FilterMode::LINEAR;
 
-		UINT width = 0;
-		UINT height = 0;
 		UINT16 mipLevels = 0;
 
 	private:
 		std::wstring m_textureFilePath;
+		void* m_textureData = nullptr;
+
+		UINT m_width = 0;
+		UINT m_height = 0;
 	};
 }

@@ -8,8 +8,8 @@ namespace XusoryEngine
 {
 	Dx12MeshBuffer::Dx12MeshBuffer()
 	{
-		m_vertexBuffer = new Dx12Buffer1D();
-		m_indexBuffer = new Dx12Buffer1D();
+		m_vertexBuffer = std::make_unique<Dx12Buffer1D>();
+		m_indexBuffer = std::make_unique<Dx12Buffer1D>();
 
 		m_vertexUploadBuffer = new Dx12Buffer(D3D12_HEAP_TYPE_UPLOAD);
 		m_indexUploadBuffer = new Dx12Buffer(D3D12_HEAP_TYPE_UPLOAD);
@@ -17,11 +17,7 @@ namespace XusoryEngine
 
 	Dx12MeshBuffer::~Dx12MeshBuffer()
 	{
-		delete m_vertexBuffer;
-		delete m_indexBuffer;
-
-		delete m_vertexUploadBuffer;
-		delete m_indexUploadBuffer;
+		ClearUploadBuffer();
 	}
 
 	void Dx12MeshBuffer::CreateMeshBuffer(const Dx12Device* device, UINT vertexNum, UINT vertexSize, UINT indexNum, DXGI_FORMAT indexFormat)
@@ -67,14 +63,30 @@ namespace XusoryEngine
 
 	void Dx12MeshBuffer::UploadMeshResource(const Dx12CommandList* commandList, const void* vertexList, const void* indexList) const
 	{
-		m_vertexBuffer->UploadResource(commandList, D3D12_RESOURCE_STATE_GENERIC_READ, m_vertexUploadBuffer, vertexList, GetVertexBufferSize());
-		m_indexBuffer->UploadResource(commandList, D3D12_RESOURCE_STATE_GENERIC_READ, m_indexUploadBuffer, indexList, GetIndexBufferSize());
+		m_vertexBuffer->UploadResource(commandList, m_vertexUploadBuffer, D3D12_RESOURCE_STATE_GENERIC_READ, vertexList, GetVertexBufferSize());
+		m_indexBuffer->UploadResource(commandList, m_indexUploadBuffer, D3D12_RESOURCE_STATE_GENERIC_READ, indexList, GetIndexBufferSize());
+	}
+
+	void Dx12MeshBuffer::ClearUploadBuffer()
+	{
+		if (m_vertexUploadBuffer != nullptr)
+		{
+			delete m_vertexUploadBuffer;
+			m_vertexUploadBuffer = nullptr;
+		}
+		if (m_indexUploadBuffer != nullptr)
+		{
+			delete m_indexUploadBuffer;
+			m_indexUploadBuffer = nullptr;
+		}
 	}
 
 	void Dx12MeshBuffer::Reset()
 	{
 		m_vertexBuffer->ReSet();
 		m_indexBuffer->ReSet();
+		m_vertexUploadBuffer->ReSet();
+		m_indexUploadBuffer->ReSet();
 
 		m_vertexNum = 0;
 		m_vertexSize = 0;
@@ -85,12 +97,12 @@ namespace XusoryEngine
 
 	const Dx12Buffer1D* Dx12MeshBuffer::GetVertexBuffer() const
 	{
-		return m_vertexBuffer;
+		return m_vertexBuffer.get();
 	}
 
 	const Dx12Buffer1D* Dx12MeshBuffer::GetIndexBuffer() const
 	{
-		return m_indexBuffer;
+		return m_indexBuffer.get();
 	}
 
 	D3D12_VERTEX_BUFFER_VIEW Dx12MeshBuffer::GetVertexBufferView() const

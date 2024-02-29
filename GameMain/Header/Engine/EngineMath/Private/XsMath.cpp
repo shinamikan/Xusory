@@ -6,7 +6,7 @@ namespace XusoryEngine
 	{
 		const auto scaleMat = Matrix4x4::BuildScaleMatrix(scale.X(), scale.Y(), scale.Z());
 		const auto translateMat = Matrix4x4::BuildTranslateMatrix(position.X(), position.Y(), position.Z());
-		return scaleMat;
+		return scaleMat * translateMat;
 	}
 
 	Matrix4x4 XsMath::BuildViewMatrixLookUp(const Vector3& cameraPosition, const Vector3& targetPosition, const Vector3& worldUpDirection)

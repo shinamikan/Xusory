@@ -42,7 +42,7 @@ namespace XusoryEngine
 
 		for (const auto& rtBuffer : m_backBufferList)
 		{
-			rtBuffer->ReSetBuffer(m_rtvAllocator.get());
+			rtBuffer->ReSetBuffer(m_rtvAllocator.get(), m_cbvSrvUavAllocator.get());
 		}
 		m_depthStencilBuffer->ReSetBuffer(m_dsvAllocator.get());
 		m_swapChain->ResizeBuffer(width, height);
@@ -112,7 +112,7 @@ namespace XusoryEngine
 
 	void GiDx12GraphicsManager::BuildTexture(Texture* texture)
 	{
-
+		
 	}
 
 	void GiDx12GraphicsManager::BuildShader(Shader* shader)
@@ -265,5 +265,9 @@ namespace XusoryEngine
 		m_cbvSrvUavAllocator = std::make_unique<Dx12DescriptorAllocator>(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, true);
 		m_rtvAllocator = std::make_unique<Dx12DescriptorAllocator>(D3D12_DESCRIPTOR_HEAP_TYPE_RTV, false);
 		m_dsvAllocator = std::make_unique<Dx12DescriptorAllocator>(D3D12_DESCRIPTOR_HEAP_TYPE_DSV, false);
+
+		m_cbvSrvUavAllocator->Create(m_device.get());
+		m_rtvAllocator->Create(m_device.get());
+		m_dsvAllocator->Create(m_device.get());
 	}
 }

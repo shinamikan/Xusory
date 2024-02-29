@@ -98,6 +98,7 @@ public:
 		catch (const std::exception& e)
 		{
 			StdErrorOutput(e);
+			WindowFactory::DestroyAllWindowInstance();
 		}
 	}
 
@@ -106,6 +107,11 @@ public:
 		if (event.keyCode == KeyCode::KEY_A)
 		{
 			Debug::LogInfo("Test Press");
+		}
+		else if (event.keyCode == KeyCode::UP)
+		{
+			position += Vector3(0.0f, 0.2f, 0.0f);
+			Debug::LogInfo(position);
 		}
 	}
 
@@ -116,7 +122,7 @@ public:
 			auto modelMatrix = XsMath::BuildModelMatrix(position, scale);
 			auto viewMatrix = XsMath::BuildViewMatrixLookUp(cameraPosition, targetPosition, worldUp);
 			auto modelToProj = modelMatrix * viewMatrix * m_projMat;
-			material->SetMatrix4ByIndex(0, modelToProj.Transpose());
+			material->SetMatrix4ByName("gWorldViewProj", modelToProj.Transpose());
 
 			renderPipeline->Render(m_commandContext.get());
 		}

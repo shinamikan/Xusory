@@ -9,17 +9,17 @@ namespace XusoryEngine
 		CreateFixedBuffer(device, initState, D3D12_RESOURCE_FLAG_NONE, size);
 	}
 
-	void Dx12ConstantBuffer::ReSetBuffer(Dx12DescriptorAllocator* allocator)
+	void Dx12ConstantBuffer::ReSetBuffer(const Dx12DescriptorAllocator* allocator)
 	{
 		Dx12Buffer::ReSet();
 
-		allocator->ReleaseDescriptor(m_cbvHandle, 1);
-		m_cbvHandle = Dx12DescriptorHandle();
+		if (m_cbvHandle != nullptr) allocator->ReleaseDescriptor(*m_cbvHandle, 1);
+		m_cbvHandle = nullptr;
 	}
 
-	const Dx12DescriptorHandle& Dx12ConstantBuffer::GetUavHandle() const
+	const Dx12DescriptorHandle& Dx12ConstantBuffer::GetCbvHandle() const
 	{
-		return m_cbvHandle;
+		return *m_cbvHandle;
 	}
 
 	void Dx12ConstantBuffer::DescribeAsCbv(const Dx12Device* device, Dx12DescriptorAllocator* allocator)
@@ -34,10 +34,10 @@ namespace XusoryEngine
 		cbvDesc.BufferLocation = GetGpuVirtualAddress();
 		cbvDesc.SizeInBytes = static_cast<UINT>(GetSize());
 
-		if (m_cbvHandle.IsNull())
+		if (m_cbvHandle == nullptr)
 		{
 			m_cbvHandle = allocator->AllocateDescriptor(device, 1);
 		}
-		(*device)->CreateConstantBufferView(&cbvDesc, m_cbvHandle.GetCpuDescriptorHandle());
+		(*device)->CreateConstantBufferView(&cbvDesc, m_cbvHandle->GetCpuDescriptorHandle());
 	}
 }

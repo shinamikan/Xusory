@@ -58,7 +58,7 @@ namespace XusoryEngine
 		void BuildTexture(Texture* texture) override;
 		void BuildShader(Shader* shader) override;
 
-	public:
+	private:
 		void CreateInputLayout();
 		void CreateFactoryAndDevice();
 		void CreateCommonObjects();
@@ -88,7 +88,7 @@ namespace XusoryEngine
 
 		std::unordered_map<void*, std::unique_ptr<Dx12UploadBuffer>> m_constantBufferMap;
 		std::unordered_map<Mesh*, std::unique_ptr<Dx12MeshBuffer>> m_meshBufferMap;
-		std::unordered_map<Texture*, std::unique_ptr<Dx12ShaderResourceBuffer>> m_textureMap;
+		std::unordered_map<Texture*, std::unique_ptr<Dx12TextureBuffer>> m_textureMap;
 		std::unordered_map<Shader*, RootSignaturePipelineStatePair> m_shaderPipelineStateMap;
 	};
 }

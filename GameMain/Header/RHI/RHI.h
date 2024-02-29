@@ -13,6 +13,7 @@
 #include "DirectX/DX12/Buffer/Dx12MeshBuffer.h"
 #include "DirectX/DX12/Buffer/Dx12RenderTargetBuffer.h"
 #include "DirectX/DX12/Buffer/Dx12ShaderResourceBuffer.h"
+#include "DirectX/DX12/Buffer/Dx12TextureBuffer.h"
 #include "DirectX/DX12/Buffer/Dx12UnorderedAccessBuffer.h"
 #include "DirectX/DX12/Buffer/Dx12UploadBuffer.h"
 
