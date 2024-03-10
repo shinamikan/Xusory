@@ -11,6 +11,12 @@
 
 namespace XusoryEngine
 {
+	DLL_CLASS(Math)
+	{
+	public:
+		static constexpr FLOAT Pi = 3.1415926535f;
+	};
+
 	inline std::ostream& operator<<(std::ostream& os, const Float2& v)
 	{
 		os << "(" << v.x << ", " << v.y << ")";

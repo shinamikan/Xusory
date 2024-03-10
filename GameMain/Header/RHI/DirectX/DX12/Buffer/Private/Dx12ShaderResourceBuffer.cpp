@@ -43,6 +43,11 @@ namespace XusoryEngine
 		return *m_srvHandle;
 	}
 
+	void Dx12ShaderResourceBuffer::SetSrvDimension(D3D12_SRV_DIMENSION dimension)
+	{
+		m_srvDimension = dimension;
+	}
+
 	void Dx12ShaderResourceBuffer::DescribeAsSrv(const Dx12Device* device, Dx12DescriptorAllocator* allocator, UINT usedMipLevels, UINT mostDetailedMip)
 	{
 		ThrowIfDxObjectNotCreated(GetDxObjectPtr(), "buffer");

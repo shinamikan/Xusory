@@ -5,12 +5,13 @@
 namespace XusoryEngine
 {
 	class Dx12Buffer;
+	class Dx12ShaderResourceBuffer;
 	class Dx12CommandList;
 	class Dx12Device;
 	class DxTextureLoader
 	{
 	public:
 		static void LoadDdsTextureFile(const std::wstring_view& texFilePath, const Dx12Device* device, const Dx12CommandList* commandList,
-			Dx12Buffer* textureBuffer, Dx12Buffer* uploadBuffer);
+			Dx12ShaderResourceBuffer* textureBuffer, Dx12Buffer* uploadBuffer);
 	};
 }

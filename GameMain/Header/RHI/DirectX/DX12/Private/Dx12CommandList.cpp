@@ -80,10 +80,15 @@ namespace XusoryEngine
 
 	void Dx12CommandList::SetDescriptorHeaps(const Dx12DescriptorHeap* viewDescHeap, const Dx12DescriptorHeap* samplerDescHeap) const
 	{
-		const UINT heapNum = samplerDescHeap->GetDxObjectPtr() ? 2 : 1;
 		ID3D12DescriptorHeap* descriptorHeaps[2];
 		descriptorHeaps[0] = viewDescHeap->GetDxObjectPtr();
-		descriptorHeaps[1] = samplerDescHeap->GetDxObjectPtr();
+
+		UINT heapNum = 1;
+		if (samplerDescHeap != nullptr)
+		{
+			descriptorHeaps[1] = samplerDescHeap->GetDxObjectPtr();
+			heapNum = 2;
+		}
 
 		(*this)->SetDescriptorHeaps(heapNum, descriptorHeaps);
 	}

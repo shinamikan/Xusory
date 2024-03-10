@@ -50,12 +50,13 @@ namespace XusoryEngine
 		void SetNodeMask(UINT nodeMask);
 		void SetSampleMask(UINT sampleMask);
 
-	public:
+	private:
 		D3D12_GRAPHICS_PIPELINE_STATE_DESC m_psoDescTemp{};
 	};
 
 	class Dx12ComputePipelineState : public Dx12PipelineState
 	{
+	public:
 		Dx12ComputePipelineState() = default;
 
 		void Create(const Dx12Device* device);

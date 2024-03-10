@@ -49,6 +49,7 @@ namespace XusoryEngine
 
 	const ShaderCBufferProperty& Shader::GetCBufferProperty(UINT index) const
 	{
+		ThrowIfOutOfCBufferRange(index);
 		return m_shaderCBufferPropertyList.at(index);
 	}
 
@@ -59,67 +60,68 @@ namespace XusoryEngine
 
 	const std::string& Shader::GetPropertyNameByIndex(UINT index) const
 	{
+		ThrowIfOutOfPropertyRange(index);
 		return m_shaderPropertyList.at(index).name;
-	}
-
-	UINT Shader::GetPropertyIndexByName(const std::string_view& name) const
-	{
-		return m_shaderPropertyMap.at(name.data()).index;
 	}
 
 	const ShaderProperty& Shader::GetPropertyByIndex(UINT index) const
 	{
+		ThrowIfOutOfPropertyRange(index);
 		return m_shaderPropertyList.at(index);
-	}
-
-	const ShaderProperty& Shader::GetPropertyByName(const std::string_view& name) const
-	{
-		return m_shaderPropertyMap.at(name.data());
 	}
 
 	ShaderPropertyType Shader::GetPropertyTypeByIndex(UINT index) const
 	{
+		ThrowIfOutOfPropertyRange(index);
 		return m_shaderPropertyList.at(index).propertyType;
-	}
-
-	ShaderPropertyType Shader::GetPropertyTypeByName(const std::string_view& name) const
-	{
-		return m_shaderPropertyMap.at(name.data()).propertyType;
 	}
 
 	UINT Shader::GetPropertyOffsetByIndex(UINT index) const
 	{
+		ThrowIfOutOfPropertyRange(index);
 		return m_shaderPropertyList.at(index).offset;
-	}
-
-	UINT Shader::GetPropertyOffsetByName(const std::string_view& name) const
-	{
-		return m_shaderPropertyMap.at(name.data()).offset;
 	}
 
 	UINT Shader::GetPropertySlotByIndex(UINT index) const
 	{
+		ThrowIfOutOfPropertyRange(index);
 		return m_shaderPropertyList.at(index).slot;
-	}
-
-	UINT Shader::GetPropertySlotByName(const std::string_view& name) const
-	{
-		return m_shaderPropertyMap.at(name.data()).slot;
 	}
 
 	UINT Shader::GetPropertySpaceByIndex(UINT index) const
 	{
+		ThrowIfOutOfPropertyRange(index);
 		return m_shaderPropertyList.at(index).space;
+	}
+
+	UINT Shader::GetPropertyIndexByName(const std::string_view& name) const
+	{
+		CaptureNoReturnFunc(return m_shaderPropertyMap.at(name.data()).index);
+	}
+
+	const ShaderProperty& Shader::GetPropertyByName(const std::string_view& name) const
+	{
+		CaptureNoReturnFunc(return m_shaderPropertyMap.at(name.data()));
+	}
+
+	ShaderPropertyType Shader::GetPropertyTypeByName(const std::string_view& name) const
+	{
+		CaptureNoReturnFunc(return m_shaderPropertyMap.at(name.data()).propertyType);
+	}
+
+	UINT Shader::GetPropertyOffsetByName(const std::string_view& name) const
+	{
+		CaptureNoReturnFunc(return m_shaderPropertyMap.at(name.data()).offset);
+	}
+
+	UINT Shader::GetPropertySlotByName(const std::string_view& name) const
+	{
+		CaptureNoReturnFunc(return m_shaderPropertyMap.at(name.data()).slot);
 	}
 
 	UINT Shader::GetPropertySpaceByName(const std::string_view& name) const
 	{
-		return m_shaderPropertyMap.at(name.data()).space;
-	}
-
-	void Shader::SetShaderFilePath(const std::wstring_view& path)
-	{
-		m_shaderFilePath = path;
+		CaptureNoReturnFunc(return m_shaderPropertyMap.at(name.data()).space);
 	}
 
 	void Shader::SetVertexShaderEntryPoint(const std::string_view& entryPoint)
@@ -145,5 +147,21 @@ namespace XusoryEngine
 	void Shader::SetGeometryShaderEntryPoint(const std::string_view& entryPoint)
 	{
 		m_shaderEntryPointList.at(4) = entryPoint;
+	}
+
+	void Shader::ThrowIfOutOfCBufferRange(UINT index) const
+	{
+		if (index >= m_shaderCBufferPropertyList.size())
+		{
+			ThrowWithErrName(RuntimeError, "Index out of constant buffer property list range");
+		}
+	}
+
+	void Shader::ThrowIfOutOfPropertyRange(UINT index) const
+	{
+		if (index >= m_shaderPropertyList.size())
+		{
+			ThrowWithErrName(RuntimeError, "Index out of shader property list range");
+		}
 	}
 }

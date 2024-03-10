@@ -45,10 +45,6 @@ namespace XusoryEngine
 
 	void Mesh::SetPosition(const std::vector<Float3>& positionList)
 	{
-		for (UINT i = 0; i < m_vertices.size(); i++)
-		{
-			m_vertices.at(i).position = positionList.at(i);
-		}
 		if (positionList.size() > m_vertices.size())
 		{
 			for (SIZE_T i = m_vertices.size(); i < positionList.size(); i++)
@@ -56,14 +52,14 @@ namespace XusoryEngine
 				m_vertices.emplace_back(positionList.at(i), VertexCommonProperty::POSITION);
 			}
 		}
+		for (UINT i = 0; i < positionList.size(); i++)
+		{
+			m_vertices.at(i).position = positionList.at(i);
+		}
 	}
 
 	void Mesh::SetNormal(const std::vector<Float3>& normalList)
 	{
-		for (UINT i = 0; i < m_vertices.size(); i++)
-		{
-			m_vertices.at(i).normal = normalList.at(i);
-		}
 		if (normalList.size() > m_vertices.size())
 		{
 			for (SIZE_T i = m_vertices.size(); i < normalList.size(); i++)
@@ -71,14 +67,14 @@ namespace XusoryEngine
 				m_vertices.emplace_back(normalList.at(i), VertexCommonProperty::NORMAL);
 			}
 		}
+		for (UINT i = 0; i < normalList.size(); i++)
+		{
+			m_vertices.at(i).normal = normalList.at(i);
+		}
 	}
 
 	void Mesh::SetTangent(const std::vector<Float3>& tangentList)
 	{
-		for (UINT i = 0; i < m_vertices.size(); i++)
-		{
-			m_vertices.at(i).tangent = tangentList.at(i);
-		}
 		if (tangentList.size() > m_vertices.size())
 		{
 			for (SIZE_T i = m_vertices.size(); i < tangentList.size(); i++)
@@ -86,14 +82,14 @@ namespace XusoryEngine
 				m_vertices.emplace_back(tangentList.at(i), VertexCommonProperty::TANGENT);
 			}
 		}
+		for (UINT i = 0; i < tangentList.size(); i++)
+		{
+			m_vertices.at(i).tangent = tangentList.at(i);
+		}
 	}
 
 	void Mesh::SetColor(const std::vector<Float4>& colorList)
 	{
-		for (UINT i = 0; i < m_vertices.size(); i++)
-		{
-			m_vertices.at(i).color = colorList.at(i);
-		}
 		if (colorList.size() > m_vertices.size())
 		{
 			for (SIZE_T i = m_vertices.size(); i < colorList.size(); i++)
@@ -101,14 +97,14 @@ namespace XusoryEngine
 				m_vertices.emplace_back(colorList.at(i));
 			}
 		}
+		for (UINT i = 0; i < colorList.size(); i++)
+		{
+			m_vertices.at(i).color = colorList.at(i);
+		}
 	}
 
 	void Mesh::SetUv0(const std::vector<Float2>& uvList)
 	{
-		for (UINT i = 0; i < m_vertices.size(); i++)
-		{
-			m_vertices.at(i).uv0 = uvList.at(i);
-		}
 		if (uvList.size() > m_vertices.size())
 		{
 			for (SIZE_T i = m_vertices.size(); i < uvList.size(); i++)
@@ -116,14 +112,14 @@ namespace XusoryEngine
 				m_vertices.emplace_back(uvList.at(i), VertexUvProperty::UV0);
 			}
 		}
+		for (UINT i = 0; i < uvList.size(); i++)
+		{
+			m_vertices.at(i).uv0 = uvList.at(i);
+		}
 	}
 
 	void Mesh::SetUv1(const std::vector<Float2>& uvList)
 	{
-		for (UINT i = 0; i < m_vertices.size(); i++)
-		{
-			m_vertices.at(i).uv1 = uvList.at(i);
-		}
 		if (uvList.size() > m_vertices.size())
 		{
 			for (SIZE_T i = m_vertices.size(); i < uvList.size(); i++)
@@ -131,14 +127,14 @@ namespace XusoryEngine
 				m_vertices.emplace_back(uvList.at(i), VertexUvProperty::UV1);
 			}
 		}
+		for (UINT i = 0; i < uvList.size(); i++)
+		{
+			m_vertices.at(i).uv1 = uvList.at(i);
+		}
 	}
 
 	void Mesh::SetUv2(const std::vector<Float2>& uvList)
 	{
-		for (UINT i = 0; i < m_vertices.size(); i++)
-		{
-			m_vertices.at(i).uv2 = uvList.at(i);
-		}
 		if (uvList.size() > m_vertices.size())
 		{
 			for (SIZE_T i = m_vertices.size(); i < uvList.size(); i++)
@@ -146,14 +142,14 @@ namespace XusoryEngine
 				m_vertices.emplace_back(uvList.at(i), VertexUvProperty::UV2);
 			}
 		}
+		for (UINT i = 0; i < uvList.size(); i++)
+		{
+			m_vertices.at(i).uv2 = uvList.at(i);
+		}
 	}
 
 	void Mesh::SetUv3(const std::vector<Float2>& uvList)
 	{
-		for (UINT i = 0; i < m_vertices.size(); i++)
-		{
-			m_vertices.at(i).uv3 = uvList.at(i);
-		}
 		if (uvList.size() > m_vertices.size())
 		{
 			for (SIZE_T i = m_vertices.size(); i < uvList.size(); i++)
@@ -161,20 +157,24 @@ namespace XusoryEngine
 				m_vertices.emplace_back(uvList.at(i), VertexUvProperty::UV3);
 			}
 		}
+		for (UINT i = 0; i < uvList.size(); i++)
+		{
+			m_vertices.at(i).uv3 = uvList.at(i);
+		}
 	}
 
 	void Mesh::SetUv4(const std::vector<Float2>& uvList)
 	{
-		for (UINT i = 0; i < m_vertices.size(); i++)
-		{
-			m_vertices.at(i).uv4 = uvList.at(i);
-		}
 		if (uvList.size() > m_vertices.size())
 		{
 			for (SIZE_T i = m_vertices.size(); i < uvList.size(); i++)
 			{
 				m_vertices.emplace_back(uvList.at(i), VertexUvProperty::UV4);
 			}
+		}
+		for (UINT i = 0; i < uvList.size(); i++)
+		{
+			m_vertices.at(i).uv4 = uvList.at(i);
 		}
 	}
 }

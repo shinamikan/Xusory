@@ -80,19 +80,19 @@ namespace XusoryEngine
 
 		UINT GetPropertyCount() const;
 		const std::string& GetPropertyNameByIndex(UINT index) const;
-		UINT GetPropertyIndexByName(const std::string_view& name) const;
 		const ShaderProperty& GetPropertyByIndex(UINT index) const;
-		const ShaderProperty& GetPropertyByName(const std::string_view& name) const;
 		ShaderPropertyType GetPropertyTypeByIndex(UINT index) const;
-		ShaderPropertyType GetPropertyTypeByName(const std::string_view& name) const;
 		UINT GetPropertyOffsetByIndex(UINT index) const;
-		UINT GetPropertyOffsetByName(const std::string_view& name) const;
 		UINT GetPropertySlotByIndex(UINT index) const;
-		UINT GetPropertySlotByName(const std::string_view& name) const;
 		UINT GetPropertySpaceByIndex(UINT index) const;
+
+		UINT GetPropertyIndexByName(const std::string_view& name) const;
+		const ShaderProperty& GetPropertyByName(const std::string_view& name) const;
+		ShaderPropertyType GetPropertyTypeByName(const std::string_view& name) const;
+		UINT GetPropertyOffsetByName(const std::string_view& name) const;
+		UINT GetPropertySlotByName(const std::string_view& name) const;
 		UINT GetPropertySpaceByName(const std::string_view& name) const;
 
-		void SetShaderFilePath(const std::wstring_view& path);
 		void SetVertexShaderEntryPoint(const std::string_view& entryPoint);
 		void SetPixelShaderEntryPoint(const std::string_view& entryPoint);
 		void SetDomainShaderEntryPoint(const std::string_view& entryPoint);
@@ -104,10 +104,14 @@ namespace XusoryEngine
 		TriangleWindingOrder triangleWindingOrder = TriangleWindingOrder::CLOCK_WISE;
 
 	private:
+		void ThrowIfOutOfCBufferRange(UINT index) const;
+		void ThrowIfOutOfPropertyRange(UINT index) const;
+
 		std::wstring m_shaderFilePath;
 		std::array<std::string, 5> m_shaderEntryPointList;
 
 		std::vector<ShaderCBufferProperty> m_shaderCBufferPropertyList;
+
 		std::vector<ShaderProperty> m_shaderPropertyList;
 		std::unordered_map<std::string, ShaderProperty&> m_shaderPropertyMap;
 	};

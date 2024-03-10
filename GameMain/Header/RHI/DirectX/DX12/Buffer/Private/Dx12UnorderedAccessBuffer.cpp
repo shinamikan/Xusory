@@ -4,16 +4,33 @@
 
 namespace XusoryEngine
 {
-	/*void Dx12UnorderedAccessBuffer::CreateUnorderedAccessBuffer(const Dx12Device* device, D3D12_RESOURCE_STATES initState, UINT64 size)
+	Dx12UnorderedAccessBuffer::Dx12UnorderedAccessBuffer() : Dx12Buffer(D3D12_HEAP_TYPE_DEFAULT) { }
+
+	void Dx12UnorderedAccessBuffer::CreateFixedUnorderedAccessBuffer(const Dx12Device* device, D3D12_RESOURCE_STATES initState, UINT64 size)
 	{
-		CreateFixedBuffer(device, initState, D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS, size);
+		const CD3DX12_HEAP_PROPERTIES heapProperties(m_heapType);
+		const CD3DX12_RESOURCE_DESC resourceDesc = CD3DX12_RESOURCE_DESC::Buffer(size, D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS);
+
+		ThrowIfDxFailed((*device)->CreateCommittedResource(
+			&heapProperties, D3D12_HEAP_FLAG_NONE,
+			&resourceDesc, initState, nullptr,
+			IID_PPV_ARGS(GetDxObjectAddressOf())));
+
+		m_usingState = initState;
 		m_uavDimension = D3D12_UAV_DIMENSION_BUFFER;
-	}*/
+	}
 
 	void Dx12UnorderedAccessBuffer::CreateUnorderedAccessBuffer2D(const Dx12Device* device, D3D12_RESOURCE_STATES initState, UINT width, UINT height, UINT16 arraySize, DXGI_FORMAT format)
 	{
-		CreateTex2DBuffer(device, initState, D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS, nullptr,
-			width, height, arraySize, 1, 0, format);
+		const CD3DX12_HEAP_PROPERTIES heapProperties(m_heapType);
+		const CD3DX12_RESOURCE_DESC resourceDesc = CD3DX12_RESOURCE_DESC::Tex2D(format, width, height, arraySize, 0, 1, 0, D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS);
+
+		ThrowIfDxFailed((*device)->CreateCommittedResource(
+			&heapProperties, D3D12_HEAP_FLAG_NONE,
+			&resourceDesc, initState, nullptr,
+			IID_PPV_ARGS(GetDxObjectAddressOf())));
+
+		m_usingState = initState;
 
 		if (arraySize < 1)
 		{
@@ -48,6 +65,11 @@ namespace XusoryEngine
 		return *m_uavHandle;
 	}
 
+	void Dx12UnorderedAccessBuffer::SetUavDimension(D3D12_UAV_DIMENSION dimension)
+	{
+		m_uavDimension = dimension;
+	}
+
 	void Dx12UnorderedAccessBuffer::DescribeAsUav(const Dx12Device* device, Dx12DescriptorAllocator* allocator)
 	{
 		ThrowIfDxObjectNotCreated(GetDxObjectPtr(), "buffer");
@@ -63,6 +85,10 @@ namespace XusoryEngine
 
 		switch (m_uavDimension)
 		{
+		case D3D12_UAV_DIMENSION_BUFFER:
+			uavDesc.Buffer.FirstElement = 0;
+			break;
+
 		case D3D12_UAV_DIMENSION_TEXTURE2D:
 			uavDesc.Texture2D.MipSlice = 0;
 			uavDesc.Texture2D.PlaneSlice = 0;

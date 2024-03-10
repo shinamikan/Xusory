@@ -17,13 +17,19 @@ namespace XusoryEngine
 		DELETE_MOVE_OPERATOR(CommandContext);
 		virtual ~CommandContext() = default;
 
-		virtual void InitCommandContext(const GraphicsManager* graphicsManager) = 0;
+		virtual void InitCommandContext(GraphicsManager* graphicsManager) = 0;
 
 		virtual void BeginCommand() = 0;
 		virtual void EndCommand() = 0;
 
-		virtual void ClearRenderTarget(BOOL ifClearRenderTarget, BOOL ifClearDepth, Float4 color, FLOAT depth) = 0;
-		virtual void DrawRenderer(const Material* material, const Mesh* mesh) = 0;
+		virtual void ClearRenderTarget(Float4 color) = 0;
+		virtual void ClearDepth(FLOAT depth) = 0;
+		virtual void ClearStencil(UINT8 stencil) = 0;
+
+		virtual void DrawMesh() = 0;
+
+		virtual void SetMaterial(const Material* material) = 0;
+		virtual void SetMesh(const Mesh* mesh) = 0;
 	};
 
 	class GiDx12GraphicsManager;
@@ -32,18 +38,25 @@ namespace XusoryEngine
 	public:
 		GiDx12CommandContext() = default;
 
-		void InitCommandContext(const GraphicsManager* graphicsManager) override;
+		void InitCommandContext(GraphicsManager* graphicsManager) override;
 
 		void BeginCommand() override;
 		void EndCommand() override;
 
-		void ClearRenderTarget(BOOL ifClearRenderTarget, BOOL ifClearDepth, Float4 color, FLOAT depth) override;
-		void DrawRenderer(const Material* material, const Mesh* mesh) override;
+		void ClearRenderTarget(Float4 color) override;
+		void ClearDepth(FLOAT depth) override;
+		void ClearStencil(UINT8 stencil) override;
+
+		void DrawMesh() override;
+
+		void SetMaterial(const Material* material) override;
+		void SetMesh(const Mesh* mesh) override;
 
 	private:
-		const GiDx12GraphicsManager* m_dx12Manager = nullptr;
+		GiDx12GraphicsManager* m_dx12Manager = nullptr;
 		Dx12GraphicsCommandList* m_commandList = nullptr;
 
-		Dx12RenderTargetBuffer* m_currentBackBuffer;
+		Dx12RenderTargetBuffer* m_currentBackBuffer = nullptr;
+		const Mesh* m_activeMesh = nullptr;
 	};
 }

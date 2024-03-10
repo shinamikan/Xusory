@@ -125,6 +125,11 @@ namespace XusoryEngine
 		m_vector = _mm_setr_ps(x, y, 0.0f, 0.0f);
 	}
 
+	void Vector2::SetVector(const Float2& vector)
+	{
+		m_vector = _mm_setr_ps(vector.x, vector.y, 0.0f, 0.0f);
+	}
+
 	FLOAT Vector2::Length() const
 	{
 		return std::sqrt(
@@ -175,4 +180,5 @@ namespace XusoryEngine
 	const Vector2 Vector2::OneY = Vector2(0.0f, 1.0f);
 
 	Vector2::Vector2(const __m128& v) : m_vector(v) { }
+	
 }

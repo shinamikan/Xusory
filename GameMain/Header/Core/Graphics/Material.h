@@ -1,7 +1,9 @@
 #pragma once
 
 #include "../../RHI/RHI.h"
+
 #include "../Math/Math.h"
+#include "Shader.h"
 
 namespace XusoryEngine
 {
@@ -18,6 +20,10 @@ namespace XusoryEngine
 
 		const std::wstring& GetMaterialFilePath() const;
 		const Shader* GetShader() const;
+
+		UINT GetPropertyNum() const;
+		UINT GetConstantPropertyNum() const;
+		UINT GetTexturePropertyNum() const;
 
 		FLOAT GetFloatByIndex(UINT index) const;
 		const Float2& GetFloat2ByIndex(UINT index) const;
@@ -59,11 +65,16 @@ namespace XusoryEngine
 
 	private:
 		void BindShader();
+		void ThrowIfOutOfValueRange(UINT index) const;
 
 		std::wstring m_materialFilePath;
 		const Shader* m_bindShader;
 
+		UINT m_constantPropertyNum = 0;
+		UINT m_texturePropertyNum = 0;
+
 		std::vector<std::unique_ptr<BYTE>> m_constantBufferList;
+
 		std::vector<void*> m_materialValueList;
 		std::unordered_map<std::string, void*> m_materialValueMap;
 	};

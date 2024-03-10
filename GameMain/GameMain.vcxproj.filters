@@ -102,7 +102,7 @@
     <ClCompile Include="Header\Core\Graphics\Private\Texture.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Header\Engine\EngineMath\Private\XsMath.cpp">
+    <ClCompile Include="Header\Engine\EngineMath\Private\EngineMath.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Header\RHI\DirectX\Private\DxTextureLoader.cpp">
@@ -115,6 +115,39 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Header\Resource\ResourceLoader\Private\TextureLoader.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\Core\Parsing\Private\Json.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\Core\Compressor\Private\Lz4.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\Core\Compressor\Private\Lzma.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\Engine\GameObject\Private\GameObject.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\Engine\Component\Private\Component.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\Engine\Component\Transform\Private\Transform.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\Engine\Component\Behaviour\Private\Behaviour.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\Engine\Component\EngineComponent\Actor\Private\Actor.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\Engine\Component\EngineComponent\Camera\Private\Camera.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\Engine\Component\EngineComponent\Renderer\Private\MeshRenderer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\Engine\EngineMath\Private\Quaternion.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -362,7 +395,7 @@
     <ClInclude Include="Header\Engine\Component\Transform\Transform.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Header\Engine\Component\Behaviour\Renderer\MeshRenderer.h">
+    <ClInclude Include="Header\Engine\Component\EngineComponent\Renderer\MeshRenderer.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Header\Engine\GameObject\GameObject.h">
@@ -380,16 +413,16 @@
     <ClInclude Include="Header\Engine\Common\EngineDefine.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Header\Engine\Component\Behaviour\Actor\Actor.h">
+    <ClInclude Include="Header\Engine\Component\EngineComponent\Actor\Actor.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Header\Engine\Component\Behaviour\Behaviour.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Header\Engine\Component\Behaviour\Camera\Camera.h">
+    <ClInclude Include="Header\Engine\Component\EngineComponent\Camera\Camera.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Header\Engine\Component\Behaviour\Light\Light.h">
+    <ClInclude Include="Header\Engine\Component\EngineComponent\Light\Light.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Header\Engine\Input\Input.h">
@@ -401,7 +434,7 @@
     <ClInclude Include="Header\Engine\Engine.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Header\Engine\EngineMath\XsMath.h">
+    <ClInclude Include="Header\Engine\EngineMath\EngineMath.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Header\Engine\Component\Component.h">
@@ -420,6 +453,21 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Header\Resource\ResourceLoader\MeshLoader.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Core\Parsing\Json.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Core\Compressor\Lz4.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Core\Compressor\Lzma.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\StdEx\TypeName\TypeName.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Engine\EngineMath\Quaternion.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

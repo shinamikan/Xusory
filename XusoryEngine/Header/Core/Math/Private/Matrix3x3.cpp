@@ -269,6 +269,11 @@ namespace XusoryEngine
 		};
 	}
 
+	const Matrix3x3 Matrix3x3::Identity = Matrix3x3(
+		1.0f, 0.0f, 0.0f,
+		0.0f, 1.0f, 0.0f,
+		0.0f, 0.0f, 1.0f);
+
 	Vector3 Matrix3x3::PreMultiVector3(const Vector3& vector, const Matrix3x3& matrix)
 	{
 		const __m128 m128Temp0 = _mm_setr_ps(matrix.m_row0.m128_f32[0], matrix.m_row1.m128_f32[0], matrix.m_row2.m128_f32[0], 0.0f);

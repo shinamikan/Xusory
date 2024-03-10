@@ -1,9 +1,10 @@
 #include "../GraphicsManager.h"
 
-#include "../Material.h"
 #include "../Common/GraphicsDefine.h"
+#include "../Material.h"
 #include "../Mesh.h"
 #include "../Shader.h"
+#include "../Texture.h"
 
 namespace XusoryEngine
 {
@@ -69,6 +70,24 @@ namespace XusoryEngine
 		m_scissorRect = { 0, 0, static_cast<LONG>(width), static_cast<LONG>(height) };
 	}
 
+	void GiDx12GraphicsManager::ReSetRuntimeResourceHeap(UINT heapNum)
+	{
+		m_runTimeResourceHeapIndex = 0;
+
+		m_runTimeCbvSrvUavHeap->ReSet();
+		m_runTimeCbvSrvUavHeap->Create(m_device.get(), heapNum);
+	}
+
+	UINT GiDx12GraphicsManager::GetRuntimeResourceHeapIndex()
+	{
+		return m_runTimeResourceHeapIndex;
+	}
+
+	void GiDx12GraphicsManager::AddRuntimeResourceHeapIndex(UINT resourceNum)
+	{
+		m_runTimeResourceHeapIndex += resourceNum;
+	}
+
 	void GiDx12GraphicsManager::ExecuteCommandAndWait()
 	{
 		m_commandList->EndCommand();
@@ -79,6 +98,11 @@ namespace XusoryEngine
 	void GiDx12GraphicsManager::ReSetCommandList()
 	{
 		m_commandList->ResetCommandList(m_commandAllocator.get(), nullptr);
+	}
+
+	void GiDx12GraphicsManager::PresentBackBuffer()
+	{
+		m_swapChain->Present(0);
 	}
 
 	void GiDx12GraphicsManager::BuildMaterial(Material* material)
@@ -112,7 +136,21 @@ namespace XusoryEngine
 
 	void GiDx12GraphicsManager::BuildTexture(Texture* texture)
 	{
-		
+		auto* textureBuffer = new Dx12TextureBuffer;
+		if (StringEx::EndWith<std::wstring>(texture->GetTextureFilePath(), TEXT(".dds")))
+		{
+			DxTextureLoader::LoadDdsTextureFile(texture->GetTextureFilePath(), m_device.get(), m_commandList.get(),
+				const_cast<Dx12ShaderResourceBuffer*>(textureBuffer->GetTextureBuffer()), const_cast<Dx12Buffer*>(textureBuffer->GetTextureUploadBuffer()));
+
+			const auto desc = (*textureBuffer->GetTextureBuffer())->GetDesc();
+			texture->mipLevels = desc.MipLevels;
+			texture->m_width = static_cast<UINT>(desc.Width);
+			texture->m_height = desc.Height;
+
+			textureBuffer->DescribeShaderResource(m_device.get(), m_cbvSrvUavAllocator.get());
+		}
+
+		m_textureMap.emplace(texture, textureBuffer);
 	}
 
 	void GiDx12GraphicsManager::BuildShader(Shader* shader)
@@ -263,6 +301,8 @@ namespace XusoryEngine
 	void GiDx12GraphicsManager::CreateDescriptorAllocator()
 	{
 		m_cbvSrvUavAllocator = std::make_unique<Dx12DescriptorAllocator>(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, true);
+		m_runTimeCbvSrvUavHeap = std::make_unique<Dx12DescriptorHeap>(D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, true);
+
 		m_rtvAllocator = std::make_unique<Dx12DescriptorAllocator>(D3D12_DESCRIPTOR_HEAP_TYPE_RTV, false);
 		m_dsvAllocator = std::make_unique<Dx12DescriptorAllocator>(D3D12_DESCRIPTOR_HEAP_TYPE_DSV, false);
 

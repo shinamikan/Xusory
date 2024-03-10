@@ -43,6 +43,11 @@ namespace XusoryEngine
 		m_descriptorHandleList.clear();
 	}
 
+	Dx12DescriptorHeap* Dx12DescriptorAllocator::GetHeap() const
+	{
+		return m_heap;
+	}
+
 	D3D12_DESCRIPTOR_HEAP_TYPE Dx12DescriptorAllocator::GetHeapType() const
 	{
 		return m_descHeapType;

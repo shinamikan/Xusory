@@ -126,6 +126,11 @@ namespace XusoryEngine
 		m_vector = _mm_setr_ps(x, y, z, 0.0f);
 	}
 
+	void Vector3::SetVector(const Float3& vector)
+	{
+		m_vector = _mm_setr_ps(vector.x, vector.y, vector.z, 0.0f);
+	}
+
 	FLOAT Vector3::Length() const
 	{
 		return std::sqrt(

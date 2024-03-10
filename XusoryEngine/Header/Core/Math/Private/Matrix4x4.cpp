@@ -329,6 +329,12 @@ namespace XusoryEngine
 		};
 	}
 
+	const Matrix4x4 Matrix4x4::Identity = Matrix4x4(
+		1.0f, 0.0f, 0.0f, 0.0f,
+		0.0f, 1.0f, 0.0f, 0.0f,
+		0.0f, 0.0f, 1.0f, 0.0f,
+		0.0f, 0.0f, 0.0f, 1.0f);
+
 	Vector3 Matrix4x4::PreTransPoint3(const Vector3& vector, const Matrix4x4& matrix)
 	{
 		const __m128 m128Temp = _mm_setr_ps(vector.m_vector.m128_f32[0], vector.m_vector.m128_f32[1], vector.m_vector.m128_f32[2], 1.0f);
@@ -432,6 +438,16 @@ namespace XusoryEngine
 		};
 	}
 
+	Matrix4x4 Matrix4x4::BuildScaleMatrix(const Vector3& scale)
+	{
+		return {
+			scale.X(), 0.0f, 0.0f, 0.0f,
+			0.0f, scale.Y(), 0.0f, 0.0f,
+			0.0f, 0.0f, scale.Z(), 0.0f,
+			0.0f, 0.0f, 0.0f, 1.0f
+		};
+	}
+
 	Matrix4x4 Matrix4x4::BuildRotateXMatrix(FLOAT angle)
 	{
 		return {
@@ -472,11 +488,15 @@ namespace XusoryEngine
 		};
 	}
 
-	const Matrix4x4 Matrix4x4::Identity = Matrix4x4(
-		1.0f, 0.0f, 0.0f, 0.0f,
-		0.0f, 1.0f, 0.0f, 0.0f,
-		0.0f, 0.0f, 1.0f, 0.0f,
-		0.0f, 0.0f, 0.0f, 1.0f);
+	Matrix4x4 Matrix4x4::BuildTranslateMatrix(const Vector3& translation)
+	{
+		return {
+			1.0f, 0.0f, 0.0f, 0.0f,
+			0.0f, 1.0f, 0.0f, 0.0f,
+			0.0f, 0.0f, 1.0f, 0.0f,
+			translation.X(), translation.Y(), translation.Z(), 1.0f
+		};
+	}
 
 	Matrix4x4::Matrix4x4(const __m128& mRow0, const __m128& mRow1, const __m128& mRow2, const __m128& mRow3) :
 		m_row0(mRow0), m_row1(mRow1), m_row2(mRow2), m_row3(mRow3) { }

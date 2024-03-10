@@ -18,6 +18,7 @@ namespace XusoryEngine
 		void ReSet() override;
 
 		BOOL IsRangeTempListNull() const;
+		UINT GetParameterNum() const;
 		D3D12_ROOT_PARAMETER_TYPE GetParameterType(UINT parameterIndex) const;
 
 		void AddConstants(UINT constantValueNum, UINT shaderRegister, UINT registerSpace);

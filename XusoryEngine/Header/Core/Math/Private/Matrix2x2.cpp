@@ -218,6 +218,10 @@ namespace XusoryEngine
 		};
 	}
 
+	const Matrix2x2 Matrix2x2::Identity = Matrix2x2(
+		1.0f, 0.0f,
+		0.0f, 1.0f);
+
 	Vector2 Matrix2x2::PreMultiVector2(const Vector2& vector, const Matrix2x2& matrix)
 	{
 		const __m128 m128Temp0 = _mm_setr_ps(matrix.m_row0.m128_f32[0], matrix.m_row1.m128_f32[0], 0.0f, 0.0f);

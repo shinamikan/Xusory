@@ -17,6 +17,7 @@ namespace XusoryEngine
 
 		D3D12_SRV_DIMENSION GetSrvDimension() const;
 		const Dx12DescriptorHandle& GetSrvHandle() const;
+		void SetSrvDimension(D3D12_SRV_DIMENSION dimension);
 
 		void DescribeAsSrv(const Dx12Device* device, Dx12DescriptorAllocator* allocator, UINT usedMipLevels = -1, UINT mostDetailedMip = 0);
 

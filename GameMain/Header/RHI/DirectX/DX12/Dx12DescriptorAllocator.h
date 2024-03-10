@@ -22,6 +22,7 @@ namespace XusoryEngine
 		void Create(const Dx12Device* device) const;
 		void ReSet();
 
+		Dx12DescriptorHeap* GetHeap() const;
 		D3D12_DESCRIPTOR_HEAP_TYPE GetHeapType() const;
 		BOOL GetShaderVisible() const;
 

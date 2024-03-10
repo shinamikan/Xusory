@@ -1,5 +1,8 @@
 #pragma once
 
+#include "Compressor/Lz4.h"
+#include "Compressor/Lzma.h"
+
 #include "Debug/Debug.h"
 
 #include "Graphics/Geometry/Vertex.h"
@@ -18,3 +21,5 @@
 #include "Math/Vector2.h"
 #include "Math/Vector3.h"
 #include "Math/Vector4.h"
+
+#include "Parsing/Json.h"

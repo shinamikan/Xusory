@@ -55,6 +55,8 @@ namespace XusoryEngine
 		Matrix2x2 Inverse() const;
 		Matrix2x2 Transpose() const;
 
+		static const Matrix2x2 Identity;
+
 		static Vector2 PreMultiVector2(const Vector2& vector, const Matrix2x2& matrix);
 		static Vector2 PostMultiVector2(const Matrix2x2& matrix, const Vector2& vector);
 		static Matrix2x2 MultiMatrix(const Matrix2x2& lhs, const Matrix2x2& rhs);

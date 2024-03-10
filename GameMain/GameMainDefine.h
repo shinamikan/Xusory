@@ -17,7 +17,7 @@ inline void StdErrorOutput(const std::exception& e)
 		}
 	}
 	
-	completeErrorMsg += e.what();
+	completeErrorMsg = completeErrorMsg + e.what() + "\n";
 	Debug::LogError(completeErrorMsg);
 	TraceBack::ClearStack();
 }

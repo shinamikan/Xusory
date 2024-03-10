@@ -19,8 +19,13 @@ namespace XusoryEngine
 		virtual void InitGraphicsObject(void* renderWindow) = 0;
 		virtual void Resize(UINT width, UINT height) = 0;
 
+		virtual void ReSetRuntimeResourceHeap(UINT heapNum) = 0;
+		virtual UINT GetRuntimeResourceHeapIndex() = 0;
+		virtual void AddRuntimeResourceHeapIndex(UINT resourceNum) = 0;
+
 		virtual void ReSetCommandList() = 0;
 		virtual void ExecuteCommandAndWait() = 0;
+		virtual void PresentBackBuffer() = 0;
 
 		virtual void BuildMaterial(Material* material) = 0;
 		virtual void BuildMesh(Mesh* mesh) = 0;
@@ -50,8 +55,13 @@ namespace XusoryEngine
 		void InitGraphicsObject(void* renderWindow) override;
 		void Resize(UINT width, UINT height) override;
 
+		void ReSetRuntimeResourceHeap(UINT heapNum) override;
+		UINT GetRuntimeResourceHeapIndex() override;
+		void AddRuntimeResourceHeapIndex(UINT resourceNum) override;
+
 		void ExecuteCommandAndWait() override;
 		void ReSetCommandList() override;
+		void PresentBackBuffer() override;
 
 		void BuildMaterial(Material* material) override;
 		void BuildMesh(Mesh* mesh) override;
@@ -79,6 +89,9 @@ namespace XusoryEngine
 		std::unique_ptr<DxSwapChain> m_swapChain = nullptr;
 
 		std::unique_ptr<Dx12DescriptorAllocator> m_cbvSrvUavAllocator = nullptr;
+		std::unique_ptr<Dx12DescriptorHeap> m_runTimeCbvSrvUavHeap = nullptr;
+		UINT m_runTimeResourceHeapIndex = 0;
+
 		std::unique_ptr<Dx12DescriptorAllocator> m_rtvAllocator = nullptr;
 		std::unique_ptr<Dx12DescriptorAllocator> m_dsvAllocator = nullptr;
 

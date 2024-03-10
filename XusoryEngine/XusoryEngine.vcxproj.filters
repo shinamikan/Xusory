@@ -144,6 +144,9 @@
     <ClInclude Include="Header\CppEx\AsyncInfo\AsyncInfo.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Header\StdEx\TypeName\TypeName.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Header\Platform\File\Private\Directory.cpp">

@@ -5,9 +5,9 @@
 
 namespace XusoryEngine
 {
-	void GiDx12CommandContext::InitCommandContext(const GraphicsManager* graphicsManager)
+	void GiDx12CommandContext::InitCommandContext(GraphicsManager* graphicsManager)
 	{
-		m_dx12Manager = dynamic_cast<const GiDx12GraphicsManager*>(graphicsManager);
+		m_dx12Manager = dynamic_cast<GiDx12GraphicsManager*>(graphicsManager);
 		m_commandList = m_dx12Manager->m_commandList.get();
 	}
 
@@ -24,50 +24,82 @@ namespace XusoryEngine
 		m_commandList->TranslationBufferState(m_currentBackBuffer, D3D12_RESOURCE_STATE_RENDER_TARGET);
 
 		m_commandList->SetRenderTarget(m_currentBackBuffer, m_dx12Manager->m_depthStencilBuffer.get());
+
+		m_commandList->SetDescriptorHeaps(m_dx12Manager->m_cbvSrvUavAllocator->GetHeap(), nullptr);
 	}
 
 	void GiDx12CommandContext::EndCommand()
 	{
 		m_commandList->TranslationBufferState(m_currentBackBuffer, D3D12_RESOURCE_STATE_PRESENT);
-		m_commandList->EndCommand();
 
-		m_dx12Manager->m_commandQueue->ExecuteCommandList({ m_dx12Manager->m_commandList.get() });
-		m_dx12Manager->m_swapChain->Present(0);
-		m_dx12Manager->m_commandQueue->SignalAndWaitForNextFence(m_dx12Manager->m_fence.get());
+		m_dx12Manager->ExecuteCommandAndWait();
+		m_dx12Manager->PresentBackBuffer();
 	}
 
-	void GiDx12CommandContext::ClearRenderTarget(BOOL ifClearRenderTarget, BOOL ifClearDepth, Float4 color, FLOAT depth)
+	void GiDx12CommandContext::ClearRenderTarget(Float4 color)
 	{
-		if (ifClearRenderTarget)
-		{
-			m_commandList->ClearRenderTarget(m_currentBackBuffer, reinterpret_cast<FLOAT*>(&color));
-		}
-		if (ifClearDepth)
-		{
-			m_commandList->ClearDepthStencil(m_dx12Manager->m_depthStencilBuffer.get(), depth, 0);
-		}
+		m_commandList->ClearRenderTarget(m_currentBackBuffer, reinterpret_cast<FLOAT*>(&color));
 	}
 
-	void GiDx12CommandContext::DrawRenderer(const Material* material, const Mesh* mesh)
+	void GiDx12CommandContext::ClearDepth(FLOAT depth)
+	{
+		m_commandList->ClearDepth(m_dx12Manager->m_depthStencilBuffer.get(), depth);
+	}
+
+	void GiDx12CommandContext::ClearStencil(UINT8 stencil)
+	{
+		m_commandList->ClearStencil(m_dx12Manager->m_depthStencilBuffer.get(), stencil);
+	}
+
+	void GiDx12CommandContext::DrawMesh()
+	{
+		m_commandList->DrawIndexedInstanced(m_activeMesh->GetIndicesNum(), 1, 0, 0, 0);
+	}
+
+	void GiDx12CommandContext::SetMaterial(const Material* material)
 	{
 		auto& [rootSignature, pipelineState] = m_dx12Manager->m_shaderPipelineStateMap.at(const_cast<Shader*>(material->GetShader()));
 		m_commandList->SetGraphicsRootSignature(rootSignature.get());
 		m_commandList->SetGraphicsPipelineState(pipelineState.get());
 
-		const auto* meshBuffer = m_dx12Manager->m_meshBufferMap.at(const_cast<Mesh*>(mesh)).get();
-		m_commandList->SetMeshBuffer(meshBuffer);
-		m_commandList->SetPrimitiveTopology(static_cast<D3D12_PRIMITIVE_TOPOLOGY>(mesh->primitiveTopology));
-
-		UINT parameterIndex = 0;
+		UINT rootParameterIndex = 0;
 		for (const auto& cBuffer : material->m_constantBufferList)
 		{
 			const auto* dxCBuffer = m_dx12Manager->m_constantBufferMap.at(cBuffer.get()).get();
 			dxCBuffer->CopyDataToBuffer(cBuffer.get());
-			m_commandList->SetGraphicsRootCbv(parameterIndex, dxCBuffer);
+			m_commandList->SetGraphicsRootCbv(rootParameterIndex, dxCBuffer);
 
-			parameterIndex++;
+			rootParameterIndex++;
 		}
 
-		m_commandList->DrawIndexedInstanced(mesh->GetIndicesNum(), 1, 0, 0, 0);
+		if (material->GetTexturePropertyNum() == 0)
+		{
+			return;
+		}
+
+		const UINT runtimeHeapIndex = m_dx12Manager->GetRuntimeResourceHeapIndex();
+		for (UINT textureIndex = material->GetConstantPropertyNum(); textureIndex < rootSignature->GetParameterNum(); textureIndex++)
+		{
+			const Texture* texture = material->GetTextureByIndex(textureIndex);
+			const auto* dxTexBuffer = m_dx12Manager->m_textureMap.at(const_cast<Texture*>(texture)).get();
+
+			const auto* srcHeap = m_dx12Manager->m_cbvSrvUavAllocator->GetHeap();
+			const INT srcHeapIndex = srcHeap->FindDescriptor(dxTexBuffer->GetTextureBuffer()->GetSrvHandle());
+			Dx12DescriptorHeap::CopyDescriptor(m_dx12Manager->m_device.get(), m_dx12Manager->m_runTimeCbvSrvUavHeap.get(), m_dx12Manager->GetRuntimeResourceHeapIndex(),
+				srcHeap, static_cast<UINT>(srcHeapIndex), 1);
+
+			m_dx12Manager->AddRuntimeResourceHeapIndex(1);
+		}
+
+		m_commandList->SetGraphicsRootDescriptorTable(rootParameterIndex, (*m_dx12Manager->m_runTimeCbvSrvUavHeap)[runtimeHeapIndex]);
+	}
+
+	void GiDx12CommandContext::SetMesh(const Mesh* mesh)
+	{
+		const auto* meshBuffer = m_dx12Manager->m_meshBufferMap.at(const_cast<Mesh*>(mesh)).get();
+		m_commandList->SetMeshBuffer(meshBuffer);
+		m_commandList->SetPrimitiveTopology(static_cast<D3D12_PRIMITIVE_TOPOLOGY>(mesh->primitiveTopology));
+
+		m_activeMesh = mesh;
 	}
 }

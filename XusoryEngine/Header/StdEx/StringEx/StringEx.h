@@ -57,7 +57,7 @@ namespace XusoryEngine
 	{
 		static_assert(std::is_same_v<StringT, std::string> || std::is_same_v<StringT, std::wstring>);
 
-		for (UINT i = 0; i < std::min(str.size(), beginStr.size()) ; i++)
+		for (auto i = 0; i < std::min(str.size(), beginStr.size()) ; i++)
 		{
 			if (str.at(i) != beginStr.at(i))
 			{
@@ -82,7 +82,7 @@ namespace XusoryEngine
 	template<typename StringT>
 	BOOL StringEx::EndWith(const std::basic_string_view<typename StringT::value_type>& str, const std::basic_string_view<typename StringT::value_type>& endStr)
 	{
-		for (UINT i = std::min(str.size(), endStr.size()) - 1; i > -1; --i)
+		for (auto i = std::min(str.size(), endStr.size()) - 1; i > -1; --i)
 		{
 			if (str.at(i) != endStr.at(i))
 			{

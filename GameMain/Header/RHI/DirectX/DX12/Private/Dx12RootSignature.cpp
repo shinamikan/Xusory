@@ -33,8 +33,17 @@ namespace XusoryEngine
 		return m_rangeTempList.empty();
 	}
 
+	UINT Dx12RootSignature::GetParameterNum() const
+	{
+		return static_cast<UINT>(m_parameterList.size());
+	}
+
 	D3D12_ROOT_PARAMETER_TYPE Dx12RootSignature::GetParameterType(UINT parameterIndex) const
 	{
+		if (parameterIndex >= m_parameterList.size())
+		{
+			ThrowWithErrName(DxRuntimeError, "Index out of parameter list range");
+		}
 		return m_parameterList.at(parameterIndex).ParameterType;
 	}
 

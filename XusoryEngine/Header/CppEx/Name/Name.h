@@ -12,5 +12,11 @@
 #define nameof(target) #target
 #define nameofT(type) typeid(type).name()
 
+template <typename T>
+std::string GetTypeId()
+{
+	return nameofT(T);
+}
+
 constexpr char ENTER_FUNC_MAIN[] = "main";
 constexpr char ENTER_FUNC_WIN_MAIN[] = "WinMain";

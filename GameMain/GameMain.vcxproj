@@ -239,6 +239,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Header\Core\Compressor\Private\Lz4.cpp" />
+    <ClCompile Include="Header\Core\Compressor\Private\Lzma.cpp" />
+    <ClCompile Include="Header\Core\Parsing\Private\Json.cpp" />
+    <ClCompile Include="Header\Engine\Component\EngineComponent\Actor\Private\Actor.cpp" />
+    <ClCompile Include="Header\Engine\Component\EngineComponent\Camera\Private\Camera.cpp" />
+    <ClCompile Include="Header\Engine\Component\Behaviour\Private\Behaviour.cpp" />
+    <ClCompile Include="Header\Engine\Component\EngineComponent\Renderer\Private\MeshRenderer.cpp" />
+    <ClCompile Include="Header\Engine\Component\Private\Component.cpp" />
+    <ClCompile Include="Header\Engine\Component\Transform\Private\Transform.cpp" />
+    <ClCompile Include="Header\Engine\EngineMath\Private\Quaternion.cpp" />
+    <ClCompile Include="Header\Engine\GameObject\Private\GameObject.cpp" />
     <ClCompile Include="Header\Resource\ResourceLoader\Private\TextureLoader.cpp" />
     <ClCompile Include="Header\Core\Graphics\Private\CommandContext.cpp" />
     <ClCompile Include="Header\Core\Graphics\Private\GraphicsManager.cpp" />
@@ -246,7 +257,7 @@
     <ClCompile Include="Header\Core\Graphics\Private\Mesh.cpp" />
     <ClCompile Include="Header\Core\Graphics\Private\Shader.cpp" />
     <ClCompile Include="Header\Core\Graphics\Private\Texture.cpp" />
-    <ClCompile Include="Header\Engine\EngineMath\Private\XsMath.cpp" />
+    <ClCompile Include="Header\Engine\EngineMath\Private\EngineMath.cpp" />
     <ClCompile Include="Header\RHI\DirectX\Common\Private\DDSTextureLoader.cpp" />
     <ClCompile Include="Header\RHI\DirectX\DX12\Buffer\Private\Dx12Buffer.cpp" />
     <ClCompile Include="Header\RHI\DirectX\DX12\Buffer\Private\Dx12Buffer1D.cpp" />
@@ -277,12 +288,16 @@
   <ItemGroup>
     <ClInclude Include="GameMainDefine.h" />
     <ClInclude Include="Header\Core\API\Factory.h" />
+    <ClInclude Include="Header\Core\Compressor\Lz4.h" />
+    <ClInclude Include="Header\Core\Compressor\Lzma.h" />
     <ClInclude Include="Header\Core\Core.h" />
     <ClInclude Include="Header\Core\Debug\Debug.h" />
     <ClInclude Include="Header\Core\Graphics\CommandContext.h" />
     <ClInclude Include="Header\Core\Graphics\Common\GraphicsDefine.h" />
     <ClInclude Include="Header\Core\Graphics\Geometry\Vertex.h" />
     <ClInclude Include="Header\Core\Graphics\GraphicsManager.h" />
+    <ClInclude Include="Header\Core\Parsing\Json.h" />
+    <ClInclude Include="Header\Engine\EngineMath\Quaternion.h" />
     <ClInclude Include="Header\Resource\ResourceLoader\MeshLoader.h" />
     <ClInclude Include="Header\Resource\ResourceLoader\TextureLoader.h" />
     <ClInclude Include="Header\Core\Graphics\RenderPipeline.h" />
@@ -305,15 +320,15 @@
     <ClInclude Include="Header\CppEx\Error\TraceBack.h" />
     <ClInclude Include="Header\CppEx\Reflector\Reflector.h" />
     <ClInclude Include="Header\Engine\Common\EngineDefine.h" />
-    <ClInclude Include="Header\Engine\Component\Behaviour\Actor\Actor.h" />
+    <ClInclude Include="Header\Engine\Component\EngineComponent\Actor\Actor.h" />
     <ClInclude Include="Header\Engine\Component\Behaviour\Behaviour.h" />
-    <ClInclude Include="Header\Engine\Component\Behaviour\Camera\Camera.h" />
-    <ClInclude Include="Header\Engine\Component\Behaviour\Light\Light.h" />
-    <ClInclude Include="Header\Engine\Component\Behaviour\Renderer\MeshRenderer.h" />
+    <ClInclude Include="Header\Engine\Component\EngineComponent\Camera\Camera.h" />
+    <ClInclude Include="Header\Engine\Component\EngineComponent\Light\Light.h" />
+    <ClInclude Include="Header\Engine\Component\EngineComponent\Renderer\MeshRenderer.h" />
     <ClInclude Include="Header\Engine\Component\Component.h" />
     <ClInclude Include="Header\Engine\Component\Transform\Transform.h" />
     <ClInclude Include="Header\Engine\Engine.h" />
-    <ClInclude Include="Header\Engine\EngineMath\XsMath.h" />
+    <ClInclude Include="Header\Engine\EngineMath\EngineMath.h" />
     <ClInclude Include="Header\Engine\GameObject\GameObject.h" />
     <ClInclude Include="Header\Engine\Input\Input.h" />
     <ClInclude Include="Header\Platform\Common\PlatformDefine.h" />
@@ -375,6 +390,7 @@
     <ClInclude Include="Header\StdEx\StringEx\StringEx.h" />
     <ClInclude Include="Header\CppEx\AsyncInfo\AsyncInfo.h" />
     <ClInclude Include="Header\CppEx\DllDefine\DllDefine.h" />
+    <ClInclude Include="Header\StdEx\TypeName\TypeName.h" />
     <ClInclude Include="Header\XusoryEngine.h" />
   </ItemGroup>
   <ItemGroup>

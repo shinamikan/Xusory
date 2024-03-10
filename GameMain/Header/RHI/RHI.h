@@ -30,3 +30,4 @@
 #include "DirectX/DxFactory.h"
 #include "DirectX/DxShaderCompiler.h"
 #include "DirectX/DxSwapChain.h"
+#include "DirectX/DxTextureLoader.h"

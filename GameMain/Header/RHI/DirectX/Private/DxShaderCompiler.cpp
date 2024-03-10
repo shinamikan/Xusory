@@ -64,11 +64,12 @@ namespace XusoryEngine
 					ThrowIfDxFailed(shaderReflection->GetResourceBindingDesc(k, &resourceDesc));
 					resourceDesc.resourceName = resourceDesc.Name;
 
-					if (resourceDesc.Type == D3D_SIT_CBUFFER)
+					if (resourceDesc.Type == D3D_SIT_CBUFFER && constantBufferDesc.bufferName == resourceDesc.resourceName)
 					{
 						constantBufferDesc.bindPoint = resourceDesc.BindPoint;
 						constantBufferDesc.bindCount = resourceDesc.BindCount;
 						constantBufferDesc.space = resourceDesc.Space;
+						break;
 					}
 				}
 

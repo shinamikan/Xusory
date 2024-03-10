@@ -33,24 +33,24 @@ namespace XusoryEngine
 			FLOAT m20, FLOAT m21, FLOAT m22, FLOAT m23,
 			FLOAT m30, FLOAT m31, FLOAT m32, FLOAT m33);
 		explicit Matrix4x4(FLOAT scalar);
-		explicit Matrix4x4(const Float4x4 & m);
+		explicit Matrix4x4(const Float4x4& m);
 		DEFAULT_COPY_OPERATOR(Matrix4x4);
 		DEFAULT_MOVE_OPERATOR(Matrix4x4);
 		~Matrix4x4() = default;
 
-		Matrix4x4 operator+(const Matrix4x4 & other) const;
-		Matrix4x4 operator-(const Matrix4x4 & other) const;
+		Matrix4x4 operator+(const Matrix4x4& other) const;
+		Matrix4x4 operator-(const Matrix4x4& other) const;
 		Matrix4x4 operator*(FLOAT scalar) const;
-		Matrix4x4 operator*(const Matrix4x4 & other) const;
+		Matrix4x4 operator*(const Matrix4x4& other) const;
 		Matrix4x4 operator/(FLOAT scalar) const;
-		Matrix4x4 operator/(const Matrix4x4 & other) const;
-		Matrix4x4 operator==(const Matrix4x4 & other) const;
-		Matrix4x4& operator+=(const Matrix4x4 & other);
-		Matrix4x4& operator-=(const Matrix4x4 & other);
+		Matrix4x4 operator/(const Matrix4x4& other) const;
+		Matrix4x4 operator==(const Matrix4x4& other) const;
+		Matrix4x4& operator+=(const Matrix4x4& other);
+		Matrix4x4& operator-=(const Matrix4x4& other);
 		Matrix4x4& operator*=(FLOAT scalar);
-		Matrix4x4& operator*=(const Matrix4x4 & other);
+		Matrix4x4& operator*=(const Matrix4x4& other);
 		Matrix4x4& operator/=(FLOAT scalar);
-		Matrix4x4& operator/=(const Matrix4x4 & other);
+		Matrix4x4& operator/=(const Matrix4x4& other);
 
 		Float4x4 GetMatrix() const;
 		void SetMatrix(
@@ -63,6 +63,8 @@ namespace XusoryEngine
 		Matrix4x4 Inverse() const;
 		Matrix4x4 Transpose() const;
 
+		static const Matrix4x4 Identity;
+
 		static Vector3 PreTransPoint3(const Vector3& vector, const Matrix4x4& matrix);
 		static Vector3 PreTransVector3(const Vector3& vector, const Matrix4x4& matrix);
 		static Vector3 PostTransPoint3(const Matrix4x4& matrix, const Vector3& vector);
@@ -73,12 +75,12 @@ namespace XusoryEngine
 
 		static Matrix4x4 BuildScaleMatrix(FLOAT scalar);
 		static Matrix4x4 BuildScaleMatrix(FLOAT x, FLOAT y, FLOAT z);
+		static Matrix4x4 BuildScaleMatrix(const Vector3& scale);
 		static Matrix4x4 BuildRotateXMatrix(FLOAT angle);
 		static Matrix4x4 BuildRotateYMatrix(FLOAT angle);
 		static Matrix4x4 BuildRotateZMatrix(FLOAT angle);
 		static Matrix4x4 BuildTranslateMatrix(FLOAT x, FLOAT y, FLOAT z);
-
-		static const Matrix4x4 Identity;
+		static Matrix4x4 BuildTranslateMatrix(const Vector3& translation);
 
 	private:
 		Matrix4x4(const __m128& mRow0, const __m128& mRow1, const __m128& mRow2, const __m128& mRow3);

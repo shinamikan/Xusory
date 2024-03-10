@@ -50,7 +50,9 @@ namespace XusoryEngine
 		FLOAT Y() const;
 		FLOAT Z() const;
 		Float3 GetVector() const;
+
 		void SetVector(FLOAT x, FLOAT y, FLOAT z);
+		void SetVector(const Float3& vector);
 
 		FLOAT Length() const;
 		FLOAT LengthSq() const;

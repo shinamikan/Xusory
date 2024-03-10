@@ -63,6 +63,10 @@ namespace XusoryEngine
 
     Dx12DescriptorHandle Dx12DescriptorHeap::operator[](UINT descriptorIndex) const
     {
+        if (descriptorIndex >= m_heapSize)
+        {
+            ThrowWithErrName(DxRuntimeError, "Index out of heap range");
+        }
         return m_firstDescriptorHandle + static_cast<INT>(descriptorIndex * m_descriptorSize);
     }
 

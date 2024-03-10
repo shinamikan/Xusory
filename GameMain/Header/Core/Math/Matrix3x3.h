@@ -58,6 +58,8 @@ namespace XusoryEngine
 		Matrix3x3 Inverse() const;
 		Matrix3x3 Transpose() const;
 
+		static const Matrix3x3 Identity;
+
 		static Vector3 PreMultiVector3(const Vector3& vector, const Matrix3x3& matrix);
 		static Vector3 PostMultiVector3(const Matrix3x3& matrix, const Vector3& vector);
 		static Matrix3x3 MultiMatrix(const Matrix3x3& lhs, const Matrix3x3& rhs);
