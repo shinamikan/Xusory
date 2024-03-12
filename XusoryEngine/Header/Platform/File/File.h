@@ -37,6 +37,7 @@ namespace XusoryEngine
 		void Close() const;
 		void Read(void* pData) const;
 		void ReadText(std::string& str) const;
+		std::string ReadText() const;
 		void Write(const void* data, SIZE_T size) const;
 
 		static INT64 GetSize(const std::wstring_view& path);

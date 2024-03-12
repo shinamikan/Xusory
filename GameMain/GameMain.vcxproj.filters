@@ -102,9 +102,6 @@
     <ClCompile Include="Header\Core\Graphics\Private\Texture.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Header\Engine\EngineMath\Private\EngineMath.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="Header\RHI\DirectX\Private\DxTextureLoader.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -117,7 +114,7 @@
     <ClCompile Include="Header\Resource\ResourceLoader\Private\TextureLoader.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Header\Core\Parsing\Private\Json.cpp">
+    <ClCompile Include="Header\Core\Parsing\Private\JsonDocument.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Header\Core\Compressor\Private\Lz4.cpp">
@@ -148,6 +145,15 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Header\Engine\EngineMath\Private\Quaternion.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\Engine\GameTime\Private\GameTimer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\3rdParty\jsoncpp\private\jsoncpp.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\Engine\Scene\Private\Scene.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -434,9 +440,6 @@
     <ClInclude Include="Header\Engine\Engine.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Header\Engine\EngineMath\EngineMath.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="Header\Engine\Component\Component.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -455,7 +458,7 @@
     <ClInclude Include="Header\Resource\ResourceLoader\MeshLoader.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Header\Core\Parsing\Json.h">
+    <ClInclude Include="Header\Core\Parsing\JsonDocument.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Header\Core\Compressor\Lz4.h">
@@ -468,6 +471,18 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Header\Engine\EngineMath\Quaternion.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Engine\GameTime\GameTimer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\3rdParty\jsoncpp\json.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\3rdParty\jsoncpp\json-forwards.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Engine\Scene\Scene.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

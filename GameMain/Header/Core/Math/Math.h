@@ -11,10 +11,14 @@
 
 namespace XusoryEngine
 {
-	DLL_CLASS(Math)
+	DLL_STATIC_CLASS(Math)
 	{
 	public:
 		static constexpr FLOAT Pi = 3.1415926535f;
+
+		static FLOAT Cycle(FLOAT num, FLOAT lowerBound, FLOAT upperBound);
+		static FLOAT DegreeToRadian(FLOAT degree);
+		static FLOAT RadianToDegree(FLOAT radian);
 	};
 
 	inline std::ostream& operator<<(std::ostream& os, const Float2& v)

@@ -212,5 +212,8 @@
     <ClCompile Include="Header\Core\Math\Private\Matrix2x2.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Header\Core\Math\Private\Math.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

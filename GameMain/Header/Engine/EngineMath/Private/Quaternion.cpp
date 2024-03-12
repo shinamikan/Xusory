@@ -1,6 +1,5 @@
 #include <cmath>
 #include "../Quaternion.h"
-#include "../EngineMath.h"
 
 namespace XusoryEngine
 {
@@ -71,6 +70,21 @@ namespace XusoryEngine
 		return m_quaternion.W();
 	}
 
+	Float3 Quaternion::GetEulerAngles() const
+	{
+		const FLOAT q1 = m_quaternion.X(); const FLOAT q2 = m_quaternion.Y();
+		const FLOAT q3 = m_quaternion.Z(); const FLOAT q4 = m_quaternion.W();
+		const auto q1Squ = static_cast<FLOAT>(pow(q1, 2));
+		const auto q2Squ = static_cast<FLOAT>(pow(q2, 2));
+		const auto q3Squ = static_cast<FLOAT>(pow(q3, 2));
+		
+		return {
+			Math::RadianToDegree(atan2(2 * q1 * q4 + 2 * q2 * q3, 1 - 2 * q1Squ - 2 * q2Squ)),
+			Math::RadianToDegree(asin(2 * q2 * q4 - 2 * q1 * q3)),
+			Math::RadianToDegree(atan2(2 * q3 * q4 + 2 * q1 * q2, 1 - 2 * q2Squ - 2 * q3Squ))
+		};
+	}
+
 	Float4 Quaternion::GetQuaternion() const
 	{
 		return m_quaternion.GetVector();
@@ -81,34 +95,9 @@ namespace XusoryEngine
 		return m_quaternion;
 	}
 
-	void Quaternion::SetQuaternion(FLOAT x, FLOAT y, FLOAT z, FLOAT w)
-	{
-		m_quaternion.SetVector(x, y, z, w);
-	}
-
-	void Quaternion::SetQuaternion(const Float4& quaternion)
-	{
-		m_quaternion.SetVector(quaternion);
-	}
-
-	void Quaternion::SetQuaternion(const Vector4& quaternion)
-	{
-		m_quaternion = quaternion;
-	}
-
-	FLOAT Quaternion::GetEulerAngles(Axis axis)
-	{
-		return FLOAT();
-	}
-
-	Float3 Quaternion::GetEulerAngles()
-	{
-		return Float3();
-	}
-
 	void Quaternion::SetWithEulerAngles(Axis axis, FLOAT eulerAngle)
 	{
-		const FLOAT radian = eulerAngle * Math::Pi / 180.0f;
+		const FLOAT radian = Math::DegreeToRadian(eulerAngle);
 
 		switch (axis)
 		{
@@ -142,6 +131,21 @@ namespace XusoryEngine
 		const Quaternion quaZ = Quaternion(Axis::Z, eulerAngleZ);
 
 		*this = quaZ * quaX * quaY;
+	}
+
+	void Quaternion::SetQuaternion(FLOAT x, FLOAT y, FLOAT z, FLOAT w)
+	{
+		m_quaternion.SetVector(x, y, z, w);
+	}
+
+	void Quaternion::SetQuaternion(const Float4& quaternion)
+	{
+		m_quaternion.SetVector(quaternion);
+	}
+
+	void Quaternion::SetQuaternion(const Vector4& quaternion)
+	{
+		m_quaternion = quaternion;
 	}
 
 	FLOAT Quaternion::Norm() const
@@ -203,7 +207,8 @@ namespace XusoryEngine
 	const Quaternion Quaternion::Identity = Quaternion(0.0f, 0.0f, 0.0f, 1.0f);
 	Matrix4x4 Quaternion::BuildRotationMatrixByQuaternion(const Quaternion& quaternion)
 	{
-		const FLOAT q1 = quaternion.X(); const FLOAT q2 = quaternion.Y(); const FLOAT q3 = quaternion.Z(); const FLOAT q4 = quaternion.W();
+		const FLOAT q1 = quaternion.X(); const FLOAT q2 = quaternion.Y();
+		const FLOAT q3 = quaternion.Z(); const FLOAT q4 = quaternion.W();
 		const auto q1Squ = static_cast<FLOAT>(pow(q1, 2));
 		const auto q2Squ = static_cast<FLOAT>(pow(q2, 2));
 		const auto q3Squ = static_cast<FLOAT>(pow(q3, 2));

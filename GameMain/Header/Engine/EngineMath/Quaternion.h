@@ -34,19 +34,17 @@ namespace XusoryEngine
 		FLOAT Z() const;
 		FLOAT W() const;
 
+		Float3 GetEulerAngles() const;
 		Float4 GetQuaternion() const;
 		const Vector4& GetQuaternionVector() const;
-
-		FLOAT GetEulerAngles(Axis axis);
-		Float3 GetEulerAngles();
+		
+		void SetWithEulerAngles(Axis axis, FLOAT eulerAngle);
+		void SetWithEulerAngles(FLOAT eulerAngleX, FLOAT eulerAngleY, FLOAT eulerAngleZ);
+		void SetWithEulerAngles(const Float3& eulerAngles);
 
 		void SetQuaternion(FLOAT x, FLOAT y, FLOAT z, FLOAT w);
 		void SetQuaternion(const Float4& quaternion);
 		void SetQuaternion(const Vector4& quaternion);
-
-		void SetWithEulerAngles(Axis axis, FLOAT eulerAngle);
-		void SetWithEulerAngles(FLOAT eulerAngleX, FLOAT eulerAngleY, FLOAT eulerAngleZ);
-		void SetWithEulerAngles(const Float3& eulerAngles);
 
 		FLOAT Norm() const;
 		FLOAT NormSq() const;

@@ -299,6 +299,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Header\Core\Debug\Private\Debug.cpp" />
+    <ClCompile Include="Header\Core\Math\Private\Math.cpp" />
     <ClCompile Include="Header\Core\Math\Private\Matrix2x2.cpp" />
     <ClCompile Include="Header\Core\Math\Private\Matrix3x3.cpp" />
     <ClCompile Include="Header\Core\Math\Private\Matrix4x4.cpp" />

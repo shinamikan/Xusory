@@ -1,5 +1,4 @@
 #include "../Transform.h"
-#include "../../../EngineMath/EngineMath.h"
 
 namespace XusoryEngine
 {
@@ -51,7 +50,11 @@ namespace XusoryEngine
 
 	Matrix4x4 Transform::GetModelMatrix() const
 	{
-		return EngineMath::BuildModelMatrix(m_localPosition, m_localScale, m_localRotation);
+		const auto translateMat = Matrix4x4::BuildTranslateMatrix(m_localPosition);
+		const auto scaleMat = Matrix4x4::BuildScaleMatrix(m_localScale);
+		const auto rotateMat = Quaternion::BuildRotationMatrixByQuaternion(m_localRotation);
+		
+		return scaleMat * rotateMat * translateMat;
 	}
 
 	void Transform::MoveTo(FLOAT x, FLOAT y, FLOAT z, Space space)

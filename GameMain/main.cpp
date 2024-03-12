@@ -124,17 +124,6 @@ public:
 			m_graphicsManager->ExecuteCommandAndWait();
 
 			//material->SetTextureByName("Diffuse", texture.get());
-
-			gameObj = std::make_shared<GameObject>();
-			MeshRenderer* renderer = gameObj->AddComponent<MeshRenderer>();
-			renderer->mesh = mesh.get();
-			renderer->material = material.get();
-			gameObj->AddComponent<UserActor>();
-
-			camera = std::make_shared<GameObject>();
-			Camera* cameraPtr = camera->AddComponent<Camera>();
-			camera->GetTransform()->MoveTo(0.0f, 0.0f, 70.0f);
-			cameraPtr->targetPosition = Vector3(0.0f, 0.0f, 0.0f);
 		}
 		catch (const std::exception& e)
 		{
@@ -147,8 +136,8 @@ public:
 	{
 		try
 		{
-			const FLOAT aspect = static_cast<FLOAT>(event.sizeX) / static_cast<FLOAT>(event.sizeY);
-			m_projMat = EngineMath::BuildPerspectiveMatrixFov(0.25f * Math::Pi, aspect, 1.0f, 1000.0f);
+			Camera::mainCamera->aspect = static_cast<FLOAT>(event.sizeX) / static_cast<FLOAT>(event.sizeY);
+			m_projMat = Camera::mainCamera->GetProjectionMatrix();
 
 			m_graphicsManager->Resize(event.sizeX, event.sizeY);
 		}
@@ -165,21 +154,25 @@ public:
 		{
 			gameObj->GetTransform()->Rotate(0.0f, 0.0f, 5.0f);
 			Debug::LogInfo(gameObj->GetTransform()->GetRotation());
+			Debug::LogInfo(gameObj->GetTransform()->GetRotationQuaternion().GetEulerAngles());
 		}
 		else if (event.keyCode == KeyCode::DOWN)
 		{
 			gameObj->GetTransform()->Rotate(0.0f, 0.0f, -5.0f);
 			Debug::LogInfo(gameObj->GetTransform()->GetRotation());
+			Debug::LogInfo(gameObj->GetTransform()->GetRotationQuaternion().GetEulerAngles());
 		}
 		else if (event.keyCode == KeyCode::LEFT)
 		{
 			gameObj->GetTransform()->Rotate(0.0f, 5.0f, 0.0f);
 			Debug::LogInfo(gameObj->GetTransform()->GetRotation());
+			Debug::LogInfo(gameObj->GetTransform()->GetRotationQuaternion().GetEulerAngles());
 		}
 		else if (event.keyCode == KeyCode::RIGHT)
 		{
 			gameObj->GetTransform()->Rotate(0.0f, -5.0f, 0.0f);
 			Debug::LogInfo(gameObj->GetTransform()->GetRotation());
+			Debug::LogInfo(gameObj->GetTransform()->GetRotationQuaternion().GetEulerAngles());
 		}
 		else if (event.keyCode == KeyCode::ENTER)
 		{
@@ -187,7 +180,14 @@ public:
 		}
 		else if (event.keyCode == KeyCode::KEY_A)
 		{
-			Debug::LogInfo(Vector3::OneY);
+			JsonDocument jsonDocument = JsonDocument(TEXT("Resource/demo.json"));
+
+			JsonNode& rootNode = jsonDocument.GetRootNode();
+			Debug::LogInfo(rootNode["age"].asInt());
+
+			rootNode["age"] = 999;
+
+			jsonDocument.SaveJson(TEXT("Resource/demo1.json"));
 		}
 		else if (event.keyCode == KeyCode::KEY_B)
 		{
@@ -212,7 +212,7 @@ public:
 		try
 		{
 			auto modelMatrix = gameObj->GetTransform()->GetModelMatrix();
-			auto viewMatrix = camera->GetComponent<Camera>()->GetViewMatrix();
+			auto viewMatrix = Camera::mainCamera->GetViewMatrix();
 
 			auto modelToProj = modelMatrix * viewMatrix * m_projMat;
 			material->SetMatrix4ByName("gWorldViewProj", modelToProj.Transpose());
@@ -336,6 +336,19 @@ int WinMain(HINSTANCE hIns, HINSTANCE hPreIns, LPSTR lpCmdLine, int nCmdShow)
 
 		material = std::make_shared<Material>(shader.get());
 		renderPipeline = std::make_shared<UserRenderPipeline>();
+
+		gameObj = std::make_shared<GameObject>();
+		MeshRenderer* renderer = gameObj->AddComponent<MeshRenderer>();
+		renderer->mesh = mesh.get();
+		renderer->material = material.get();
+		gameObj->AddComponent<UserActor>();
+
+		camera = std::make_shared<GameObject>();
+		Camera* cameraPtr = camera->AddComponent<Camera>();
+		camera->GetTransform()->MoveTo(0.0f, 0.0f, 70.0f);
+		cameraPtr->targetPosition = Vector3(0.0f, 0.0f, 0.0f);
+
+		Camera::mainCamera = cameraPtr;
 
 		gameWindow = dynamic_cast<GameWindow*>(WindowFactory::CreateWindowInstance<GameWindow>(TEXT("MainWindow"), TEXT("Application"), 800, 600, true));
 		gameWindow->InitGraphicsManager(GraphicsLibrary::Direct3D_12);

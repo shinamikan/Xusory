@@ -239,9 +239,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Header\3rdParty\jsoncpp\private\jsoncpp.cpp" />
     <ClCompile Include="Header\Core\Compressor\Private\Lz4.cpp" />
     <ClCompile Include="Header\Core\Compressor\Private\Lzma.cpp" />
-    <ClCompile Include="Header\Core\Parsing\Private\Json.cpp" />
+    <ClCompile Include="Header\Core\Parsing\Private\JsonDocument.cpp" />
     <ClCompile Include="Header\Engine\Component\EngineComponent\Actor\Private\Actor.cpp" />
     <ClCompile Include="Header\Engine\Component\EngineComponent\Camera\Private\Camera.cpp" />
     <ClCompile Include="Header\Engine\Component\Behaviour\Private\Behaviour.cpp" />
@@ -250,6 +251,8 @@
     <ClCompile Include="Header\Engine\Component\Transform\Private\Transform.cpp" />
     <ClCompile Include="Header\Engine\EngineMath\Private\Quaternion.cpp" />
     <ClCompile Include="Header\Engine\GameObject\Private\GameObject.cpp" />
+    <ClCompile Include="Header\Engine\GameTime\Private\GameTimer.cpp" />
+    <ClCompile Include="Header\Engine\Scene\Private\Scene.cpp" />
     <ClCompile Include="Header\Resource\ResourceLoader\Private\TextureLoader.cpp" />
     <ClCompile Include="Header\Core\Graphics\Private\CommandContext.cpp" />
     <ClCompile Include="Header\Core\Graphics\Private\GraphicsManager.cpp" />
@@ -257,7 +260,6 @@
     <ClCompile Include="Header\Core\Graphics\Private\Mesh.cpp" />
     <ClCompile Include="Header\Core\Graphics\Private\Shader.cpp" />
     <ClCompile Include="Header\Core\Graphics\Private\Texture.cpp" />
-    <ClCompile Include="Header\Engine\EngineMath\Private\EngineMath.cpp" />
     <ClCompile Include="Header\RHI\DirectX\Common\Private\DDSTextureLoader.cpp" />
     <ClCompile Include="Header\RHI\DirectX\DX12\Buffer\Private\Dx12Buffer.cpp" />
     <ClCompile Include="Header\RHI\DirectX\DX12\Buffer\Private\Dx12Buffer1D.cpp" />
@@ -287,6 +289,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameMainDefine.h" />
+    <ClInclude Include="Header\3rdParty\jsoncpp\json-forwards.h" />
+    <ClInclude Include="Header\3rdParty\jsoncpp\json.h" />
     <ClInclude Include="Header\Core\API\Factory.h" />
     <ClInclude Include="Header\Core\Compressor\Lz4.h" />
     <ClInclude Include="Header\Core\Compressor\Lzma.h" />
@@ -296,8 +300,10 @@
     <ClInclude Include="Header\Core\Graphics\Common\GraphicsDefine.h" />
     <ClInclude Include="Header\Core\Graphics\Geometry\Vertex.h" />
     <ClInclude Include="Header\Core\Graphics\GraphicsManager.h" />
-    <ClInclude Include="Header\Core\Parsing\Json.h" />
+    <ClInclude Include="Header\Core\Parsing\JsonDocument.h" />
     <ClInclude Include="Header\Engine\EngineMath\Quaternion.h" />
+    <ClInclude Include="Header\Engine\GameTime\GameTimer.h" />
+    <ClInclude Include="Header\Engine\Scene\Scene.h" />
     <ClInclude Include="Header\Resource\ResourceLoader\MeshLoader.h" />
     <ClInclude Include="Header\Resource\ResourceLoader\TextureLoader.h" />
     <ClInclude Include="Header\Core\Graphics\RenderPipeline.h" />
@@ -328,7 +334,6 @@
     <ClInclude Include="Header\Engine\Component\Component.h" />
     <ClInclude Include="Header\Engine\Component\Transform\Transform.h" />
     <ClInclude Include="Header\Engine\Engine.h" />
-    <ClInclude Include="Header\Engine\EngineMath\EngineMath.h" />
     <ClInclude Include="Header\Engine\GameObject\GameObject.h" />
     <ClInclude Include="Header\Engine\Input\Input.h" />
     <ClInclude Include="Header\Platform\Common\PlatformDefine.h" />

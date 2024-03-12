@@ -86,6 +86,18 @@ namespace XusoryEngine
 		ThrowIfWinFuncFailed(ReadFile(m_fileHandle, str.data(), fileSize, nullptr, nullptr), "read file");
 	}
 
+	std::string File::ReadText() const
+	{
+		ThrowIfOpenModeError(m_fileHandle, m_openMode, FileOpenMode::READ, FileOpenMode::READ_ADD);
+
+		const DWORD fileSize = GetFileSize(m_fileHandle, nullptr);
+		std::string str(fileSize, 0);
+
+		ThrowIfWinFuncFailed(ReadFile(m_fileHandle, str.data(), fileSize, nullptr, nullptr), "read file");
+
+		return str;
+	}
+
 	void File::Write(const void* data, SIZE_T size) const
 	{
 		ThrowIfOpenModeError(m_fileHandle, m_openMode, FileOpenMode::WRITE, FileOpenMode::APPEND);

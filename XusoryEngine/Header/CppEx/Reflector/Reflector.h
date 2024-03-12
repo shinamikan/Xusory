@@ -17,7 +17,7 @@ enum class MemberType
 struct FieldInfo
 {
 	FieldInfo(MemberType memberType, const std::string_view& access, const std::string_view& type, const std::string_view& name)
-		: memberType(memberType), access(access), type(type), name(name) { }
+		: memberType(memberType),  access(access), type(type), name(name) { }
 
 	MemberType memberType;
 
@@ -81,23 +81,32 @@ private:																		\
 #define INIT_STATIC_REFLECTOR(className) \
 	std::unordered_map<std::string, FieldInfo> className::sm_fieldInfoMap = std::unordered_map<std::string, FieldInfo>()
 
-#define REFLECT_FIELD(access, fieldType, fieldName)																	\
-private:																											\
-	ReflectorField m_field##fieldName{ MemberType::VARIABLE, #access, #fieldType, #fieldName, &fieldName, m_fieldMap, sm_fieldInfoMap };	\
-access:																												\
-	fieldType fieldName
+#define REFLECT_FIELD(access, variableType, variableName)																								\
+private:																																				\
+	ReflectorField m_field##variableName{ MemberType::VARIABLE, #access, #variableType, #variableName, &variableName, m_fieldMap, sm_fieldInfoMap };	\
+access:																																					\
+	variableType variableName
 
-#define REFLECT_FIELD_WITH_VALUE(access, fieldType, fieldName, value)												\
-private:																											\
-	ReflectorField m_field##fieldName{ MemberType::VARIABLE, #access, #fieldType, #fieldName, &fieldName, m_fieldMap, sm_fieldInfoMap };	\
-access:																												\
-	fieldType fieldName = value
+#define REFLECT_FIELD_WITH_VALUE(access, variableType, variableName, value)																				\
+private:																																				\
+	ReflectorField m_field##variableName{ MemberType::VARIABLE, #access, #variableType, #variableName, &variableName, m_fieldMap, sm_fieldInfoMap };	\
+access:																																					\
+	variableType variableName = value
 
-#define REFLECT_FUNC_FIELD(className, access, returnType, funcName, ...)																			\
-public:																																				\
-	typedef returnType (className::*funcName##Type)(__VA_ARGS__);																					\
-private:																																			\
-	funcName##Type m_fieldFunc##funcName = &className::funcName;																					\
+#define REFLECT_FUNC_FIELD(className, access, returnType, funcName, ...)																								\
+public:																																									\
+	typedef returnType (className::*funcName##Type)(__VA_ARGS__);																										\
+private:																																								\
+	funcName##Type m_fieldFunc##funcName = &className::funcName;																										\
 	ReflectorField m_field##funcName{ MemberType::FUNCTION, #access, #returnType, #funcName, static_cast<void*>(&m_fieldFunc##funcName), m_fieldMap, sm_fieldInfoMap };	\
-access:																																				\
-	returnType funcName(__VA_ARGS__);										
+access:																																									\
+	returnType funcName(__VA_ARGS__)
+
+#define REFLECT_CONST_FUNC_FIELD(className, access, returnType, funcName, ...)																							\
+public:																																									\
+	typedef returnType (className::*funcName##Type)(__VA_ARGS__) const;																									\
+private:																																								\
+	funcName##Type m_fieldFunc##funcName = &className::funcName;																										\
+	ReflectorField m_field##funcName{ MemberType::FUNCTION, #access, #returnType, #funcName, static_cast<void*>(&m_fieldFunc##funcName), m_fieldMap, sm_fieldInfoMap };	\
+access:																																									\
+	returnType funcName(__VA_ARGS__) const
