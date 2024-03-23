@@ -4,27 +4,32 @@ namespace XusoryEngine
 {
 	ID3DBlob* DxShaderCompiler::GetVertexShader() const
 	{
-		return m_shaderBytesList.at(0).Get();
+		return m_shaderBytesArray.at(0).Get();
 	}
 
 	ID3DBlob* DxShaderCompiler::GetPixelShader() const
 	{
-		return m_shaderBytesList.at(1).Get();
+		return m_shaderBytesArray.at(1).Get();
 	}
 
 	ID3DBlob* DxShaderCompiler::GetDomainShader() const
 	{
-		return m_shaderBytesList.at(2).Get();
+		return m_shaderBytesArray.at(2).Get();
 	}
 
 	ID3DBlob* DxShaderCompiler::GetHullShader() const
 	{
-		return m_shaderBytesList.at(3).Get();
+		return m_shaderBytesArray.at(3).Get();
 	}
 
 	ID3DBlob* DxShaderCompiler::GetGeometryShader() const
 	{
-		return m_shaderBytesList.at(4).Get();
+		return m_shaderBytesArray.at(4).Get();
+	}
+
+	ID3DBlob* DxShaderCompiler::GetShaderByteCode(UINT index) const
+	{
+		CaptureNoReturnFunc(return m_shaderBytesArray.at(index).Get());
 	}
 
 	void DxShaderCompiler::CompileShader(const std::wstring_view& shaderFilePath, const std::array<std::string, 5>& shaderEntryPointList, const D3D_SHADER_MACRO* defines)
@@ -42,11 +47,11 @@ namespace XusoryEngine
 			Microsoft::WRL::ComPtr<ID3DBlob> errors;
 			ThrowIfDxFailed(D3DCompileFromFile(shaderFilePath.data(), defines, D3D_COMPILE_STANDARD_FILE_INCLUDE,
 				shaderEntryPointList[i].data(), shaderTarget[i].data(),
-				D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, NULL, m_shaderBytesList[i].GetAddressOf(), errors.GetAddressOf()));
+				D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION, NULL, m_shaderBytesArray[i].GetAddressOf(), errors.GetAddressOf()));
 
 			Microsoft::WRL::ComPtr<ID3D12ShaderReflection> shaderReflection;
-			ThrowIfDxFailed(D3DReflect(m_shaderBytesList[i]->GetBufferPointer(),
-				m_shaderBytesList[i]->GetBufferSize(), IID_PPV_ARGS(shaderReflection.GetAddressOf())));
+			ThrowIfDxFailed(D3DReflect(m_shaderBytesArray[i]->GetBufferPointer(),
+				m_shaderBytesArray[i]->GetBufferSize(), IID_PPV_ARGS(shaderReflection.GetAddressOf())));
 
 			D3D12_SHADER_DESC shaderDesc;
 			ThrowIfDxFailed(shaderReflection.Get()->GetDesc(&shaderDesc));

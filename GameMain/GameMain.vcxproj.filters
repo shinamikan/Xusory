@@ -42,7 +42,7 @@
     <ClCompile Include="Header\RHI\DirectX\DX12\Private\Dx12DescriptorHeap.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Header\Core\Graphics\Private\GraphicsManager.cpp">
+    <ClCompile Include="Header\Core\Graphics\Private\RhiManager.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Header\RHI\DirectX\DX12\Buffer\Private\Dx12RenderTargetBuffer.cpp">
@@ -147,13 +147,31 @@
     <ClCompile Include="Header\Engine\EngineMath\Private\Quaternion.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Header\Engine\GameTime\Private\GameTimer.cpp">
+    <ClCompile Include="Header\Engine\GameTimer\Private\GameTimer.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Header\3rdParty\jsoncpp\private\jsoncpp.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Header\Engine\Scene\Private\Scene.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\Engine\Scene\Private\SceneManager.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\Core\Graphics\Private\GraphicsManager.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\Resource\ResourceLoader\Private\MeshLoader.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\Resource\ResourceLoader\Private\ShaderLoader.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\Engine\GameManager\Private\GameManager.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\Engine\Input\Private\Input.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -359,7 +377,7 @@
     <ClInclude Include="Header\RHI\DirectX\DxSwapChain.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Header\Core\Graphics\GraphicsManager.h">
+    <ClInclude Include="Header\Core\Graphics\RhiManager.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Header\Core\Graphics\CommandContext.h">
@@ -473,7 +491,7 @@
     <ClInclude Include="Header\Engine\EngineMath\Quaternion.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Header\Engine\GameTime\GameTimer.h">
+    <ClInclude Include="Header\Engine\GameTimer\GameTimer.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Header\3rdParty\jsoncpp\json.h">
@@ -483,6 +501,21 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Header\Engine\Scene\Scene.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Engine\Scene\SceneManager.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Core\Graphics\GraphicsManager.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Resource\ResourceLoader\ResourceLoader.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Resource\ResourceLoader\ShaderLoader.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Engine\GameManager\GameManager.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

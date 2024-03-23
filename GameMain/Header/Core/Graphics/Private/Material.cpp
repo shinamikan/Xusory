@@ -3,16 +3,19 @@
 
 namespace XusoryEngine
 {
-	Material::Material(const Shader* shader) : m_bindShader(shader) { }
+	Material::Material(const Shader* shader) : m_bindShader(shader)
+	{
+		BindShader();
+	}
 
 	BOOL Material::existProperty(const std::string_view& name)
 	{
 		return m_materialValueMap.find(name.data()) == m_materialValueMap.end();
 	}
 
-	const std::wstring& Material::GetMaterialFilePath() const
+	const std::wstring& Material::GetName() const
 	{
-		return m_materialFilePath;
+		return m_name;
 	}
 
 	const Shader* Material::GetShader() const

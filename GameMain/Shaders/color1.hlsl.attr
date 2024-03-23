@@ -1,0 +1,11 @@
+{
+   "VertexShader" : "VS",
+   "PixelShader" : "PS",
+   "DomainShader" : "",
+   "HullShader" : "",
+   "GeometryShader" : "",
+
+   "GraphicsFillMode" : 3,
+   "GraphicsCullMode" : 1,
+   "TriangleWindingOrder" : 1
+}

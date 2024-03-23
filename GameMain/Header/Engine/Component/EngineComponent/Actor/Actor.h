@@ -29,4 +29,8 @@ namespace XusoryEngine
 	private:
 		using Behaviour::Behaviour;
 	};
+
+#define XS_OBJECT	\
+	XS_CLASS;		\
+	using Actor::Actor
 }

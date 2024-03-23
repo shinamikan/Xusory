@@ -16,12 +16,13 @@ namespace XusoryEngine
 	{
 	public:
 		JsonDocument() = default;
-		JsonDocument(const std::wstring_view& jsonFilePath);
+		explicit JsonDocument(const std::wstring_view& jsonFilePath);
 
 		void LoadJsonFromStr(const std::string_view& jsonStr);
 		void LoadJsonFromFile(const std::wstring_view& jsonFilePath);
 
 		JsonNode& GetRootNode();
+		JsonNode* GetRootNodePtr();
 		void SetRootNode(const JsonNode& node);
 
 		void ClearRootNode();

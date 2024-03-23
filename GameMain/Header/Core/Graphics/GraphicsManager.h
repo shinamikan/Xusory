@@ -1,107 +1,43 @@
 #pragma once
 
-#include "../../RHI/RHI.h"
-#include "Common/GraphicsDefine.h"
+#include <vector>
+#include "CommandContext.h"
+#include "RhiManager.h"
 
 namespace XusoryEngine
 {
 	class Material;
 	class Mesh;
-	class Texture;
 	class Shader;
+	class Texture;
 	class GraphicsManager
 	{
 	public:
-		DELETE_COPY_OPERATOR(GraphicsManager);
-		DELETE_MOVE_OPERATOR(GraphicsManager);
-		virtual ~GraphicsManager() = default;
+		static void BuildGraphicsManager(GraphicsLibrary graphicsLibrary);
+		static void InitGraphicsManager(void* renderWindow);
 
-		virtual void InitGraphicsObject(void* renderWindow) = 0;
-		virtual void Resize(UINT width, UINT height) = 0;
+		static RhiManager* GetGraphicsManager();
+		static CommandContext* GetCommandContext();
 
-		virtual void ReSetRuntimeResourceHeap(UINT heapNum) = 0;
-		virtual UINT GetRuntimeResourceHeapIndex() = 0;
-		virtual void AddRuntimeResourceHeapIndex(UINT resourceNum) = 0;
+		static void AddMaterial(Material* material);
+		static void AddMesh(Mesh* mesh);
+		static void AddShader(Shader* shader);
+		static void AddTexture(Texture* texture);
+		static void BuildAllGraphicsObject();
 
-		virtual void ReSetCommandList() = 0;
-		virtual void ExecuteCommandAndWait() = 0;
-		virtual void PresentBackBuffer() = 0;
-
-		virtual void BuildMaterial(Material* material) = 0;
-		virtual void BuildMesh(Mesh* mesh) = 0;
-		virtual void BuildTexture(Texture* texture) = 0;
-		virtual void BuildShader(Shader* shader) = 0;
-
-		GraphicsLibrary GetGraphicsLibrary() const;
-
-	protected:
-		explicit GraphicsManager(GraphicsLibrary graphicsLibrary) : m_graphicsLibrary(graphicsLibrary) { }
+		static void BuildAloneMaterial(Material* material);
+		static void BuildAloneMesh(Mesh* mesh, BOOL isCommandBegan);
+		static void BuildAloneShader(Shader* shader, BOOL isCommandBegan);
+		static void BuildAloneTexture(Texture* texture, BOOL isCommandBegan);
 
 	private:
-		GraphicsLibrary m_graphicsLibrary = GraphicsLibrary::UNKNOWN;
-	};
+		static std::unique_ptr<RhiManager> sm_rhiManager;
+		static std::unique_ptr<CommandContext> sm_commandContext;
 
-	class GiDx12GraphicsManager : public GraphicsManager
-	{
-		friend class GiDx12CommandContext;
-		using RootSignaturePipelineStatePair = std::pair<std::unique_ptr<Dx12RootSignature>, std::unique_ptr<Dx12GraphicsPipelineState>>;
-
-	public:
-		GiDx12GraphicsManager();
-		DELETE_COPY_OPERATOR(GiDx12GraphicsManager);
-		DELETE_MOVE_OPERATOR(GiDx12GraphicsManager);
-		~GiDx12GraphicsManager() override = default;
-
-		void InitGraphicsObject(void* renderWindow) override;
-		void Resize(UINT width, UINT height) override;
-
-		void ReSetRuntimeResourceHeap(UINT heapNum) override;
-		UINT GetRuntimeResourceHeapIndex() override;
-		void AddRuntimeResourceHeapIndex(UINT resourceNum) override;
-
-		void ExecuteCommandAndWait() override;
-		void ReSetCommandList() override;
-		void PresentBackBuffer() override;
-
-		void BuildMaterial(Material* material) override;
-		void BuildMesh(Mesh* mesh) override;
-		void BuildTexture(Texture* texture) override;
-		void BuildShader(Shader* shader) override;
-
-	private:
-		void CreateInputLayout();
-		void CreateFactoryAndDevice();
-		void CreateCommonObjects();
-		void CreateSwapChain(const WinId& winId);
-		void CreateDescriptorAllocator();
-
-		D3D12_VIEWPORT m_screenViewport = D3D12_VIEWPORT();
-		D3D12_RECT m_scissorRect = D3D12_RECT();
-		std::vector<D3D12_INPUT_ELEMENT_DESC> m_inputLayoutList;
-
-		std::unique_ptr<DxFactory> m_factory = nullptr;
-		std::unique_ptr<Dx12Device> m_device = nullptr;
-
-		std::unique_ptr<Dx12CommandAllocator> m_commandAllocator = nullptr;
-		std::unique_ptr<Dx12CommandQueue> m_commandQueue = nullptr;
-		std::unique_ptr<Dx12GraphicsCommandList> m_commandList = nullptr;
-		std::unique_ptr<Dx12Fence> m_fence = nullptr;
-		std::unique_ptr<DxSwapChain> m_swapChain = nullptr;
-
-		std::unique_ptr<Dx12DescriptorAllocator> m_cbvSrvUavAllocator = nullptr;
-		std::unique_ptr<Dx12DescriptorHeap> m_runTimeCbvSrvUavHeap = nullptr;
-		UINT m_runTimeResourceHeapIndex = 0;
-
-		std::unique_ptr<Dx12DescriptorAllocator> m_rtvAllocator = nullptr;
-		std::unique_ptr<Dx12DescriptorAllocator> m_dsvAllocator = nullptr;
-
-		std::vector<std::unique_ptr<Dx12RenderTargetBuffer>> m_backBufferList;
-		std::vector<std::unique_ptr<Dx12RenderTargetBuffer>> m_renderTargetList;
-		std::unique_ptr<Dx12DepthStencilBuffer> m_depthStencilBuffer = nullptr;
-
-		std::unordered_map<void*, std::unique_ptr<Dx12UploadBuffer>> m_constantBufferMap;
-		std::unordered_map<Mesh*, std::unique_ptr<Dx12MeshBuffer>> m_meshBufferMap;
-		std::unordered_map<Texture*, std::unique_ptr<Dx12TextureBuffer>> m_textureMap;
-		std::unordered_map<Shader*, RootSignaturePipelineStatePair> m_shaderPipelineStateMap;
+		static std::vector<Material*> sm_materialListTemp;
+		static std::vector<Mesh*> sm_meshListTemp;
+		static std::vector<Shader*> sm_shaderListTemp;
+		static std::vector<Texture*> sm_textureListTemp;
 	};
 }
+

@@ -5,78 +5,43 @@
 
 #define DLL_IMPORT
 
-#include "Header/XusoryEngine.h"
-#include "GameMainDefine.h"
+#include "GameWindow.h"
 
-#include "pix3.h"
-#include "Header/Core/Graphics/Texture.h"
+//#include "pix3.h"
 
 #pragma comment(lib, "XusoryEngine.lib")
 
 using namespace std;
 using namespace XusoryEngine;
 
-std::shared_ptr<Mesh> mesh;
-std::shared_ptr<Texture> texture;
-std::shared_ptr<Shader> shader;
-std::shared_ptr<Material> material;
+//std::shared_ptr<Mesh> meshList;
+//std::shared_ptr<Texture> texture;
+//std::shared_ptr<Texture> texture1;
+//std::shared_ptr<Texture> texture2;
 
-std::shared_ptr<GameObject> gameObj;
+std::vector<std::shared_ptr<Mesh>> meshList;
+
+std::shared_ptr<Texture> texBody;
+std::shared_ptr<Texture> texHead;
+
+std::shared_ptr<Shader> shader;
+std::shared_ptr<Material> matBody;
+std::shared_ptr<Material> matHead;
+
+//std::shared_ptr<GameObject> gameObj;
+//std::shared_ptr<GameObject> gameObj1;
+
+std::vector<std::shared_ptr<GameObject>> mikuObj;
+
 std::shared_ptr<GameObject> camera;
 
-class UserRenderPipeline : public RenderPipeline
-{
-public:
-	UserRenderPipeline() = default;
-
-	void Render(CommandContext* commandContext) override
-	{
-		commandContext->BeginCommand();
-		commandContext->ClearRenderTarget({ 0.235294133f, 0.701960802f, 0.443137288f, 1.f });
-		//commandContext->ClearRenderTarget({ 0.0f, 0.0f, 0.0f, 1.f });
-		commandContext->ClearDepth(1.0f);
-		commandContext->ClearStencil(0);
-
-		const MeshRenderer* meshRenderer = gameObj->GetComponent<MeshRenderer>();
-		
-		commandContext->SetMaterial(meshRenderer->material);
-		commandContext->SetMesh(meshRenderer->mesh);
-		commandContext->DrawMesh();
-		commandContext->EndCommand();
-	}
-};
-
-class UserActor : public Actor
-{
-public:
-	void OnAwake() override
-	{
-		Debug::LogInfo("OnAwake");
-	}
-
-	void OnUpdate() override
-	{
-		//Debug::LogInfo("OnUpdate");
-	}
-
-private:
-	using Actor::Actor;
-};
-
-std::shared_ptr<UserRenderPipeline> renderPipeline;
-
-Vector3 cameraPosition{ 0.0f, 0.0f, 40.0f };
-Vector3 targetPosition{ 0.0f, 0.0f, 0.0f };
-Vector3 worldUp{ 0.0f, 1.0f, 0.0f };
-
 typedef void(*IntFunc)();
-
 class TestClass
 {
 	REFLECT_CLASS;
 
-	REFLECT_FUNC_FIELD(TestClass, public, void, TestFunc);
-	REFLECT_FIELD_WITH_VALUE(private, int, m_int, 5);
+	REFLECT_FUNCTION(TestClass, public, void, TestFunc);
+	REFLECT_VARIABLE_WITH_VALUE(private, int, num, 5);
 };
 INIT_STATIC_REFLECTOR(TestClass);
 
@@ -87,160 +52,69 @@ void TestClass::TestFunc()
 
 TestClass test;
 
-class GameWindow : public Window
+class UserActor : public Actor
 {
+	XS_OBJECT;
+
 public:
-	void InitGraphicsManager(GraphicsLibrary graphicsLibrary)
+	void OnAwake() override
 	{
-		switch (graphicsLibrary)
-		{
-		case GraphicsLibrary::Direct3D_12:
-			m_graphicsManager = std::make_unique<GiDx12GraphicsManager>();
-			m_commandContext = std::make_unique<GiDx12CommandContext>();
-			break;
-
-		default:
-			break;
-		}
+		Debug::LogInfo("OnAwake");
 	}
 
-	void OnDestroy() override
+	void OnUpdate() override
 	{
-		PostQuitMessage(0);
-	}
+		//gameObj1->GetTransform()->RotateAround(Vector3::Zero, Axis::Y, 20.0f * GameTimer::GetDeltaTime());
 
-	void OnShow() override
-	{
-		try
-		{
-			m_graphicsManager->InitGraphicsObject(GetWinId());
-			m_commandContext->InitCommandContext(m_graphicsManager.get());
+		//Debug::LogInfo(GameTimer::GetDeltaTime());
 
-			m_graphicsManager->ReSetCommandList();
-			m_graphicsManager->BuildMesh(mesh.get());
-			m_graphicsManager->BuildTexture(texture.get());
-			m_graphicsManager->BuildShader(shader.get());
-			m_graphicsManager->BuildMaterial(material.get());
-			m_graphicsManager->ExecuteCommandAndWait();
+		if (Input::GetKeyDown(KeyCode::KEY_G))
+		{
+			Debug::LogInfo(test.GetField<int>("num"));
+			Debug::LogInfo(TestClass::GetFieldInfo("num").access);
+			Debug::LogInfo(TestClass::GetFieldInfo("num").type);
 
-			//material->SetTextureByName("Diffuse", texture.get());
-		}
-		catch (const std::exception& e)
-		{
-			StdErrorOutput(e);
-			WindowFactory::DestroyAllWindowInstance();
-		}
-	}
-
-	void OnResize(const ResizeEvent& event) override
-	{
-		try
-		{
-			Camera::mainCamera->aspect = static_cast<FLOAT>(event.sizeX) / static_cast<FLOAT>(event.sizeY);
-			m_projMat = Camera::mainCamera->GetProjectionMatrix();
-
-			m_graphicsManager->Resize(event.sizeX, event.sizeY);
-		}
-		catch (const std::exception& e)
-		{
-			StdErrorOutput(e);
-			WindowFactory::DestroyAllWindowInstance();
-		}
-	}
-
-	void OnKeyPress(const KeyEvent& event) override
-	{
-		if (event.keyCode == KeyCode::UP)
-		{
-			gameObj->GetTransform()->Rotate(0.0f, 0.0f, 5.0f);
-			Debug::LogInfo(gameObj->GetTransform()->GetRotation());
-			Debug::LogInfo(gameObj->GetTransform()->GetRotationQuaternion().GetEulerAngles());
-		}
-		else if (event.keyCode == KeyCode::DOWN)
-		{
-			gameObj->GetTransform()->Rotate(0.0f, 0.0f, -5.0f);
-			Debug::LogInfo(gameObj->GetTransform()->GetRotation());
-			Debug::LogInfo(gameObj->GetTransform()->GetRotationQuaternion().GetEulerAngles());
-		}
-		else if (event.keyCode == KeyCode::LEFT)
-		{
-			gameObj->GetTransform()->Rotate(0.0f, 5.0f, 0.0f);
-			Debug::LogInfo(gameObj->GetTransform()->GetRotation());
-			Debug::LogInfo(gameObj->GetTransform()->GetRotationQuaternion().GetEulerAngles());
-		}
-		else if (event.keyCode == KeyCode::RIGHT)
-		{
-			gameObj->GetTransform()->Rotate(0.0f, -5.0f, 0.0f);
-			Debug::LogInfo(gameObj->GetTransform()->GetRotation());
-			Debug::LogInfo(gameObj->GetTransform()->GetRotationQuaternion().GetEulerAngles());
-		}
-		else if (event.keyCode == KeyCode::ENTER)
-		{
-			gameObj->GetTransform()->SetRulerAngles(90.0f, 0.0f, 0.0f);
-		}
-		else if (event.keyCode == KeyCode::KEY_A)
-		{
-			JsonDocument jsonDocument = JsonDocument(TEXT("Resource/demo.json"));
-
-			JsonNode& rootNode = jsonDocument.GetRootNode();
-			Debug::LogInfo(rootNode["age"].asInt());
-
-			rootNode["age"] = 999;
-
-			jsonDocument.SaveJson(TEXT("Resource/demo1.json"));
-		}
-		else if (event.keyCode == KeyCode::KEY_B)
-		{
-			Debug::LogInfo(StringEx::BeginWith<std::string>("123", "19"));
-		}
-		else if (event.keyCode == KeyCode::KEY_C)
-		{
-			Debug::LogInfo(GetTypeName<Material>());
-		}
-		else if (event.keyCode == KeyCode::KEY_D)
-		{
-			Debug::LogInfo(test.GetField<int>("m_int"));
-			Debug::LogInfo(TestClass::GetFieldInfo("m_int").access);
-			Debug::LogInfo(TestClass::GetFieldInfo("m_int").type);
 			auto func = test.GetField<TestClass::TestFuncType>("TestFunc");
 			(test.*func)();
 		}
-	}
 
-	void OnLoop() override
-	{
-		try
+		if (Input::GetKey(KeyCode::KEY_W))
 		{
-			auto modelMatrix = gameObj->GetTransform()->GetModelMatrix();
-			auto viewMatrix = Camera::mainCamera->GetViewMatrix();
-
-			auto modelToProj = modelMatrix * viewMatrix * m_projMat;
-			material->SetMatrix4ByName("gWorldViewProj", modelToProj.Transpose());
-
-			m_graphicsManager->ReSetRuntimeResourceHeap(1);
-			renderPipeline->Render(m_commandContext.get());
-
-			const auto& actorMap = gameObj->GetActorMap();
-			for (const auto& actorPair : actorMap)
-			{
-				actorPair.second->OnUpdate();
-			}
-			for (const auto& actorPair : actorMap)
-			{
-				actorPair.second->OnLateUpdate();
-			}
+			camera->GetTransform()->Translate(Vector3(0.0f, 0.0f, 1.0f) * 0.4f);
 		}
-		catch (const std::exception& e)
+		if (Input::GetKey(KeyCode::KEY_S))
 		{
-			StdErrorOutput(e);
+			camera->GetTransform()->Translate(Vector3(0.0f, 0.0f, -1.0f) * 0.4f);
+		}
+		if (Input::GetKey(KeyCode::KEY_A))
+		{
+			camera->GetTransform()->Translate(Vector3(0.0f, 1.0f, 0.0f) * 0.4f);
+		}
+		if (Input::GetKey(KeyCode::KEY_D))
+		{
+			camera->GetTransform()->Translate(Vector3(0.0f, -1.0f, 0.0f) * 0.4f);
+		}
+
+		if (Input::GetMouseKeyDown(MouseKeyCode::LEFT))
+		{
+			m_lastMousePos = Input::GetMousePosition();
+		}
+		if (Input::GetMouseKey(MouseKeyCode::LEFT))
+		{
+			Point nowPos = Input::GetMousePosition();
+
+			const auto posDiffX = static_cast<FLOAT>(nowPos.x - m_lastMousePos.x);
+			const auto posDiffY = static_cast<FLOAT>(nowPos.y - m_lastMousePos.y);
+
+			Debug::LogInfo("posDiffX: ", posDiffX, "  posDiffY: ", posDiffY);
+
+			camera->GetTransform()->Rotate(-posDiffY * 0.05f, posDiffX * 0.05f, 0.0f);
+			m_lastMousePos = Input::GetMousePosition();
 		}
 	}
 
 private:
-	std::unique_ptr<GraphicsManager> m_graphicsManager = nullptr;
-	std::unique_ptr<CommandContext> m_commandContext = nullptr;
-
-	Matrix4x4 m_projMat;
+	Point m_lastMousePos;
 };
 
 int WinMain(HINSTANCE hIns, HINSTANCE hPreIns, LPSTR lpCmdLine, int nCmdShow)
@@ -250,7 +124,8 @@ int WinMain(HINSTANCE hIns, HINSTANCE hPreIns, LPSTR lpCmdLine, int nCmdShow)
 
 	//PIXLoadLatestWinPixGpuCapturerLibrary();
 
-	GameWindow* gameWindow = nullptr;
+	Window* gameWindow = nullptr;
+	BOOL isInitError = false;
 
 	try
 	{
@@ -258,109 +133,90 @@ int WinMain(HINSTANCE hIns, HINSTANCE hPreIns, LPSTR lpCmdLine, int nCmdShow)
 		Console::RedirectToStd();
 		Console::SetTitle(TEXT("Xusory Console"));
 
+		GraphicsManager::BuildGraphicsManager(GraphicsLibrary::Direct3D_12);
+
 		WindowFactory::StartNewWindowClass();
 		WindowFactory::SetWindowCursor(SysCursor::ARROW);
 		WindowFactory::SetWindowIcon(SysIcon::APPLICATION);
 		WindowFactory::RegisterWindowClass(hIns, TEXT("MainWindow"));
 
-		/*const std::vector position =
-		{
-			Float3(-5.0f, 0.0f, 0.0f),
-			Float3(0.0f, 8.0f, 0.0f),
-			Float3(5.0f, 0.0f, 0.0f),
-		};
+		gameWindow = WindowFactory::CreateWindowInstance<GameWindow>(TEXT("MainWindow"), TEXT("Application"), 800, 600, true);
 
-		const std::vector color =
-		{
-			Float4(1.0f, 0.0f, 0.0f, 0.0f),
-			Float4(0.0f, 1.0f, 0.0f, 0.0f),
-			Float4(0.0f, 0.0f, 1.0f, 0.0f),
-		};
+		SceneManager::LoadScene(TEXT(""));
 
-		std::vector<UINT> indices =
-		{
-			0, 1, 2,
-		};*/
+		/*meshList = ResourceLoader::Load<Mesh>(TEXT("Resource/Model/cube.obj"), true);
+		texture = ResourceLoader::Load<Texture>(TEXT("Texture/kasukasu.dds"), true);
+		texture1 = ResourceLoader::Load<Texture>(TEXT("Texture/kunkun.dds"), true);
+		texture2 = ResourceLoader::Load<Texture>(TEXT("Texture/csk.dds"), true);*/
 
-		const std::vector position =
-		{
-			Float3(10.0f, -10.0f, 10.0f),
-			Float3(10.0f, 10.0f, 10.0f),
-			Float3(-10.0f, 10.0f, 10.0f),
-			Float3(-10.0f, -10.0f, 10.0f),
-			Float3(10.0f, -10.0f, -10.0f),
-			Float3(10.0f, 10.0f, -10.0f),
-			Float3(-10.0f, 10.0f,- 10.0f),
-			Float3(-10.0f, -10.0f, -10.0f),
-		};
+		meshList = ResourceLoader::LoadSeveral<Mesh>(TEXT("miku/miku.obj"), true);
+		texBody = ResourceLoader::Load<Texture>(TEXT("miku/miku_body.dds"), true);
+		texHead = ResourceLoader::Load<Texture>(TEXT("miku/miku_head.dds"), true);
+		
+		shader = ResourceLoader::Load<Shader>(TEXT("Shaders/color2.hlsl"), true);
 
+		matBody = std::make_shared<Material>(shader.get());
+		matHead = std::make_shared<Material>(shader.get());
 
-		const std::vector color =
-		{
-			Float4(1.0f, 0.0f, 0.0f, 0.0f),
-			Float4(0.0f, 1.0f, 0.0f, 0.0f),
-			Float4(0.0f, 0.0f, 1.0f, 0.0f),
-			Float4(1.0f, 1.0f, 1.0f, 0.0f),
-			Float4(1.0f, 0.0f, 0.0f, 0.0f),
-			Float4(0.0f, 1.0f, 0.0f, 0.0f),
-			Float4(0.0f, 0.0f, 1.0f, 0.0f),
-			Float4(0.0f, 0.0f, 0.0f, 0.0f)
-		};
+		GraphicsManager::AddMaterial(matBody.get());
+		GraphicsManager::AddMaterial(matHead.get());
+		GraphicsManager::BuildAllGraphicsObject();
 
-		/*const std::vector uv0 =
-		{
-			Float2(0.0f, 1.0f),
-			Float2(0.0f, 0.0f),
-			Float2(1.0f, 0.0f),
-			Float2(1.0f, 1.0f)
-		};*/
+		matBody->SetTextureByName("Diffuse", texBody.get());
+		matHead->SetTextureByName("Diffuse", texHead.get());
 
-		std::vector<UINT> indices =
-		{
-			0, 1, 2,
-			0, 2, 3,
-			4, 5, 6,
-			4, 6, 7
-		};
-
-		mesh = std::make_shared<Mesh>();
-		mesh->SetPosition(position);
-		mesh->SetColor(color);
-		mesh->SetIndices(indices);
-
-		texture = std::make_shared<Texture>(TEXT("Texture/kasukasu.dds"));
-
-		shader = std::make_shared<Shader>(TEXT("Shaders/color1.hlsl"));
-		shader->SetVertexShaderEntryPoint("VS");
-		shader->SetPixelShaderEntryPoint("PS");
-
-		material = std::make_shared<Material>(shader.get());
-		renderPipeline = std::make_shared<UserRenderPipeline>();
-
-		gameObj = std::make_shared<GameObject>();
+		/*gameObj = std::make_shared<GameObject>("Go");
 		MeshRenderer* renderer = gameObj->AddComponent<MeshRenderer>();
-		renderer->mesh = mesh.get();
-		renderer->material = material.get();
+		renderer->mesh = meshList.at(0).get();
+		renderer->material = matBody.get();
 		gameObj->AddComponent<UserActor>();
 
-		camera = std::make_shared<GameObject>();
+		gameObj1 = std::make_shared<GameObject>("Go1");
+		MeshRenderer* renderer1 = gameObj1->AddComponent<MeshRenderer>();
+		renderer1->mesh = meshList.at(0).get();
+		renderer1->material = matHead.get();
+		gameObj1->GetTransform()->MoveTo(-50.0f, 0.0f, 0.0f);*/
+
+		for (const auto& roleMesh : meshList)
+		{
+			auto gameObj = std::make_shared<GameObject>(roleMesh->GetName());
+			MeshRenderer* renderer = gameObj->AddComponent<MeshRenderer>();
+			renderer->mesh = roleMesh.get();
+
+			mikuObj.emplace_back(gameObj);
+		}
+
+		mikuObj.at(0)->GetComponent<MeshRenderer>()->material = matHead.get(); //eyes
+		mikuObj.at(1)->GetComponent<MeshRenderer>()->material = matHead.get(); //face
+		mikuObj.at(2)->GetComponent<MeshRenderer>()->material = matHead.get(); //head
+		mikuObj.at(3)->GetComponent<MeshRenderer>()->material = matHead.get(); //bangs
+		mikuObj.at(4)->GetComponent<MeshRenderer>()->material = matHead.get(); //hair
+		mikuObj.at(5)->GetComponent<MeshRenderer>()->material = matHead.get(); //headwear
+
+		mikuObj.at(6)->GetComponent<MeshRenderer>()->material = matBody.get(); //body
+		mikuObj.at(7)->GetComponent<MeshRenderer>()->material = matBody.get(); //hands
+		mikuObj.at(8)->GetComponent<MeshRenderer>()->material = matBody.get(); //legs
+		mikuObj.at(9)->GetComponent<MeshRenderer>()->material = matBody.get(); //skirt
+		mikuObj.at(10)->GetComponent<MeshRenderer>()->material = matBody.get(); //tie
+
+		camera = std::make_shared<GameObject>("Main Camera");
 		Camera* cameraPtr = camera->AddComponent<Camera>();
-		camera->GetTransform()->MoveTo(0.0f, 0.0f, 70.0f);
-		cameraPtr->targetPosition = Vector3(0.0f, 0.0f, 0.0f);
-
+		camera->GetTransform()->MoveTo(0.0f, 0.0f, -70.0f);
+		camera->AddComponent<UserActor>();
 		Camera::mainCamera = cameraPtr;
-
-		gameWindow = dynamic_cast<GameWindow*>(WindowFactory::CreateWindowInstance<GameWindow>(TEXT("MainWindow"), TEXT("Application"), 800, 600, true));
-		gameWindow->InitGraphicsManager(GraphicsLibrary::Direct3D_12);
 
 		gameWindow->Show();
 	}
 	catch (const std::exception& e)
 	{
 		StdErrorOutput(e);
+		isInitError = true;
 	}
 
-	gameWindow->MessageLoop();
+	if (!isInitError)
+	{
+		gameWindow->MessageLoop();
+	}
 
 	Console::SetTextColor(ConsoleTextColor::COLOR_WHITE);
 	system("pause");

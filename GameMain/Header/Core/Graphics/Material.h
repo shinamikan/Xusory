@@ -1,5 +1,7 @@
 #pragma once
 
+#include <unordered_set>
+
 #include "../../RHI/RHI.h"
 
 #include "../Math/Math.h"
@@ -12,13 +14,15 @@ namespace XusoryEngine
 	class Material
 	{
 		friend class GiDx12CommandContext;
-		friend class GiDx12GraphicsManager;
+		friend class GiDx12RhiManager;
+		friend class ResourceLoader;
 
 	public:
 		explicit Material(const Shader* shader);
+
 		BOOL existProperty(const std::string_view& name);
 
-		const std::wstring& GetMaterialFilePath() const;
+		const std::wstring& GetName() const;
 		const Shader* GetShader() const;
 
 		UINT GetPropertyNum() const;
@@ -67,7 +71,7 @@ namespace XusoryEngine
 		void BindShader();
 		void ThrowIfOutOfValueRange(UINT index) const;
 
-		std::wstring m_materialFilePath;
+		std::wstring m_name;
 		const Shader* m_bindShader;
 
 		UINT m_constantPropertyNum = 0;
@@ -77,5 +81,7 @@ namespace XusoryEngine
 
 		std::vector<void*> m_materialValueList;
 		std::unordered_map<std::string, void*> m_materialValueMap;
+
+		static std::unordered_set<Material*> sm_allMaterialList;
 	};
 }

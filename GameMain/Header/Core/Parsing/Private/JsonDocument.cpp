@@ -31,6 +31,11 @@ namespace XusoryEngine
 		return m_rootNode;
 	}
 
+	JsonNode* JsonDocument::GetRootNodePtr()
+	{
+		return &m_rootNode;
+	}
+
 	void JsonDocument::SetRootNode(const JsonNode& node)
 	{
 		m_rootNode = node;

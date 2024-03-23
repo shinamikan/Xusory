@@ -1,94 +1,202 @@
 #pragma once
 
 #include "Header/XusoryEngine.h"
+#include "GameMainDefine.h"
 
 using namespace XusoryEngine;
 
-class TestWindow : public Window
+class BuiltInRenderPipeline : public RenderPipeline
 {
 public:
-	void OnMousePress(const MouseClickEvent& event) override
+	BuiltInRenderPipeline() = default;
+
+	void Render(CommandContext* commandContext) override
 	{
-		if (event.mouseKeyCode == EX_BUTTON_1)
+		commandContext->BeginCommand();
+		commandContext->ClearRenderTarget({ 0.9f, 0.9f, 0.9f, 1.f });
+		commandContext->ClearDepth(1.0f);
+		commandContext->ClearStencil(0);
+
+		auto viewMatrix = Camera::mainCamera->GetViewMatrix();
+		auto projMatrix = Camera::mainCamera->GetProjectionMatrix();
+		auto vpMatrix = viewMatrix * projMatrix;
+
+		auto matGoMap = GameManager::GetMatGoMap();
+
+		for (auto& [material, goList] : matGoMap)
 		{
-			Debug::Log(LOG_INFO, event.mouseKeyCode);
+			if (!GraphicsManager::GetGraphicsManager()->IsShaderBuilt(const_cast<Shader*>(material->GetShader())))
+			{
+				continue;
+			}
+			if (!GraphicsManager::GetGraphicsManager()->IsMaterialBuilt(material))
+			{
+				continue;
+			}
+
+			for (UINT i = material->GetConstantPropertyNum(); i < material->GetTexturePropertyNum(); i++)
+			{
+				auto* texture = const_cast<Texture*>(material->GetTextureByIndex(i));
+				if (!GraphicsManager::GetGraphicsManager()->IsTextureBuilt(texture))
+				{
+					GraphicsManager::BuildAloneTexture(texture, true);
+				}
+			}
+			commandContext->SetMaterial(material);
+
+			for (auto* renderingGo : goList)
+			{
+				if (!renderingGo->GetActive())
+				{
+					continue;
+				}
+
+				auto modelMatrix = renderingGo->GetTransform()->GetModelMatrix();
+				auto modelToProj = modelMatrix * vpMatrix;
+				material->SetMatrix4ByName("gWorldViewProj", modelToProj.Transpose());
+
+				Mesh* mesh = renderingGo->GetComponent<MeshRenderer>()->mesh;
+				if (mesh == nullptr)
+				{
+					continue;
+				}
+				if (!GraphicsManager::GetGraphicsManager()->IsMeshBuilt(mesh))
+				{
+					GraphicsManager::BuildAloneMesh(mesh, true);
+				}
+
+				commandContext->SetMesh(mesh);
+				commandContext->DrawMesh();
+			}
 		}
+
+		commandContext->EndCommand();
 	}
+};
 
-	void OnKeyPress(const KeyEvent& event) override
+class GameWindow : public Window
+{
+public:
+	void OnCreate() override
 	{
-		if (event.keyCode == KEY_1)
-		{
-			Console::Clear();
-		}
-		else if (event.keyCode == KEY_2)
-		{
-			Vector3 v00 = Vector3(1, 2, 3);
-			Vector4 v01 = Vector4(1, 2, 3, 4);
-
-			Matrix4x4 m02 = Matrix4x4(
-				2.0f, 0.0f, 0.0f, 0.0f,
-				0.0f, 2.0f, 0.0f, 0.0f,
-				0.0f, 0.0f, 2.0f, 0.0f,
-				0.0f, 0.0f, 0.0f, 1.0f);
-
-			Matrix4x4 m03 = Matrix4x4(
-				8.0f, 16.0f, 1.0f, 3.0f,
-				5.0f, 11.0f, 12.0f, 2.0f,
-				6.0f, 10.0f, 151.0f, 7.0f,
-				9.0f, 13.0f, 14.0f, 4.0f);
-
-			Debug::LogInfo("m03:\n", m03);
-			Debug::LogInfo("Determinant:", m03.Determinant());
-			Debug::LogInfo("Inverse:\n", m03.Inverse());
-			Debug::LogInfo("Transpose:\n", m03.Transpose());
-			Debug::LogInfo("PreMultiVector4:", Matrix4x4::PreTransPoint3(v00, m02));
-			Debug::LogInfo("PreMultiVector4:", Matrix4x4::PreTransVector3(v00, m02));
-			Debug::LogInfo("PreMultiVector4:", Matrix4x4::PostTransVector3(m02, v00));
-			Debug::LogInfo("PreMultiVector4:", Matrix4x4::PostTransVector3(m02, v00));
-			Debug::LogInfo("PreMultiVector4:", Matrix4x4::PreMultiVector4(v01, m03));
-			Debug::LogInfo("PostMultiVector4:", Matrix4x4::PostMultiVector4(m03, v01));
-			Debug::LogInfo("MultiMatrix:\n", Matrix4x4::MultiMatrix(m02, m02));
-		}
-		else if (event.keyCode == KEY_3)
-		{
-			Vector2 v1 = Vector2(1, 2);
-			Vector2 v2 = Vector2(4, 3);
-			Vector3 v3 = Vector3(1, 0, 0);
-			Vector3 v4 = Vector3(0, 1, 0);
-
-			Debug::LogInfo("v1:", v1);
-			Debug::LogInfo("v2:", v2);
-			Debug::LogInfo("v1 + v2:", v1 + v2);
-			Debug::LogInfo("v1 - v2:", v1 - v2);
-			Debug::LogInfo("v1 * v2:", v1 * v2);
-			Debug::LogInfo("v1 / v2:", v1 / v2);
-
-			Debug::LogInfo("Length:", v1.Length());
-			Debug::LogInfo("LengthSq:", v1.LengthSq());
-			Debug::LogInfo("Dot:", v1.Dot(v2));
-
-			Debug::LogInfo("Normalize:", v1.Normalize());
-			Debug::LogInfo("Sqrt:", v1.Sqrt());
-			Debug::LogInfo("Max:", v1.Max(v2));
-			Debug::LogInfo("Min:", v1.Min(v2));
-			Debug::LogInfo("Lerp:", Vector2::Lerp(v1, v2, 0.5f));
-			Debug::LogInfo("Cross:", Vector3::Cross(v3, v4));
-		}
-		else if (event.keyCode == KEY_4)
-		{
-			WindowFactory::MessageWindow(GetWinId(), TEXT("≤‚ ‘¥∞ø⁄"), TEXT("≤‚ ‘ƒ⁄»›Hello World"));
-		}
-		else if (event.keyCode == KEY_5)
-		{
-			Debug::Log(LOG_INFO, "Monitoring the directory");
-			Directory::MonitorDirChanges(TEXT("Resource/Test1"));
-			Debug::Log(LOG_INFO, "Monitor over");
-		}
+		GraphicsManager::InitGraphicsManager(GetWinId());
+		m_renderPipeline = std::make_shared<BuiltInRenderPipeline>();
 	}
 
 	void OnDestroy() override
 	{
 		PostQuitMessage(0);
 	}
+
+	void OnMinimize() override
+	{
+		m_isMinimize = true;
+	}
+
+	void OnRestore() override
+	{
+		m_isMinimize = false;
+	}
+
+	void OnResize(const ResizeEvent& event) override
+	{
+		try
+		{
+			if (!m_isMinimize)
+			{
+				GameManager::ProcessMainAspect(static_cast<FLOAT>(event.sizeX) / static_cast<FLOAT>(event.sizeY));
+				GraphicsManager::GetGraphicsManager()->Resize(event.sizeX, event.sizeY);
+			}
+		}
+		catch (const std::exception& e)
+		{
+			StdErrorOutput(e);
+			WindowFactory::DestroyAllWindowInstance();
+		}
+	}
+
+	void OnMouseMove(const MouseMoveEvent& event) override
+	{
+		GameManager::ProcessMousePosition({ event.mouseMovePosX, event.mouseMovePosY });
+	}
+
+	void OnMousePress(const MouseClickEvent& event) override
+	{
+		GameManager::ProcessMouseKeyDownInput(event.mouseKeyCode);
+		SetCapture(GetWinId());
+	}
+
+	void OnMouseRelease(const MouseClickEvent& event) override
+	{
+		GameManager::ProcessMouseKeyUpInput(event.mouseKeyCode);
+		ReleaseCapture();
+	}
+
+	void OnKeyPress(const KeyEvent& event) override
+	{
+		GameManager::ProcessKeyDownInput(event.keyCode);
+	}
+
+	void OnKeyRelease(const KeyEvent& event) override
+	{
+		GameManager::ProcessKeyUpInput(event.keyCode);
+	}
+
+	void OnLoop() override
+	{
+		try
+		{
+			GameManager::ProcessTime(PerformanceTime::GetTime());
+
+			const auto allGoList = SceneManager::GetActiveScene()->GetSceneGameObjectList();
+			for (const auto* gameObject : allGoList)
+			{
+				const auto& actorMap = gameObject->GetActorMap();
+				if (actorMap.empty())
+				{
+					continue;
+				}
+				for (const auto& actorPair : actorMap)
+				{
+					actorPair.second->OnUpdate();
+				}
+			}
+			for (const auto* gameObject : allGoList)
+			{
+				const auto& actorMap = gameObject->GetActorMap();
+				if (actorMap.empty())
+				{
+					continue;
+				}
+				for (const auto& actorPair : actorMap)
+				{
+					actorPair.second->OnLateUpdate();
+				}
+			}
+
+			UINT runtimeHeapSize = 0;
+			auto matGoMap = SceneManager::GetActiveScene()->GetSceneMatGoMap();
+			for (auto& [material, gameObject] : matGoMap)
+			{
+				runtimeHeapSize += material->GetTexturePropertyNum();
+			}
+
+			GraphicsManager::GetGraphicsManager()->ReSetRuntimeResourceHeap(runtimeHeapSize);
+			GameManager::SetMatGoMap(matGoMap);
+
+			m_renderPipeline->Render(GraphicsManager::GetCommandContext());
+
+			GameManager::ResetMouseKeyUp();
+			GameManager::ClearKeyDownUp();
+			GameManager::ClearMouseKeyDownUp();
+		}
+		catch (const std::exception& e)
+		{
+			StdErrorOutput(e);
+		}
+	}
+
+private:
+	BOOL m_isMinimize = false;
+	std::shared_ptr<RenderPipeline> m_renderPipeline;
 };

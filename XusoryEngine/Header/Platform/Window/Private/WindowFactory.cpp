@@ -134,7 +134,7 @@ namespace XusoryEngine
 		case WM_XBUTTONDOWN:
 		{
 			MouseClickEvent event;
-			event.mouseKeyCode = static_cast<MouseKeyCode>(GET_X_LPARAM(wParam));
+			event.mouseKeyCode = static_cast<MouseKeyCode>(wParam);
 			event.clickPosX = GET_X_LPARAM(lParam);
 			event.clickPosY = GET_Y_LPARAM(lParam);
 			window->OnMousePress(event);
@@ -147,7 +147,7 @@ namespace XusoryEngine
 		case WM_XBUTTONUP:
 		{
 			MouseClickEvent event;
-			event.mouseKeyCode = static_cast<MouseKeyCode>(GET_X_LPARAM(wParam));
+			event.mouseKeyCode = static_cast<MouseKeyCode>(wParam);
 			event.clickPosX = GET_X_LPARAM(lParam);
 			event.clickPosY = GET_Y_LPARAM(lParam);
 			window->OnMouseRelease(event);
@@ -229,7 +229,7 @@ namespace XusoryEngine
 		sm_windowClass->hIcon = static_cast<HICON>(LoadImage(nullptr, imagePath.data(), IMAGE_ICON, 0, 0, LR_LOADFROMFILE | LR_DEFAULTSIZE));
 	}
 
-	void WindowFactory::RegisterWindowClass(HINSTANCE hInstance, const std::wstring_view& className)
+	void WindowFactory::RegisterWindowClass(HINSTANCE hInstance, const std::wstring_view& className, BOOL allowDoubleClick)
 	{
 		ThrowIfWindowClassNull();
 
@@ -238,7 +238,7 @@ namespace XusoryEngine
 		sm_windowClass->hInstance = hInstance;
 		sm_windowClass->lpfnWndProc = WndProc;
 		sm_windowClass->lpszClassName = className.data();
-		sm_windowClass->style = CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS;
+		sm_windowClass->style = allowDoubleClick ? CS_HREDRAW | CS_VREDRAW | CS_DBLCLKS : CS_HREDRAW | CS_VREDRAW;
 
 		if (!RegisterClassEx(sm_windowClass))
 		{

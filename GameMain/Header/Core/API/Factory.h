@@ -5,46 +5,61 @@
 
 namespace XusoryEngine
 {
-	template <typename IFactoryType>
+	template <typename FactoryInterface>
 	class FactoryBase
 	{
-		typedef IFactoryType* (*FactoryCreateFunc)();
+		typedef FactoryInterface* (*FactoryCreateFunc)();
 
 	public:
 		FactoryBase() = delete;
 
 		static void RegisterFactory(const std::string_view& name, FactoryCreateFunc func)
 		{
-			sm_factoryMap.emplace(name, func);
+			GetStrFactoryMap().emplace(name, func);
 		}
 
-		static IFactoryType* GetFactory(const std::string_view& name)
+		static void RegisterFactory(const std::wstring_view& name, FactoryCreateFunc func)
 		{
-			return sm_factoryMap.at(name.data());
+			GetWStrFactoryMap().emplace(name, func);
+		}
+
+		static auto GetFactory(const std::string_view& name)
+		{
+			CaptureNoReturnFunc(return GetStrFactoryMap().at(name.data())());
+		}
+
+		static auto GetFactory(const std::wstring_view& name)
+		{
+			CaptureNoReturnFunc(return GetWStrFactoryMap().at(name.data())());
 		}
 
 	private:
-		static auto& GetFactoryMap()
+		static std::unordered_map<std::string, FactoryCreateFunc>& GetStrFactoryMap()
 		{
-			return sm_factoryMap;
+			static std::unordered_map<std::string, FactoryCreateFunc> strFactoryStrMap;
+			return strFactoryStrMap;
 		}
 
-		static std::unordered_map<std::string, FactoryCreateFunc> sm_factoryMap;
+		static std::unordered_map<std::wstring, FactoryCreateFunc>& GetWStrFactoryMap()
+		{
+			static std::unordered_map<std::wstring, FactoryCreateFunc> wStrFactoryStrMap;
+			return wStrFactoryStrMap;
+		}
 	};
 }
 
-#define CREATE_LOADER(IFactoryType, FactoryType)	\
-public:												\
-	static IFactoryType* Create()					\
-	{												\
-		return new FactoryType();					\
-	}												\
-private:											\
-	static bool registered;
+#define CREATE_FACTORY(factoryInterface, factoryType)	\
+	static factoryInterface* Create()					\
+	{													\
+		return new factoryType;							\
+	}													\
+private:												\
+	static BOOL sm_registered;
 
-#define REGISTER_LOADER(Ty_Factory, Ty_Loader, format)	\
-bool Ty_Loader::registered = []							\
-{														\
-    Ty_Factory::RegisterLoader(format, Create);			\
-    return true;										\
+
+#define REGISTER_FACTORY(factoryBaseType, factoryType, format)	\
+BOOL factoryType::sm_registered = []							\
+{																\
+    factoryBaseType::RegisterFactory(format, Create);			\
+    return true;												\
 }()

@@ -16,6 +16,8 @@ namespace XusoryEngine
 	public:
 		static constexpr FLOAT Pi = 3.1415926535f;
 
+		static BOOL IsBitSet(UINT num, UINT bitIndex);
+
 		static FLOAT Cycle(FLOAT num, FLOAT lowerBound, FLOAT upperBound);
 		static FLOAT DegreeToRadian(FLOAT degree);
 		static FLOAT RadianToDegree(FLOAT radian);

@@ -1,15 +1,16 @@
 #include "../Shader.h"
+#include "../GraphicsManager.h"
 
 namespace XusoryEngine
 {
-	Shader::Shader(const std::wstring_view& path)
+	Shader::~Shader()
 	{
-		m_shaderFilePath = path;
+		GraphicsManager::GetGraphicsManager()->DestroyShader(this);
 	}
 
-	const std::wstring& Shader::GetShaderFilePath() const
+	const std::string& Shader::GetName() const
 	{
-		return m_shaderFilePath;
+		return m_name;
 	}
 
 	const std::array<std::string, 5>& Shader::GetShaderEntryPoint() const
@@ -40,6 +41,21 @@ namespace XusoryEngine
 	const std::string& Shader::GetGeometryShaderEntryPoint() const
 	{
 		return m_shaderEntryPointList.at(4);
+	}
+
+	GraphicsFillMode Shader::GetGraphicsFillMode() const
+	{
+		return m_fillMode;
+	}
+
+	GraphicsCullMode Shader::GetGraphicsCullMode() const
+	{
+		return m_cullMode;
+	}
+
+	TriangleWindingOrder Shader::GetTriangleWindingOrder() const
+	{
+		return m_triangleWindingOrder;
 	}
 
 	UINT Shader::GetCBufferCount() const

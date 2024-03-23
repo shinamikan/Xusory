@@ -1,9 +1,6 @@
 #pragma once
 
 #include <map>
-#include <unordered_map>
-
-#include "../Common/EngineDefine.h"
 #include "../Component/EngineComponent/Actor/Actor.h"
 
 namespace XusoryEngine
@@ -16,10 +13,8 @@ namespace XusoryEngine
 	public:
 		GameObject();
 		explicit GameObject(const std::string_view& name);
-		explicit GameObject(const Float3& localPosition);
-		explicit GameObject(const Float3& localPosition, const Float3& localScale);
-		explicit GameObject(const std::string_view& name, const Float3& localPosition);
-		explicit GameObject(const std::string_view& name, const Float3& localPosition, const Float3& localScale);
+		explicit GameObject(const Vector3& localPosition);
+		explicit GameObject(const Vector3& localPosition, const Vector3& localScale, const Vector3& localEulerAngle);
 		DELETE_COPY_OPERATOR(GameObject);
 		DELETE_MOVE_OPERATOR(GameObject);
 		~GameObject();
@@ -28,15 +23,27 @@ namespace XusoryEngine
 		BOOL GetActive() const;
 		void SetActive(BOOL active);
 
+		GameObject* GetParent() const;
+		GameObject* GetRootParent() const;
+		BOOL HasParent() const;
+		void SetParent(GameObject* parent);
+
+		UINT GetChildrenCount() const;
 		GameObject* GetChildByIndex(UINT index) const;
 		GameObject* GetChildByName(const std::string_view& name, BOOL throwIfNotFound = false) const;
-		//GameObject* GetSameLevelObjectByIndex();
-		//GameObject* GetSameLevelObjectByName();
+		void AddChildGameObject(const GameObject* child);
+		void MoveChildGameObject(UINT indexFrom, UINT indexTo);
+
+		GameObject* GetSameLevelObjectByIndex(UINT index) const;
+		GameObject* GetSameLevelObjectByName(const std::string_view& name, BOOL throwIfNotFound = false) const;
+
 		Transform* GetTransform() const;
-		const std::multimap<std::string, Actor*>& GetActorMap();
+		const std::multimap<std::string, Actor*>& GetActorMap() const;
 
 		template <typename T>
 		T* AddComponent();
+		template <typename T>
+		BOOL HasComponent();
 		template <typename T>
 		void RemoveComponent();
 		void RemoveAllComponent();
@@ -64,20 +71,25 @@ namespace XusoryEngine
 		template <typename T>
 		void SendMessageToBehaviours();*/
 
+		static void Destroy(GameObject*& gameObject);
+
 		std::string name;
 		std::string tag = "UnDefined";
 
+		UINT instanceId = 0;
 		UINT layer = 0;
 
-		GameObject* parent = nullptr;
-
 	private:
+		void InitGameObject() const;
+		void RemoveChildGameObject(const GameObject* child, BOOL throwIfNotFound = false);
+
 		BOOL m_active = true;
+
+		GameObject* m_parent = nullptr;
 		std::vector<GameObject*> m_childrenList;
 
 		std::unique_ptr<Transform> m_transform;
 		std::multimap<std::string, Actor*> m_actorMap;
-
 		std::multimap<std::string, std::unique_ptr<Behaviour>> m_behaviourMap;
 	};
 
@@ -104,10 +116,16 @@ namespace XusoryEngine
 	}
 
 	template<typename T>
+	BOOL GameObject::HasComponent()
+	{
+		static_assert(std::is_base_of_v<Behaviour, T>);
+		CaptureNoReturnFunc(return m_behaviourMap.find(GetTypeName<T>()) != m_behaviourMap.end());
+	}
+
+	template<typename T>
 	void GameObject::RemoveComponent()
 	{
 		static_assert(std::is_base_of_v<Behaviour, T>);
-
 		const std::string typeName = GetTypeName<T>();
 
 		T* behaviour = GetComponent<T>();
@@ -126,17 +144,23 @@ namespace XusoryEngine
 	T* GameObject::GetComponent()
 	{
 		static_assert(std::is_base_of_v<Behaviour, T>);
-		CaptureNoReturnFunc(return static_cast<T*>(m_behaviourMap.find(GetTypeName<T>())->second.get()));
+
+		CaptureNoReturnFunc(auto it = m_behaviourMap.find(GetTypeName<T>()));
+		if (it != m_behaviourMap.end())
+		{
+			return static_cast<T*>(it->second.get());
+		}
+		return nullptr;
 	}
 
 	template<typename T>
 	T* GameObject::GetComponentInParent()
 	{
-		if (parent == nullptr)
+		if (m_parent == nullptr)
 		{
-			ThrowWithErrName(RuntimeError, "Object is nullptr");
+			ThrowWithErrName(RuntimeError, "parent is nullptr");
 		}
-		return parent->GetComponent<T>();
+		return m_parent->GetComponent<T>();
 	}
 
 	template<typename T>
@@ -169,11 +193,11 @@ namespace XusoryEngine
 	template<typename T>
 	std::vector<T*> GameObject::GetComponentsInParent()
 	{
-		if (parent == nullptr)
+		if (m_parent == nullptr)
 		{
-			ThrowWithErrName(RuntimeError, "Object is nullptr");
+			ThrowWithErrName(RuntimeError, "parent is nullptr");
 		}
-		return parent->GetComponents<T>();
+		return m_parent->GetComponents<T>();
 	}
 
 	template<typename T>

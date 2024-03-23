@@ -72,6 +72,7 @@ namespace XusoryEngine
 		ID3DBlob* GetDomainShader() const;
 		ID3DBlob* GetHullShader() const;
 		ID3DBlob* GetGeometryShader() const;
+		ID3DBlob* GetShaderByteCode(UINT index) const;
 
 		void CompileShader(const std::wstring_view& shaderFilePath, const std::array<std::string, 5>& shaderEntryPointList, const D3D_SHADER_MACRO* defines);
 
@@ -79,6 +80,6 @@ namespace XusoryEngine
 		std::vector<D3D12_SHADER_RESOURCE_DESC> m_shaderResourceDescList;
 
 	private:
-		std::array<Microsoft::WRL::ComPtr<ID3DBlob>, 5> m_shaderBytesList;
+		std::array<Microsoft::WRL::ComPtr<ID3DBlob>, 5> m_shaderBytesArray;
 	};
 }

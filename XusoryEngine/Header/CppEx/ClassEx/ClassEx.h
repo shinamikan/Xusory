@@ -41,19 +41,31 @@
 // You can use PROPERTY macro to add the get set property to a class
 
 #if defined(_MSC_VER)
-#define PROPERTY(getFunc, setFunc, type, propName)							\
-    public:																	\
-        __declspec(property(get = getFunc, put = setFunc)) type propName;	\
-        type getFunc() const;												\
-        void setFunc(type value)
-#define PROPERTY_GET(getFunc, type, propName)								\
-	public:																	\
-		__declspec(property(get = getFunc)) type propName;					\
-		type getFunc()
-#define PROPERTY_SET(setFunc, type, propName)								\
-    public:																	\
-        __declspec(property(put = setFunc)) type propName;					\
-        void setFunc(type value)
+#define PROPERTY_GET_SET(type, propName)											\
+    __declspec(property(get = Get##propName, put = Set##propName)) type propName;	\
+    type Get##propName() const;												        \
+    void Set##propName(type value)
+
+#define REF_PROPERTY_GET_SET(type, propName)										\
+    __declspec(property(get = Get##propName, put = Set##propName)) type propName;	\
+    const type& Get##propName() const;												\
+    void Set##propName(const type& value)
+
+#define PROPERTY_GET_ONLY(type, propName)						\
+	__declspec(property(get = Get##propName)) type propName;	\
+	type Get##propName() const
+
+#define REF_PROPERTY_GET_ONLY(type, propName)					\
+	__declspec(property(get = Get##propName)) type propName;	\
+    const type& Get##propName() const
+
+#define PROPERTY_SET_ONLY(type, propName)				        \
+    __declspec(property(set = Set##propName)) type propName;	\
+    void Set##propName(type value)
+
+#define REF_PROPERTY_SET_ONLY(type, propName)			        \
+    __declspec(property(set = Set##propName)) type propName;	\
+    void Set##propName(const type& value)
 #endif
 
 // Expand the interface class, you can use INTERFACE_CLASS defines an interface

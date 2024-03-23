@@ -23,7 +23,7 @@ namespace XusoryEngine
 		static void SetWindowCursor(const std::wstring_view& imagePath);
 		static void SetWindowIcon(SysIcon sysIcon);
 		static void SetWindowIcon(const std::wstring_view& imagePath);
-		static void RegisterWindowClass(HINSTANCE hInstance, const std::wstring_view& className);
+		static void RegisterWindowClass(HINSTANCE hInstance, const std::wstring_view& className, BOOL allowDoubleClick = false);
 
 		template <typename WindowT>
 		static Window* CreateWindowInstance(const std::wstring_view& className, const std::wstring_view& windowTitle,

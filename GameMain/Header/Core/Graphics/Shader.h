@@ -40,12 +40,21 @@ namespace XusoryEngine
 		TEXTURE
 	};
 
+	struct ShaderByte
+	{
+		std::vector<BYTE> byteCode;
+		SIZE_T byteSize;
+	};
+
 	struct ShaderCBufferProperty
 	{
 		std::string name;
 
 		UINT size;
 		UINT variableNum;
+
+		UINT slot;
+		UINT space;
 	};
 
 	struct ShaderProperty
@@ -55,6 +64,7 @@ namespace XusoryEngine
 
 		ShaderPropertyType propertyType;
 		TextureDimension dimension;
+
 		UINT offset;
 		UINT slot;
 		UINT space;
@@ -62,18 +72,28 @@ namespace XusoryEngine
 
 	class Shader
 	{
-		friend class GiDx12GraphicsManager;
+		friend class GiDx12RhiManager;
+		friend class DxShaderLoader;
+		friend class ResourceLoader;
 
 	public:
-		explicit Shader(const std::wstring_view& path);
+		Shader() = default;
+		DELETE_COPY_OPERATOR(Shader);
+		DELETE_MOVE_OPERATOR(Shader);
+		~Shader();
 
-		const std::wstring& GetShaderFilePath() const;
+		const std::string& GetName() const;
+
 		const std::array<std::string, 5>& GetShaderEntryPoint() const;
 		const std::string& GetVertexShaderEntryPoint() const;
 		const std::string& GetPixelShaderEntryPoint() const;
 		const std::string& GetDomainShaderEntryPoint() const;
 		const std::string& GetHullShaderEntryPoint() const;
 		const std::string& GetGeometryShaderEntryPoint() const;
+
+		GraphicsFillMode GetGraphicsFillMode() const;
+		GraphicsCullMode GetGraphicsCullMode() const;
+		TriangleWindingOrder GetTriangleWindingOrder() const;
 
 		UINT GetCBufferCount() const;
 		const ShaderCBufferProperty& GetCBufferProperty(UINT index) const;
@@ -93,25 +113,26 @@ namespace XusoryEngine
 		UINT GetPropertySlotByName(const std::string_view& name) const;
 		UINT GetPropertySpaceByName(const std::string_view& name) const;
 
+	private:
+		void ThrowIfOutOfCBufferRange(UINT index) const;
+		void ThrowIfOutOfPropertyRange(UINT index) const;
+
 		void SetVertexShaderEntryPoint(const std::string_view& entryPoint);
 		void SetPixelShaderEntryPoint(const std::string_view& entryPoint);
 		void SetDomainShaderEntryPoint(const std::string_view& entryPoint);
 		void SetHullShaderEntryPoint(const std::string_view& entryPoint);
 		void SetGeometryShaderEntryPoint(const std::string_view& entryPoint);
 
-		GraphicsFillMode fillMode = GraphicsFillMode::SOLID;
-		GraphicsCullMode cullMode = GraphicsCullMode::NONE;
-		TriangleWindingOrder triangleWindingOrder = TriangleWindingOrder::CLOCK_WISE;
-
-	private:
-		void ThrowIfOutOfCBufferRange(UINT index) const;
-		void ThrowIfOutOfPropertyRange(UINT index) const;
-
-		std::wstring m_shaderFilePath;
+		std::string m_name;
 		std::array<std::string, 5> m_shaderEntryPointList;
 
-		std::vector<ShaderCBufferProperty> m_shaderCBufferPropertyList;
+		GraphicsFillMode m_fillMode = GraphicsFillMode::SOLID;
+		GraphicsCullMode m_cullMode = GraphicsCullMode::BACK;
+		TriangleWindingOrder m_triangleWindingOrder = TriangleWindingOrder::CLOCK_WISE;
 
+		std::vector<ShaderByte> m_shaderByteList{5};
+
+		std::vector<ShaderCBufferProperty> m_shaderCBufferPropertyList;
 		std::vector<ShaderProperty> m_shaderPropertyList;
 		std::unordered_map<std::string, ShaderProperty&> m_shaderPropertyMap;
 	};

@@ -2,14 +2,34 @@
 
 namespace XusoryEngine
 {
-	Texture::Texture(const std::wstring_view& path)
+	const std::string& Texture::GetName() const
 	{
-		m_textureFilePath = path;
+		return m_name;
 	}
 
-	const std::wstring& Texture::GetTextureFilePath() const
+	TextureDimension Texture::GetDimension() const
 	{
-		return m_textureFilePath;
+		return m_dimension;
+	}
+
+	AddressMode Texture::GetAddressModeU() const
+	{
+		return m_addressModeU;
+	}
+
+	AddressMode Texture::GetAddressModeV() const
+	{
+		return m_addressModeV;
+	}
+
+	AddressMode Texture::GetAddressModeW() const
+	{
+		return m_addressModeW;
+	}
+
+	FilterMode Texture::GetFilterMode() const
+	{
+		return m_filterMode;
 	}
 
 	UINT Texture::GetTextureWidth() const

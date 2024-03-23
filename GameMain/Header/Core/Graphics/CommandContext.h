@@ -5,10 +5,11 @@
 
 namespace XusoryEngine
 {
-	class GraphicsManager;
+	class RhiManager;
 
 	class Material;
 	class Mesh;
+	class Shader;
 	class CommandContext
 	{
 	public:
@@ -17,7 +18,7 @@ namespace XusoryEngine
 		DELETE_MOVE_OPERATOR(CommandContext);
 		virtual ~CommandContext() = default;
 
-		virtual void InitCommandContext(GraphicsManager* graphicsManager) = 0;
+		virtual void InitCommandContext(RhiManager* graphicsManager) = 0;
 
 		virtual void BeginCommand() = 0;
 		virtual void EndCommand() = 0;
@@ -32,13 +33,13 @@ namespace XusoryEngine
 		virtual void SetMesh(const Mesh* mesh) = 0;
 	};
 
-	class GiDx12GraphicsManager;
+	class GiDx12RhiManager;
 	class GiDx12CommandContext : public CommandContext
 	{
 	public:
 		GiDx12CommandContext() = default;
 
-		void InitCommandContext(GraphicsManager* graphicsManager) override;
+		void InitCommandContext(RhiManager* graphicsManager) override;
 
 		void BeginCommand() override;
 		void EndCommand() override;
@@ -53,10 +54,11 @@ namespace XusoryEngine
 		void SetMesh(const Mesh* mesh) override;
 
 	private:
-		GiDx12GraphicsManager* m_dx12Manager = nullptr;
+		GiDx12RhiManager* m_dx12Manager = nullptr;
 		Dx12GraphicsCommandList* m_commandList = nullptr;
 
 		Dx12RenderTargetBuffer* m_currentBackBuffer = nullptr;
 		const Mesh* m_activeMesh = nullptr;
+		const Shader* m_activeShader = nullptr;
 	};
 }

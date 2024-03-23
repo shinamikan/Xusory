@@ -2,15 +2,21 @@
 
 namespace XusoryEngine
 {
-	Mesh::Mesh(UINT verticesNum, UINT indicesNum)
+	Mesh::Mesh(const std::string_view& name) : m_name(name) { }
+
+	const std::string& Mesh::GetName() const
 	{
-		m_vertices.resize(verticesNum);
-		m_indices.resize(indicesNum);
+		return m_name;
 	}
 
-	const std::wstring& Mesh::GetMeshFilePath() const
+	IndexFormat Mesh::GetIndexFormat() const
 	{
-		return m_meshFilePath;
+		return m_indexFormat;
+	}
+
+	PrimitiveTopology Mesh::GetPrimitiveTopology() const
+	{
+		return m_primitiveTopology;
 	}
 
 	const std::vector<Vertex>& Mesh::GetVertices() const
@@ -23,14 +29,24 @@ namespace XusoryEngine
 		return m_indices;
 	}
 
-	void Mesh::SetVertices(std::vector<Vertex>& vertices)
+	void Mesh::SetVertices(const std::vector<Vertex>& vertices)
 	{
-		m_vertices.assign(vertices.begin(), vertices.end());
+		m_vertices = vertices;
 	}
 
-	void Mesh::SetIndices(std::vector<UINT>& indices)
+	void Mesh::SetIndices(const std::vector<UINT>& indices)
 	{
-		m_indices.assign(indices.begin(), indices.end());
+		m_indices = indices;
+	}
+
+	void Mesh::SetVerticesNum(UINT verticesNum)
+	{
+		m_vertices.resize(verticesNum);
+	}
+
+	void Mesh::SetIndicesNum(UINT indicesNum)
+	{
+		m_vertices.resize(indicesNum);
 	}
 
 	UINT Mesh::GetVerticesNum() const
@@ -41,6 +57,18 @@ namespace XusoryEngine
 	UINT Mesh::GetIndicesNum() const
 	{
 		return static_cast<UINT>(m_indices.size());
+	}
+
+	void Mesh::AddVertex(const Vertex& vertices)
+	{
+		m_vertices.push_back(vertices);
+	}
+
+	void Mesh::AddTriangleIndex(UINT ver0, UINT ver1, UINT ver2)
+	{
+		m_indices.push_back(ver0);
+		m_indices.push_back(ver1);
+		m_indices.push_back(ver2);
 	}
 
 	void Mesh::SetPosition(const std::vector<Float3>& positionList)

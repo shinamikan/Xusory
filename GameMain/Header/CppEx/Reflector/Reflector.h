@@ -3,6 +3,7 @@
 #include <iostream>
 #include <unordered_map>
 
+#include "../ClassEx/ClassEx.h"
 #include "../Error/Throw.h"
 
 STD_ERROR_CLASS(FieldError, LogicError)
@@ -11,7 +12,7 @@ END_CLASS;
 enum class MemberType
 {
 	VARIABLE = 0,
-	FUNCTION
+	FUNCTION,
 };
 
 struct FieldInfo
@@ -81,19 +82,19 @@ private:																		\
 #define INIT_STATIC_REFLECTOR(className) \
 	std::unordered_map<std::string, FieldInfo> className::sm_fieldInfoMap = std::unordered_map<std::string, FieldInfo>()
 
-#define REFLECT_FIELD(access, variableType, variableName)																								\
+#define REFLECT_VARIABLE(access, variableType, variableName)																							\
 private:																																				\
 	ReflectorField m_field##variableName{ MemberType::VARIABLE, #access, #variableType, #variableName, &variableName, m_fieldMap, sm_fieldInfoMap };	\
 access:																																					\
 	variableType variableName
 
-#define REFLECT_FIELD_WITH_VALUE(access, variableType, variableName, value)																				\
+#define REFLECT_VARIABLE_WITH_VALUE(access, variableType, variableName, value)																			\
 private:																																				\
 	ReflectorField m_field##variableName{ MemberType::VARIABLE, #access, #variableType, #variableName, &variableName, m_fieldMap, sm_fieldInfoMap };	\
 access:																																					\
 	variableType variableName = value
 
-#define REFLECT_FUNC_FIELD(className, access, returnType, funcName, ...)																								\
+#define REFLECT_FUNCTION(className, access, returnType, funcName, ...)																									\
 public:																																									\
 	typedef returnType (className::*funcName##Type)(__VA_ARGS__);																										\
 private:																																								\
@@ -102,7 +103,7 @@ private:																																								\
 access:																																									\
 	returnType funcName(__VA_ARGS__)
 
-#define REFLECT_CONST_FUNC_FIELD(className, access, returnType, funcName, ...)																							\
+#define REFLECT_CONST_FUNCTION(className, access, returnType, funcName, ...)																							\
 public:																																									\
 	typedef returnType (className::*funcName##Type)(__VA_ARGS__) const;																									\
 private:																																								\

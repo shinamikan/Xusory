@@ -2,6 +2,11 @@
 
 namespace XusoryEngine
 {
+	BOOL Math::IsBitSet(UINT num, UINT bitIndex)
+	{
+		return (num & 1 << bitIndex) != 0;
+	}
+
 	FLOAT Math::Cycle(FLOAT num, FLOAT lowerBound, FLOAT upperBound)
 	{
 		if (num >= lowerBound && num <= upperBound)

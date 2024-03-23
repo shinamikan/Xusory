@@ -10,6 +10,13 @@
 
 #include "EngineMath/Quaternion.h"
 
+#include "GameManager/GameManager.h"
+
 #include "GameObject/GameObject.h"
 
+#include "GameTimer/GameTimer.h"
+
 #include "Input/Input.h"
+
+#include "Scene/Scene.h"
+#include "Scene/SceneManager.h"

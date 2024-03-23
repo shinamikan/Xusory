@@ -1,5 +1,7 @@
 #pragma once
 
+#include "API/Factory.h"
+
 #include "Compressor/Lz4.h"
 #include "Compressor/Lzma.h"
 
@@ -11,7 +13,9 @@
 #include "Graphics/Material.h"
 #include "Graphics/Mesh.h"
 #include "Graphics/RenderPipeline.h"
+#include "Graphics/RhiManager.h"
 #include "Graphics/Shader.h"
+#include "Graphics/Texture.h"
 
 #include "Math/Common/MathDefine.h"
 #include "Math/Math.h"

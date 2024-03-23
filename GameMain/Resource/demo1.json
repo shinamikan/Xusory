@@ -1,5 +1,6 @@
 {
    "age" : 999,
+   "age1" : null,
    "friends" : {
       "friend_age" : 21,
       "friend_name" : "ZhaoWuxian",

@@ -27,19 +27,28 @@ namespace XusoryEngine
 
 	class Mesh
 	{
+        friend class ResourceLoader;
+
     public:
         Mesh() = default;
-        Mesh(UINT verticesNum, UINT indicesNum);
+        explicit Mesh(const std::string_view& name);
 
-        const std::wstring& GetMeshFilePath() const;
+        const std::string& GetName() const;
+
+        IndexFormat GetIndexFormat() const;
+        PrimitiveTopology GetPrimitiveTopology() const;
 
         const std::vector<Vertex>& GetVertices() const;
         const std::vector<UINT>& GetIndices() const;
         UINT GetVerticesNum() const;
         UINT GetIndicesNum() const;
 
-        void SetVertices(std::vector<Vertex>& vertices);
-        void SetIndices(std::vector<UINT>& indices);
+        void AddVertex(const Vertex& vertices);
+        void AddTriangleIndex(UINT ver0, UINT ver1, UINT ver2);
+        void SetVertices(const std::vector<Vertex>& vertices);
+        void SetIndices(const std::vector<UINT>& indices);
+        void SetVerticesNum(UINT verticesNum);
+        void SetIndicesNum(UINT indicesNum);
 
         void SetPosition(const std::vector<Float3>& positionList);
         void SetNormal(const std::vector<Float3>& normalList);
@@ -51,13 +60,13 @@ namespace XusoryEngine
         void SetUv3(const std::vector<Float2>& uvList);
         void SetUv4(const std::vector<Float2>& uvList);
 
-        IndexFormat indexFormat = IndexFormat::UINT32;
-        PrimitiveTopology primitiveTopology = PrimitiveTopology::TRIANGLE_LIST;
-
     private:
-        std::wstring m_meshFilePath;
+        std::string m_name;
 
-        std::vector<Vertex> m_vertices{};
-        std::vector<UINT> m_indices{};
+        IndexFormat m_indexFormat = IndexFormat::UINT32;
+        PrimitiveTopology m_primitiveTopology = PrimitiveTopology::TRIANGLE_LIST;
+
+        std::vector<Vertex> m_vertices;
+        std::vector<UINT> m_indices;
 	};
 }

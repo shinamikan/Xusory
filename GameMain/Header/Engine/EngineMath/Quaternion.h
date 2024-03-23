@@ -16,16 +16,17 @@ namespace XusoryEngine
 		Quaternion(FLOAT x, FLOAT y, FLOAT z, FLOAT w);
 		Quaternion(Axis axis, FLOAT eulerAngle);
 		Quaternion(FLOAT eulerAngleX, FLOAT eulerAngleY, FLOAT eulerAngleZ);
-		explicit Quaternion(const Float4& quaternion);
 		explicit Quaternion(const Vector4& quaternion);
-		explicit Quaternion(const Float3& eulerAngles);
+		explicit Quaternion(const Vector3& eulerAngles);
 		DEFAULT_COPY_OPERATOR(Quaternion);
 		DEFAULT_MOVE_OPERATOR(Quaternion);
 		~Quaternion() = default;
 
 		Quaternion operator*(FLOAT scalar) const;
+		Quaternion operator/(FLOAT scalar) const;
 		Quaternion operator*(const Quaternion& other) const;
 		Quaternion& operator*=(FLOAT scalar);
+		Quaternion& operator/=(FLOAT scalar);
 		Quaternion& operator*=(const Quaternion& other);
 		BOOL operator==(const Quaternion& other) const;
 
@@ -34,13 +35,12 @@ namespace XusoryEngine
 		FLOAT Z() const;
 		FLOAT W() const;
 
-		Float3 GetEulerAngles() const;
-		Float4 GetQuaternion() const;
-		const Vector4& GetQuaternionVector() const;
+		Vector3 GetEulerAngles() const;
+		Vector4 GetQuaternion() const;
 		
 		void SetWithEulerAngles(Axis axis, FLOAT eulerAngle);
 		void SetWithEulerAngles(FLOAT eulerAngleX, FLOAT eulerAngleY, FLOAT eulerAngleZ);
-		void SetWithEulerAngles(const Float3& eulerAngles);
+		void SetWithEulerAngles(const Vector3& eulerAngles);
 
 		void SetQuaternion(FLOAT x, FLOAT y, FLOAT z, FLOAT w);
 		void SetQuaternion(const Float4& quaternion);
@@ -54,7 +54,6 @@ namespace XusoryEngine
 		Quaternion Inverse() const;
 		Quaternion Normalize() const;
 
-		Quaternion Multiply(FLOAT scalar) const;
 		Quaternion Multiply(const Quaternion& other) const;
 
 		static const Quaternion Identity;
@@ -66,7 +65,7 @@ namespace XusoryEngine
 
 	inline std::ostream& operator<<(std::ostream& os, const Quaternion& quaternion)
 	{
-		os << quaternion.GetQuaternionVector();
+		os << quaternion.GetQuaternion();
 		return os;
 	}
 }

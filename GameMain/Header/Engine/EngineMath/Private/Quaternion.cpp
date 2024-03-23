@@ -15,17 +15,27 @@ namespace XusoryEngine
 		SetWithEulerAngles(eulerAngleX, eulerAngleY, eulerAngleZ);
 	}
 
-	Quaternion::Quaternion(const Float4& quaternion) : m_quaternion(quaternion) { }
 	Quaternion::Quaternion(const Vector4& quaternion) : m_quaternion(quaternion) { }
 
-	Quaternion::Quaternion(const Float3& eulerAngles)
+	Quaternion::Quaternion(const Vector3& eulerAngles)
 	{
 		SetWithEulerAngles(eulerAngles);
 	}
 
 	Quaternion Quaternion::operator*(FLOAT scalar) const
 	{
-		return Multiply(scalar);
+		Quaternion result;
+		result.m_quaternion = m_quaternion * scalar;
+
+		return result;
+	}
+
+	Quaternion Quaternion::operator/(FLOAT scalar) const
+	{
+		Quaternion result;
+		result.m_quaternion = m_quaternion / scalar;
+
+		return result;
 	}
 
 	Quaternion Quaternion::operator*(const Quaternion& other) const
@@ -36,6 +46,12 @@ namespace XusoryEngine
 	Quaternion& Quaternion::operator*=(FLOAT scalar)
 	{
 		*this = *this * scalar;
+		return *this;
+	}
+
+	Quaternion& Quaternion::operator/=(FLOAT scalar)
+	{
+		*this = *this / scalar;
 		return *this;
 	}
 
@@ -70,7 +86,7 @@ namespace XusoryEngine
 		return m_quaternion.W();
 	}
 
-	Float3 Quaternion::GetEulerAngles() const
+	Vector3 Quaternion::GetEulerAngles() const
 	{
 		const FLOAT q1 = m_quaternion.X(); const FLOAT q2 = m_quaternion.Y();
 		const FLOAT q3 = m_quaternion.Z(); const FLOAT q4 = m_quaternion.W();
@@ -85,12 +101,7 @@ namespace XusoryEngine
 		};
 	}
 
-	Float4 Quaternion::GetQuaternion() const
-	{
-		return m_quaternion.GetVector();
-	}
-
-	const Vector4& Quaternion::GetQuaternionVector() const
+	Vector4 Quaternion::GetQuaternion() const
 	{
 		return m_quaternion;
 	}
@@ -115,11 +126,11 @@ namespace XusoryEngine
 		}
 	}
 
-	void Quaternion::SetWithEulerAngles(const Float3& eulerAngles)
-	{
-		const Quaternion quaX = Quaternion(Axis::X, eulerAngles.x);
-		const Quaternion quaY = Quaternion(Axis::Y, eulerAngles.y);
-		const Quaternion quaZ = Quaternion(Axis::Z, eulerAngles.z);
+	void Quaternion::SetWithEulerAngles(const Vector3& eulerAngles)
+	{	
+		const Quaternion quaX = Quaternion(Axis::X, eulerAngles.X());
+		const Quaternion quaY = Quaternion(Axis::Y, eulerAngles.Y());
+		const Quaternion quaZ = Quaternion(Axis::Z, eulerAngles.Z());
 
 		*this = quaZ * quaX * quaY;
 	}
@@ -170,21 +181,13 @@ namespace XusoryEngine
 
 	Quaternion Quaternion::Inverse() const
 	{
-		return Conjugate() * (1 / Norm());
+		return Conjugate() * (1 / NormSq());
 	}
 
 	Quaternion Quaternion::Normalize() const
 	{
 		Quaternion result;
 		result.m_quaternion = m_quaternion.Normalize();
-
-		return result;
-	}
-
-	Quaternion Quaternion::Multiply(FLOAT scalar) const
-	{
-		Quaternion result;
-		result.m_quaternion = m_quaternion * scalar;
 
 		return result;
 	}
