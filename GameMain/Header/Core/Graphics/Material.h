@@ -20,7 +20,7 @@ namespace XusoryEngine
 	public:
 		explicit Material(const Shader* shader);
 
-		BOOL existProperty(const std::string_view& name);
+		BOOL HasProperty(const std::string_view& name);
 
 		const std::wstring& GetName() const;
 		const Shader* GetShader() const;
@@ -29,10 +29,12 @@ namespace XusoryEngine
 		UINT GetConstantPropertyNum() const;
 		UINT GetTexturePropertyNum() const;
 
+		INT GetIntByIndex(UINT index) const;
 		FLOAT GetFloatByIndex(UINT index) const;
 		const Float2& GetFloat2ByIndex(UINT index) const;
 		const Float3& GetFloat3ByIndex(UINT index) const;
 		const Float4& GetFloat4ByIndex(UINT index) const;
+		INT GetIntByName(const std::string_view& name) const;
 		FLOAT GetFloatByName(const std::string_view& name) const;
 		const Float2& GetFloat2ByName(const std::string_view& name) const;
 		const Float3& GetFloat3ByName(const std::string_view& name) const;
@@ -48,10 +50,12 @@ namespace XusoryEngine
 		const Texture* GetTextureByIndex(UINT index) const;
 		const Texture* GetTextureByName(const std::string_view& name) const;
 
+		void SetIntByIndex(UINT index, INT value) const;
 		void SetFloatByIndex(UINT index, FLOAT value) const;
 		void SetFloat2ByIndex(UINT index, const Float2& value) const;
 		void SetFloat3ByIndex(UINT index, const Float3& value) const;
 		void SetFloat4ByIndex(UINT index, const Float4& value) const;
+		void SetIntByName(const std::string_view& name, INT value) const;
 		void SetFloatByName(const std::string_view& name, const FLOAT& value) const;
 		void SetFloat2ByName(const std::string_view& name, const Float2& value) const;
 		void SetFloat3ByName(const std::string_view& name, const Float3& value) const;

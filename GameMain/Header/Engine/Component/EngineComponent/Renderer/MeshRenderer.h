@@ -8,14 +8,17 @@ namespace XusoryEngine
 	{
 		XS_CLASS;
 
+		EXPOSED_CONST_FUNCTION(MeshRenderer, public, Material*, GetMaterial);
+		EXPOSED_FUNCTION(MeshRenderer, public, void, SetMaterial, const Material* material);
+
 		EXPOSED_VARIABLE_VALUE(public, BOOL, isVisible, true);
 		EXPOSED_VARIABLE_VALUE(public, UINT, renderingLayer, 0);
 
-		EXPOSED_VARIABLE_VALUE(public, Material*, material, nullptr);
 		EXPOSED_VARIABLE_VALUE(public, Mesh*, mesh, nullptr);
-		//EXPOSED_VARIABLE(public, std::vector<Material*>, materials);
 
 	private:
 		using Behaviour::Behaviour;
+
+		Material* m_material = nullptr;
 	};
 }

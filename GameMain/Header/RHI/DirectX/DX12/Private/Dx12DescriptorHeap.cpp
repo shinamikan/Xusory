@@ -156,11 +156,6 @@ namespace XusoryEngine
 
     void Dx12DescriptorHeap::CopyDescriptor(const Dx12Device* device, const Dx12DescriptorHeap* destHeap, UINT destStartIndex, const Dx12DescriptorHeap* srcHeap, UINT srcStartIndex, UINT descriptorNum)
     {
-        if (destHeap->m_shaderVisible != srcHeap->m_shaderVisible || destHeap->m_descHeapType != srcHeap->m_descHeapType)
-        {
-            ThrowWithErrName(DxLogicError, "The source descriptor heap type is different from the dest descriptor heap type");
-        }
-
         const Dx12DescriptorHandle destHandle = (*destHeap)[destStartIndex];
         const Dx12DescriptorHandle srcHandle = (*srcHeap)[srcStartIndex];
         (*device)->CopyDescriptorsSimple(descriptorNum, destHandle.GetCpuDescriptorHandle(),

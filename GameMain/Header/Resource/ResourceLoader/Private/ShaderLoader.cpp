@@ -28,7 +28,8 @@ namespace XusoryEngine
 				property.offset = variableDesc.StartOffset;
 				property.slot = cBuffer.first.bindPoint;
 				property.space = cBuffer.first.space;
-				if (variableDesc.typeName == "float") property.propertyType = ShaderPropertyType::FLOAT;
+				if (variableDesc.typeName == "int") property.propertyType = ShaderPropertyType::INT;
+				else if (variableDesc.typeName == "float") property.propertyType = ShaderPropertyType::FLOAT;
 				else if (variableDesc.typeName == "float2") property.propertyType = ShaderPropertyType::FLOAT2;
 				else if (variableDesc.typeName == "float3") property.propertyType = ShaderPropertyType::FLOAT3;
 				else if (variableDesc.typeName == "float4") property.propertyType = ShaderPropertyType::FLOAT4;

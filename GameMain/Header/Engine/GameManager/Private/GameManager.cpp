@@ -5,8 +5,6 @@
 
 namespace XusoryEngine
 {
-	std::unordered_map<Material*, std::vector<GameObject*>> GameManager::sm_materialList = std::unordered_map<Material*, std::vector<GameObject*>>();
-
 	void GameManager::ProcessMousePosition(Point position)
 	{
 		Input::sm_mousePosition = position;
@@ -79,15 +77,5 @@ namespace XusoryEngine
 
 		GameTimer::sm_time += nowTime - GameTimer::sm_lastRealTime;
 		GameTimer::sm_lastRealTime = nowTime;
-	}
-
-	const std::unordered_map<Material*, std::vector<GameObject*>>& GameManager::GetMatGoMap()
-	{
-		return sm_materialList;
-	}
-
-	void GameManager::SetMatGoMap(const std::unordered_map<Material*, std::vector<GameObject*>>& matGoMap)
-	{
-		sm_materialList = matGoMap;
 	}
 }

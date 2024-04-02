@@ -1,16 +1,11 @@
-cbuffer cbPerObject : register(b0)
-{
-	float4x4 gWorldViewProj;
-};
+#include "XsHlsl.hlsl"
 
 Texture2D Diffuse : register(t0);
-//Texture2D Diffuse1 : register(t1);
 SamplerState DefaultSampler : register(s0);
 
 struct VertexIn
 {
 	float3 PosL : POSITION;
-	float4 Color : COLOR;
 	float3 Normal : NORMAL;
 	float3 Tangent : TANGENT;
 	
@@ -20,7 +15,6 @@ struct VertexIn
 struct VertexOut
 {
 	float4 PosH : SV_POSITION;
-	float4 Color : COLOR;
 	float2 Tex : TEXCOORD;
 };
 
@@ -28,9 +22,7 @@ VertexOut VS(VertexIn vin)
 {
 	VertexOut vout;
 
-	//vout.PosH = float4(vin.PosL, 1.0f);
-	vout.PosH = mul(float4(vin.PosL, 1.0f), gWorldViewProj);
-	vout.Color = vin.Color;
+	vout.PosH = mul(float4(vin.PosL, 1.0f), modelToProject);
 	vout.Tex = vin.Tex;
 
 	return vout;
@@ -39,7 +31,5 @@ VertexOut VS(VertexIn vin)
 float4 PS(VertexOut pin) : SV_Target
 {
 	const float4 baseColor = Diffuse.Sample(DefaultSampler, pin.Tex);
-	//const float4 baseColor1 = Diffuse1.Sample(DefaultSampler, pin.Tex);
-	//return 0.5 * baseColor + 0.5 * baseColor1;
-	return baseColor;
+	return baseColor * float4(lightColor, 1.0f);
 };

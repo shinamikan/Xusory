@@ -121,7 +121,7 @@ namespace XusoryEngine
 			{
 				activeScene->RemoveRootGameObject(this);
 			}
-			parent->AddChildGameObject(this);
+			parent->m_childrenList.push_back(this);
 		}
 
 		m_parent = parent;
@@ -153,9 +153,10 @@ namespace XusoryEngine
 		return nullptr;
 	}
 
-	void GameObject::AddChildGameObject(const GameObject* child)
+	void GameObject::AddChildGameObject(GameObject* child)
 	{
-		m_childrenList.push_back(const_cast<GameObject*>(child));
+		child->SetParent(this);
+		//m_childrenList.push_back(child);
 	}
 
 	void GameObject::MoveChildGameObject(UINT indexFrom, UINT indexTo)

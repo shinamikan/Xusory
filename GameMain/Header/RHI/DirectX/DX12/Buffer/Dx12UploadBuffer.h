@@ -5,7 +5,7 @@
 namespace XusoryEngine
 {
 	class Dx12Device;
-	class Dx12UploadBuffer :public Dx12Buffer
+	class Dx12UploadBuffer : public Dx12Buffer
 	{
 	public:
 		explicit Dx12UploadBuffer(BOOL isConstantBuffer);

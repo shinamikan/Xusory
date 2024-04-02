@@ -21,11 +21,5 @@ namespace XusoryEngine
 
 		static void ProcessMainAspect(FLOAT aspect);
 		static void ProcessTime(DOUBLE nowTime);
-
-		static const std::unordered_map<Material*, std::vector<GameObject*>>& GetMatGoMap();
-		static void SetMatGoMap(const std::unordered_map<Material*, std::vector<GameObject*>>& matGoMap);
-
-	private:
-		static std::unordered_map<Material*, std::vector<GameObject*>> sm_materialList;
 	};
 }

@@ -21,7 +21,8 @@ public:
 		auto projMatrix = Camera::mainCamera->GetProjectionMatrix();
 		auto vpMatrix = viewMatrix * projMatrix;
 
-		auto matGoMap = GameManager::GetMatGoMap();
+		auto activeScene = SceneManager::GetActiveScene();
+		auto matGoMap = activeScene->GetMatGoMap();
 
 		for (auto& [material, goList] : matGoMap)
 		{
@@ -42,6 +43,16 @@ public:
 					GraphicsManager::BuildAloneTexture(texture, true);
 				}
 			}
+
+			Light* light = activeScene->globalLight;
+			if (material->HasProperty("ambient")) material->SetFloat3ByName("ambient", Light::ambient.GetVector());
+			if (material->HasProperty("lightType")) material->SetIntByName("lightType", static_cast<INT>(light->lightType));
+			if (material->HasProperty("lightPosition")) material->SetFloat3ByName("lightPosition", light->GetLightWorldPosition().GetVector());
+			if (material->HasProperty("lightDirection")) material->SetFloat3ByName("lightDirection", light->GetLightWorldDirection().GetVector());
+			if (material->HasProperty("lightColor")) material->SetFloat3ByName("lightColor", light->color.GetVector());
+			if (material->HasProperty("lightIntensity")) material->SetFloatByName("lightIntensity", light->intensity);
+			if (material->HasProperty("lightRange")) material->SetFloatByName("lightRange", light->range);
+
 			commandContext->SetMaterial(material);
 
 			for (auto* renderingGo : goList)
@@ -53,7 +64,7 @@ public:
 
 				auto modelMatrix = renderingGo->GetTransform()->GetModelMatrix();
 				auto modelToProj = modelMatrix * vpMatrix;
-				material->SetMatrix4ByName("gWorldViewProj", modelToProj.Transpose());
+				material->SetMatrix4ByName("modelToProject", modelToProj.Transpose());
 
 				Mesh* mesh = renderingGo->GetComponent<MeshRenderer>()->mesh;
 				if (mesh == nullptr)
@@ -72,7 +83,7 @@ public:
 
 		commandContext->EndCommand();
 	}
-};
+}; 
 
 class GameWindow : public Window
 {
@@ -146,11 +157,22 @@ public:
 	{
 		try
 		{
+			BOOL lightFlag = false;
 			GameManager::ProcessTime(PerformanceTime::GetTime());
 
-			const auto allGoList = SceneManager::GetActiveScene()->GetSceneGameObjectList();
-			for (const auto* gameObject : allGoList)
+			auto* activeScene = SceneManager::GetActiveScene();
+			const auto allGoList = activeScene->GetGameObjectList();
+			for (auto* gameObject : allGoList)
 			{
+				if (!lightFlag)
+				{
+					if (gameObject->HasComponent<Light>())
+					{
+						activeScene->globalLight = gameObject->GetComponent<Light>();
+						lightFlag = true;
+					}
+				}
+
 				const auto& actorMap = gameObject->GetActorMap();
 				if (actorMap.empty())
 				{
@@ -175,14 +197,12 @@ public:
 			}
 
 			UINT runtimeHeapSize = 0;
-			auto matGoMap = SceneManager::GetActiveScene()->GetSceneMatGoMap();
+			auto matGoMap = SceneManager::GetActiveScene()->GetMatGoMap();
 			for (auto& [material, gameObject] : matGoMap)
 			{
 				runtimeHeapSize += material->GetTexturePropertyNum();
 			}
-
 			GraphicsManager::GetGraphicsManager()->ReSetRuntimeResourceHeap(runtimeHeapSize);
-			GameManager::SetMatGoMap(matGoMap);
 
 			m_renderPipeline->Render(GraphicsManager::GetCommandContext());
 
@@ -197,6 +217,8 @@ public:
 	}
 
 private:
+	UINT temp = 0;
+
 	BOOL m_isMinimize = false;
 	std::shared_ptr<RenderPipeline> m_renderPipeline;
 };

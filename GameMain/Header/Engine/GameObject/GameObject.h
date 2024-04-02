@@ -31,7 +31,7 @@ namespace XusoryEngine
 		UINT GetChildrenCount() const;
 		GameObject* GetChildByIndex(UINT index) const;
 		GameObject* GetChildByName(const std::string_view& name, BOOL throwIfNotFound = false) const;
-		void AddChildGameObject(const GameObject* child);
+		void AddChildGameObject(GameObject* child);
 		void MoveChildGameObject(UINT indexFrom, UINT indexTo);
 
 		GameObject* GetSameLevelObjectByIndex(UINT index) const;
@@ -65,11 +65,6 @@ namespace XusoryEngine
 		std::vector<T*> GetComponentsInChildren(UINT index);
 		template <typename T>
 		std::vector<T*> GetComponentsInChildren(const std::string_view& name, BOOL throwIfNotFound = false);
-
-		/*template <typename T>
-		void SendMessageToBehaviour();
-		template <typename T>
-		void SendMessageToBehaviours();*/
 
 		static void Destroy(GameObject*& gameObject);
 

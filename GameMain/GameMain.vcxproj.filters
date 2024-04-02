@@ -117,12 +117,6 @@
     <ClCompile Include="Header\Core\Parsing\Private\JsonDocument.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Header\Core\Compressor\Private\Lz4.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Header\Core\Compressor\Private\Lzma.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="Header\Engine\GameObject\Private\GameObject.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -172,6 +166,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Header\Engine\Input\Private\Input.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Header\Engine\Component\EngineComponent\Light\Private\Light.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -288,9 +285,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Header\Platform\Platform.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\Core\AudioPlayer\AudioClip.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Header\Core\Graphics\Mesh.h">
@@ -479,12 +473,6 @@
     <ClInclude Include="Header\Core\Parsing\JsonDocument.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Header\Core\Compressor\Lz4.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\Core\Compressor\Lzma.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="Header\StdEx\TypeName\TypeName.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -523,5 +511,6 @@
     <None Include="Shaders\color2.hlsl" />
     <None Include="Shaders\color1.hlsl" />
     <None Include="packages.config" />
+    <None Include="Shaders\XsHlsl.hlsl" />
   </ItemGroup>
 </Project>

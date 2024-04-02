@@ -8,9 +8,9 @@ namespace XusoryEngine
 		BindShader();
 	}
 
-	BOOL Material::existProperty(const std::string_view& name)
+	BOOL Material::HasProperty(const std::string_view& name)
 	{
-		return m_materialValueMap.find(name.data()) == m_materialValueMap.end();
+		return m_materialValueMap.find(name.data()) != m_materialValueMap.end();
 	}
 
 	const std::wstring& Material::GetName() const
@@ -38,6 +38,12 @@ namespace XusoryEngine
 		return m_texturePropertyNum;
 	}
 
+	INT Material::GetIntByIndex(UINT index) const
+	{
+		ThrowIfOutOfValueRange(index);
+		return *static_cast<INT*>(m_materialValueList.at(index));
+	}
+
 	FLOAT Material::GetFloatByIndex(UINT index) const
 	{
 		ThrowIfOutOfValueRange(index);
@@ -60,6 +66,11 @@ namespace XusoryEngine
 	{
 		ThrowIfOutOfValueRange(index);
 		return *static_cast<Float4*>(m_materialValueList.at(index));
+	}
+
+	INT Material::GetIntByName(const std::string_view& name) const
+	{
+		CaptureNoReturnFunc(return *static_cast<INT*>(m_materialValueMap.at(name.data())));
 	}
 
 	FLOAT Material::GetFloatByName(const std::string_view& name) const
@@ -126,6 +137,12 @@ namespace XusoryEngine
 		CaptureNoReturnFunc(return static_cast<Texture*>(m_materialValueMap.at(name.data())));
 	}
 
+	void Material::SetIntByIndex(UINT index, INT value) const
+	{
+		ThrowIfOutOfValueRange(index);
+		*static_cast<INT*>(m_materialValueList.at(index)) = value;
+	}
+
 	void Material::SetFloatByIndex(UINT index, FLOAT value) const
 	{
 		ThrowIfOutOfValueRange(index);
@@ -148,6 +165,11 @@ namespace XusoryEngine
 	{
 		ThrowIfOutOfValueRange(index);
 		*static_cast<Float4*>(m_materialValueList.at(index)) = value;
+	}
+
+	void Material::SetIntByName(const std::string_view& name, INT value) const
+	{
+		CaptureNoReturnFunc(*static_cast<INT*>(m_materialValueMap.at(name.data())) = value);
 	}
 
 	void Material::SetFloatByName(const std::string_view& name, const FLOAT& value) const

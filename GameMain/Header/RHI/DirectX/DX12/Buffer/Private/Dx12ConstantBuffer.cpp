@@ -25,7 +25,7 @@ namespace XusoryEngine
 	void Dx12ConstantBuffer::DescribeAsCbv(const Dx12Device* device, Dx12DescriptorAllocator* allocator)
 	{
 		ThrowIfDxObjectNotCreated(GetDxObjectPtr(), "buffer");
-		if (allocator->GetHeapType() != D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV || !allocator->GetShaderVisible())
+		if (allocator->GetHeapType() != D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV)
 		{
 			ThrowWithErrName(DxLogicError, "The attribute of the descriptor allocator does not match");
 		}

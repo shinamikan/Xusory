@@ -33,35 +33,31 @@ namespace XusoryEngine
 		DELETE_MOVE_OPERATOR(IObjParser);
 		virtual ~IObjParser() = default;
 
-		virtual std::shared_ptr<Mesh> ParseObjMesh(const std::vector<std::string_view>& meshDataList,
-			std::vector<Float3>& positionList, std::vector<Float3>& normalList, std::vector<Float2>& uvList,
-			UINT& dataIndex, UINT positionNum, UINT normalNum, UINT uvNum) = 0;
+		virtual std::shared_ptr<Mesh> ParseObjMesh(const std::vector<std::string_view>& meshDataList, UINT& dataIndex,
+			std::vector<Float3>& positionList, std::vector<Float3>& normalList, std::vector<Float2>& uvList) = 0;
 	};
 
 	class BlenderObjLoader : public IObjParser
 	{
 	public:
-		std::shared_ptr<Mesh> ParseObjMesh(const std::vector<std::string_view>& meshDataList,
-			std::vector<Float3>& positionList, std::vector<Float3>& normalList, std::vector<Float2>& uvList,
-			UINT& dataIndex, UINT positionNum, UINT normalNum, UINT uvNum) override;
+		std::shared_ptr<Mesh> ParseObjMesh(const std::vector<std::string_view>& meshDataList, UINT& dataIndex,
+			std::vector<Float3>& positionList, std::vector<Float3>& normalList, std::vector<Float2>& uvList) override;
 		CREATE_FACTORY(IObjParser, BlenderObjLoader);
 	};
 
 	class C4dObjLoader : public IObjParser
 	{
 	public:
-		std::shared_ptr<Mesh> ParseObjMesh(const std::vector<std::string_view>& meshDataList,
-			std::vector<Float3>& positionList, std::vector<Float3>& normalList, std::vector<Float2>& uvList,
-			UINT& dataIndex, UINT positionNum, UINT normalNum, UINT uvNum) override;
+		std::shared_ptr<Mesh> ParseObjMesh(const std::vector<std::string_view>& meshDataList, UINT& dataIndex,
+			std::vector<Float3>& positionList, std::vector<Float3>& normalList, std::vector<Float2>& uvList) override;
 		CREATE_FACTORY(IObjParser, C4dObjLoader);
 	};
 
 	class MaxObjLoader : public IObjParser
 	{
 	public:
-		std::shared_ptr<Mesh> ParseObjMesh(const std::vector<std::string_view>& meshDataList,
-			std::vector<Float3>& positionList, std::vector<Float3>& normalList, std::vector<Float2>& uvList,
-			UINT& dataIndex, UINT positionNum, UINT normalNum, UINT uvNum) override;
+		std::shared_ptr<Mesh> ParseObjMesh(const std::vector<std::string_view>& meshDataList, UINT& dataIndex,
+			std::vector<Float3>& positionList, std::vector<Float3>& normalList, std::vector<Float2>& uvList) override;
 		CREATE_FACTORY(IObjParser, MaxObjLoader);
 	};
 

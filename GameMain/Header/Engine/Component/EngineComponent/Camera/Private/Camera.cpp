@@ -6,6 +6,7 @@ namespace XusoryEngine
 {
 	INIT_XS_CLASS(Camera);
 
+	Camera* Camera::mainCamera = nullptr;
 	FLOAT Camera::GetAspect() const
 	{
 		return aspect;
@@ -38,6 +39,4 @@ namespace XusoryEngine
 			0.0f, 0.0f, -farPlane * nearPlane / (farPlane - nearPlane), 0.0f
 		};
 	}
-
-	Camera* Camera::mainCamera = nullptr;
 }

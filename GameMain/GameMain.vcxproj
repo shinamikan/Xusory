@@ -240,12 +240,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Header\3rdParty\jsoncpp\private\jsoncpp.cpp" />
-    <ClCompile Include="Header\Core\Compressor\Private\Lz4.cpp" />
-    <ClCompile Include="Header\Core\Compressor\Private\Lzma.cpp" />
     <ClCompile Include="Header\Core\Parsing\Private\JsonDocument.cpp" />
     <ClCompile Include="Header\Engine\Component\EngineComponent\Actor\Private\Actor.cpp" />
     <ClCompile Include="Header\Engine\Component\EngineComponent\Camera\Private\Camera.cpp" />
     <ClCompile Include="Header\Engine\Component\Behaviour\Private\Behaviour.cpp" />
+    <ClCompile Include="Header\Engine\Component\EngineComponent\Light\Private\Light.cpp" />
     <ClCompile Include="Header\Engine\Component\EngineComponent\Renderer\Private\MeshRenderer.cpp" />
     <ClCompile Include="Header\Engine\Component\Private\Component.cpp" />
     <ClCompile Include="Header\Engine\Component\Transform\Private\Transform.cpp" />
@@ -298,8 +297,6 @@
     <ClInclude Include="Header\3rdParty\jsoncpp\json-forwards.h" />
     <ClInclude Include="Header\3rdParty\jsoncpp\json.h" />
     <ClInclude Include="Header\Core\API\Factory.h" />
-    <ClInclude Include="Header\Core\Compressor\Lz4.h" />
-    <ClInclude Include="Header\Core\Compressor\Lzma.h" />
     <ClInclude Include="Header\Core\Core.h" />
     <ClInclude Include="Header\Core\Debug\Debug.h" />
     <ClInclude Include="Header\Core\Graphics\CommandContext.h" />
@@ -366,7 +363,6 @@
     <ClInclude Include="Header\Platform\Window\Common\WindowEvent.h" />
     <ClInclude Include="Header\Platform\Window\Window.h" />
     <ClInclude Include="Header\Platform\Window\WindowFactory.h" />
-    <ClInclude Include="Header\Core\AudioPlayer\AudioClip.h" />
     <ClInclude Include="Header\Core\Graphics\Material.h" />
     <ClInclude Include="Header\Core\Graphics\Mesh.h" />
     <ClInclude Include="Header\Core\Graphics\Shader.h" />
@@ -417,6 +413,19 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\color1.hlsl">
+      <FileType>Document</FileType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Shaders\XsHlsl.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='XsDebug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='XsDebug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='XsRelease|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='XsRelease|Win32'">Vertex</ShaderType>
       <FileType>Document</FileType>
     </None>
   </ItemGroup>

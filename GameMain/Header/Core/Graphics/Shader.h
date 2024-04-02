@@ -30,7 +30,8 @@ namespace XusoryEngine
 
 	enum class ShaderPropertyType
 	{
-		FLOAT = 0,
+		INT = 0,
+		FLOAT,
 		FLOAT2,
 		FLOAT3,
 		FLOAT4,

@@ -16,13 +16,17 @@ namespace XusoryEngine
 		CaptureNoReturnFunc(return m_rootGameObjectList.at(index));
 	}
 
-	std::vector<GameObject*> Scene::GetSceneGameObjectList() const
+	std::vector<GameObject*> Scene::GetGameObjectList()
 	{
-		std::vector<GameObject*> sceneGameObjectList;
+		if (!m_isGameObjectListDirty)
+		{
+			return m_gameObjectList;
+		}
 
+		m_gameObjectList.clear();
 		std::function<void(GameObject*)> addAllChildrenToGoList = [&](GameObject* gameObject)
 		{
-			sceneGameObjectList.push_back(gameObject);
+			m_gameObjectList.push_back(gameObject);
 
 			for (UINT i = 0; i < gameObject->GetChildrenCount(); i++)
 			{
@@ -35,25 +39,31 @@ namespace XusoryEngine
 			addAllChildrenToGoList(rootGameObject);
 		}
 
-		return sceneGameObjectList;
+		m_isGameObjectListDirty = false;
+		return m_gameObjectList;
 	}
 
-	std::unordered_map<Material*, std::vector<GameObject*>> Scene::GetSceneMatGoMap() const
+	std::unordered_map<Material*, std::vector<GameObject*>> Scene::GetMatGoMap()
 	{
-		std::unordered_map<Material*, std::vector<GameObject*>> sceneMatGoMap;
+		if (!m_isMatGoMapDirty)
+		{
+			return m_matGoMapTemp;
+		}
+
+		m_matGoMapTemp.clear();
 		std::function<void(GameObject*)> addAllChildrenToMatGoMap = [&](GameObject* gameObject)
 		{
 			if (gameObject->HasComponent<MeshRenderer>())
 			{
 				const MeshRenderer* renderer = gameObject->GetComponent<MeshRenderer>();
-				if (Material* material = renderer->material; material != nullptr)
+				if (Material* material = renderer->GetMaterial(); material != nullptr)
 				{
-					if (sceneMatGoMap.find(material) == sceneMatGoMap.end())
+					if (m_matGoMapTemp.find(material) == m_matGoMapTemp.end())
 					{
-						sceneMatGoMap.emplace(material, 0);
+						m_matGoMapTemp.emplace(material, 0);
 					}
 
-					auto& goList = sceneMatGoMap.at(material);
+					auto& goList = m_matGoMapTemp.at(material);
 					goList.push_back(gameObject);
 				}
 			}
@@ -69,11 +79,13 @@ namespace XusoryEngine
 			addAllChildrenToMatGoMap(rootGameObject);
 		}
 
-		return sceneMatGoMap;
+		m_isMatGoMapDirty = false;
+		return m_matGoMapTemp;
 	}
 
 	void Scene::AddRootGameObject(const GameObject* gameObject)
 	{
+		m_isGameObjectListDirty = true;
 		m_rootGameObjectList.push_back(const_cast<GameObject*>(gameObject));
 	}
 

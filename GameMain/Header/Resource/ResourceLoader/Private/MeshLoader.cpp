@@ -24,7 +24,11 @@ namespace XusoryEngine
 		}
 
 		UINT startIndex = 0;
-		const auto mesh = objParser->ParseObjMesh(meshDataList, startIndex);
+		std::vector<Float3> positionList;
+		std::vector<Float3> normalList;
+		std::vector<Float2> uvList;
+
+		const auto mesh = objParser->ParseObjMesh(meshDataList, startIndex, positionList, normalList, uvList);
 		return mesh;
 	}
 
@@ -49,8 +53,11 @@ namespace XusoryEngine
 		}
 
 		UINT dataIndex = 0;
-		std::vector<std::shared_ptr<Mesh>> meshList;
+		std::vector<Float3> positionList;
+		std::vector<Float3> normalList;
+		std::vector<Float2> uvList;
 
+		std::vector<std::shared_ptr<Mesh>> meshList;
 		while (true)
 		{
 			if (dataIndex == meshDataList.size() - 2)
@@ -58,26 +65,29 @@ namespace XusoryEngine
 				break;
 			}
 
-			meshList.emplace_back(objParser->ParseObjMesh(meshDataList, dataIndex));
+			meshList.emplace_back(objParser->ParseObjMesh(meshDataList, dataIndex, positionList, normalList, uvList));
 		}
 
 		return meshList;
 	}
 
 	REGISTER_FACTORY(ObjParserFactory, BlenderObjLoader, "Blender");
-	std::shared_ptr<Mesh> BlenderObjLoader::ParseObjMesh(const std::vector<std::string_view>& meshDataList, UINT& dataIndex)
+	std::shared_ptr<Mesh> BlenderObjLoader::ParseObjMesh(const std::vector<std::string_view>& meshDataList, UINT& dataIndex,
+		std::vector<Float3>& positionList, std::vector<Float3>& normalList, std::vector<Float2>& uvList)
 	{
 		return std::shared_ptr<Mesh>();
 	}
 
 	REGISTER_FACTORY(ObjParserFactory, C4dObjLoader, "Cinema4D");
-	std::shared_ptr<Mesh> C4dObjLoader::ParseObjMesh(const std::vector<std::string_view>& meshDataList, UINT& dataIndex)
+	std::shared_ptr<Mesh> C4dObjLoader::ParseObjMesh(const std::vector<std::string_view>& meshDataList, UINT& dataIndex,
+		std::vector<Float3>& positionList, std::vector<Float3>& normalList, std::vector<Float2>& uvList)
 	{
 		return std::shared_ptr<Mesh>();
 	}
 
 	REGISTER_FACTORY(ObjParserFactory, MaxObjLoader, "3dsMax");
-	std::shared_ptr<Mesh> MaxObjLoader::ParseObjMesh(const std::vector<std::string_view>& meshDataList, UINT& dataIndex)
+	std::shared_ptr<Mesh> MaxObjLoader::ParseObjMesh(const std::vector<std::string_view>& meshDataList, UINT& dataIndex,
+		std::vector<Float3>& positionList, std::vector<Float3>& normalList, std::vector<Float2>& uvList)
 	{
 		std::string meshName;
 
@@ -127,27 +137,31 @@ namespace XusoryEngine
 			}
 		}
 
-		std::vector<Float3> positionList(positionNum);
-		std::vector<Float3> normalList(normalNum);
-		std::vector<Float2> uvList(uvNum);
-		for (UINT i = 0; i < positionNum; i++, dataIndex++)
+		UINT positionListSizeTemp = static_cast<UINT>(positionList.size());
+		UINT normalListSizeTemp = static_cast<UINT>(normalList.size());
+		UINT uvListSizeTemp = static_cast<UINT>(uvList.size());
+		positionList.resize(positionListSizeTemp + positionNum);
+		normalList.resize(normalListSizeTemp + normalNum);
+		uvList.resize(uvListSizeTemp + uvNum);
+		
+		for (UINT i = positionListSizeTemp, j = 0; j < positionNum; i++, j++, dataIndex++)
 		{
 			auto positionStrList = StringEx::Split<std::string>(meshDataList.at(dataIndex), " ");
 			positionList.at(i) = Float3(std::stof(positionStrList.at(2)), std::stof(positionStrList.at(3)), std::stof(positionStrList.at(4)));
 		}
 		dataIndex += 2;
 
-		for (UINT i = 0; i < normalNum; i++, dataIndex++)
+		for (UINT i = normalListSizeTemp, j = 0; j < normalNum; i++, j++, dataIndex++)
 		{
 			auto normalStrList = StringEx::Split<std::string>(meshDataList.at(dataIndex), " ");
 			normalList.at(i) = Float3(std::stof(normalStrList.at(1)), std::stof(normalStrList.at(2)), std::stof(normalStrList.at(3)));
 		}
 		if (normalNum != 0) dataIndex += 2;
 
-		for (UINT i = 0; i < uvNum; i++, dataIndex++)
+		for (UINT i = uvListSizeTemp, j = 0; j < uvNum; i++, j++, dataIndex++)
 		{
 			auto uvStrList = StringEx::Split<std::string>(meshDataList.at(dataIndex), " ");
-			uvList.at(i) = Float2(std::stof(uvStrList.at(1)), std::stof(uvStrList.at(2)));
+			uvList.at(i) = Float2(std::stof(uvStrList.at(1)), 1.0f - std::stof(uvStrList.at(2)));
 		}
 		if (uvNum != 0) dataIndex += 2;
 		dataIndex += 2;

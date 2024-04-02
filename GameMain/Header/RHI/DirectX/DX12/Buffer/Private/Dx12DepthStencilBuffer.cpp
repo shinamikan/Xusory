@@ -51,7 +51,7 @@ namespace XusoryEngine
 	void Dx12DepthStencilBuffer::DescribeAsDsv(const Dx12Device* device, Dx12DescriptorAllocator* allocator, BOOL useDsvDesc)
 	{
 		ThrowIfDxObjectNotCreated(GetDxObjectPtr(), "buffer");
-		if (allocator->GetHeapType() != D3D12_DESCRIPTOR_HEAP_TYPE_DSV || allocator->GetShaderVisible())
+		if (allocator->GetHeapType() != D3D12_DESCRIPTOR_HEAP_TYPE_DSV)
 		{
 			ThrowWithErrName(DxLogicError, "The attribute of the descriptor allocator does not match");
 		}
