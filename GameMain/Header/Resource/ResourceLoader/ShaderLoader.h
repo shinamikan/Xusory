@@ -23,4 +23,5 @@ namespace XusoryEngine
 	};
 
 	typedef FactoryBase<IShaderLoader> ShaderLoaderFactory;
+	REGISTER_FACTORY(ShaderLoaderFactory, DxShaderLoader, TEXT("hlsl"));
 }

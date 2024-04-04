@@ -1,35 +1,26 @@
 #include "XsHlsl.hlsl"
 
-Texture2D Diffuse : register(t0);
-SamplerState DefaultSampler : register(s0);
+Texture2D diffuse : register(t0);
+SamplerState defaultSampler : register(s0);
 
-struct VertexIn
+struct Varying
 {
-	float3 PosL : POSITION;
-	float3 Normal : NORMAL;
-	float3 Tangent : TANGENT;
-	
-	float2 Tex : TEXCOORD;
+	float4 position : SV_POSITION;
+	float2 uv : TEXCOORD;
 };
 
-struct VertexOut
+Varying Vertex(AppData a2v)
 {
-	float4 PosH : SV_POSITION;
-	float2 Tex : TEXCOORD;
-};
+	Varying v2f;
 
-VertexOut VS(VertexIn vin)
-{
-	VertexOut vout;
+	v2f.position = modelToProjectPos(a2v.position);
+	v2f.uv = a2v.uv;
 
-	vout.PosH = mul(float4(vin.PosL, 1.0f), modelToProject);
-	vout.Tex = vin.Tex;
-
-	return vout;
+	return v2f;
 }
 
-float4 PS(VertexOut pin) : SV_Target
+float4 Fragment(Varying v2f) : SV_Target
 {
-	const float4 baseColor = Diffuse.Sample(DefaultSampler, pin.Tex);
+	const float4 baseColor = diffuse.Sample(defaultSampler, v2f.uv);
 	return baseColor * float4(lightColor, 1.0f);
 };

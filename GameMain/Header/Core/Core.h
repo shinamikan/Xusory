@@ -2,9 +2,6 @@
 
 #include "API/Factory.h"
 
-#include "Compressor/Lz4.h"
-#include "Compressor/Lzma.h"
-
 #include "Debug/Debug.h"
 
 #include "Graphics/Geometry/Vertex.h"

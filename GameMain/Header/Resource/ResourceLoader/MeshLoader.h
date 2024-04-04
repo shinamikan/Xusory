@@ -63,4 +63,9 @@ namespace XusoryEngine
 
 	typedef FactoryBase<IMeshLoader> MeshLoaderFactory;
 	typedef FactoryBase<IObjParser> ObjParserFactory;
+
+	REGISTER_FACTORY(MeshLoaderFactory, ObjMeshLoader, TEXT("obj"));
+	REGISTER_FACTORY(ObjParserFactory, BlenderObjLoader, "Blender");
+	REGISTER_FACTORY(ObjParserFactory, C4dObjLoader, "Cinema4D");
+	REGISTER_FACTORY(ObjParserFactory, MaxObjLoader, "3dsMax");
 }

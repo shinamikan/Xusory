@@ -6,7 +6,7 @@ namespace XusoryEngine
 {
 	class Dx12Device;
 	class Dx12RootSignature;
-	class Dx12PipelineState : public DxObject<ID3D12PipelineState>
+	DLL_CLASS(Dx12PipelineState) : public DxObject<ID3D12PipelineState>
 	{
 	public:
 		Dx12PipelineState() = default;
@@ -18,7 +18,7 @@ namespace XusoryEngine
 		Dx12RootSignature* m_rootSignature = nullptr;
 	};
 
-	class Dx12GraphicsPipelineState : public Dx12PipelineState
+	DLL_CLASS(Dx12GraphicsPipelineState) : public Dx12PipelineState
 	{
 	public:
 		Dx12GraphicsPipelineState();

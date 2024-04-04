@@ -18,157 +18,10 @@
     <ClCompile Include="main.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Header\RHI\DirectX\DX12\Private\Dx12Device.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Header\RHI\DirectX\Private\DxFactory.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Header\RHI\DirectX\DX12\Private\Dx12RootSignature.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Header\RHI\DirectX\DX12\Buffer\Private\Dx12Buffer1D.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Header\RHI\DirectX\DX12\Buffer\Private\Dx12Buffer.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Header\RHI\DirectX\DX12\Buffer\Private\Dx12Buffer2D.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Header\RHI\DirectX\DX12\Private\Dx12DescriptorAllocator.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Header\RHI\DirectX\DX12\Private\Dx12DescriptorHeap.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Header\Core\Graphics\Private\RhiManager.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Header\RHI\DirectX\DX12\Buffer\Private\Dx12RenderTargetBuffer.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Header\RHI\DirectX\Private\DxSwapChain.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Header\RHI\DirectX\DX12\Buffer\Private\Dx12UnorderedAccessBuffer.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Header\RHI\DirectX\DX12\Buffer\Private\Dx12DepthStencilBuffer.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Header\RHI\DirectX\DX12\Buffer\Private\Dx12ShaderResourceBuffer.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Header\RHI\DirectX\DX12\Buffer\Private\Dx12ConstantBuffer.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Header\RHI\DirectX\DX12\Buffer\Private\Dx12MeshBuffer.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Header\RHI\DirectX\DX12\Private\Dx12CommandAllocator.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Header\RHI\DirectX\DX12\Private\Dx12CommandQueue.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Header\RHI\DirectX\DX12\Private\Dx12CommandList.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Header\RHI\DirectX\DX12\Private\Dx12Fence.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Header\RHI\DirectX\DX12\Private\Dx12PipelineState.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Header\RHI\DirectX\Private\DxShaderCompiler.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Header\Core\Graphics\Private\Shader.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Header\Core\Graphics\Private\CommandContext.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Header\Core\Graphics\Private\Mesh.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Header\Core\Graphics\Private\Material.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Header\RHI\DirectX\DX12\Buffer\Private\Dx12UploadBuffer.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Header\Core\Graphics\Private\Texture.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Header\RHI\DirectX\Private\DxTextureLoader.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="Header\RHI\DirectX\Common\Private\DDSTextureLoader.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Header\RHI\DirectX\DX12\Buffer\Private\Dx12TextureBuffer.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Header\Resource\ResourceLoader\Private\TextureLoader.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Header\Core\Parsing\Private\JsonDocument.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Header\Engine\GameObject\Private\GameObject.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Header\Engine\Component\Private\Component.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Header\Engine\Component\Transform\Private\Transform.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Header\Engine\Component\Behaviour\Private\Behaviour.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Header\Engine\Component\EngineComponent\Actor\Private\Actor.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Header\Engine\Component\EngineComponent\Camera\Private\Camera.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Header\Engine\Component\EngineComponent\Renderer\Private\MeshRenderer.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Header\Engine\EngineMath\Private\Quaternion.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Header\Engine\GameTimer\Private\GameTimer.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="Header\3rdParty\jsoncpp\private\jsoncpp.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Header\Engine\Scene\Private\Scene.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Header\Engine\Scene\Private\SceneManager.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Header\Core\Graphics\Private\GraphicsManager.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Header\Resource\ResourceLoader\Private\MeshLoader.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Header\Resource\ResourceLoader\Private\ShaderLoader.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Header\Engine\GameManager\Private\GameManager.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Header\Engine\Input\Private\Input.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Header\Engine\Component\EngineComponent\Light\Private\Light.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
@@ -321,9 +174,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Header\RHI\DirectX\DxFactory.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\RHI\RHI.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Header\CppEx\AsyncInfo\AsyncInfo.h">
@@ -482,12 +332,6 @@
     <ClInclude Include="Header\Engine\GameTimer\GameTimer.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Header\3rdParty\jsoncpp\json.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\3rdParty\jsoncpp\json-forwards.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="Header\Engine\Scene\Scene.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -504,6 +348,15 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Header\Engine\GameManager\GameManager.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\RHI\RHI.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\3rdParty\jsoncpp\json.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\3rdParty\jsoncpp\json-forwards.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

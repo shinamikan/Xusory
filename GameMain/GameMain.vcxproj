@@ -240,56 +240,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Header\3rdParty\jsoncpp\private\jsoncpp.cpp" />
-    <ClCompile Include="Header\Core\Parsing\Private\JsonDocument.cpp" />
-    <ClCompile Include="Header\Engine\Component\EngineComponent\Actor\Private\Actor.cpp" />
-    <ClCompile Include="Header\Engine\Component\EngineComponent\Camera\Private\Camera.cpp" />
-    <ClCompile Include="Header\Engine\Component\Behaviour\Private\Behaviour.cpp" />
-    <ClCompile Include="Header\Engine\Component\EngineComponent\Light\Private\Light.cpp" />
-    <ClCompile Include="Header\Engine\Component\EngineComponent\Renderer\Private\MeshRenderer.cpp" />
-    <ClCompile Include="Header\Engine\Component\Private\Component.cpp" />
-    <ClCompile Include="Header\Engine\Component\Transform\Private\Transform.cpp" />
-    <ClCompile Include="Header\Engine\EngineMath\Private\Quaternion.cpp" />
-    <ClCompile Include="Header\Core\Graphics\Private\GraphicsManager.cpp" />
-    <ClCompile Include="Header\Engine\GameManager\Private\GameManager.cpp" />
-    <ClCompile Include="Header\Engine\GameObject\Private\GameObject.cpp" />
-    <ClCompile Include="Header\Engine\GameTimer\Private\GameTimer.cpp" />
-    <ClCompile Include="Header\Engine\Input\Private\Input.cpp" />
-    <ClCompile Include="Header\Engine\Scene\Private\Scene.cpp" />
-    <ClCompile Include="Header\Engine\Scene\Private\SceneManager.cpp" />
-    <ClCompile Include="Header\Resource\ResourceLoader\Private\MeshLoader.cpp" />
-    <ClCompile Include="Header\Resource\ResourceLoader\Private\ShaderLoader.cpp" />
-    <ClCompile Include="Header\Resource\ResourceLoader\Private\TextureLoader.cpp" />
-    <ClCompile Include="Header\Core\Graphics\Private\CommandContext.cpp" />
-    <ClCompile Include="Header\Core\Graphics\Private\RhiManager.cpp" />
-    <ClCompile Include="Header\Core\Graphics\Private\Material.cpp" />
-    <ClCompile Include="Header\Core\Graphics\Private\Mesh.cpp" />
-    <ClCompile Include="Header\Core\Graphics\Private\Shader.cpp" />
-    <ClCompile Include="Header\Core\Graphics\Private\Texture.cpp" />
     <ClCompile Include="Header\RHI\DirectX\Common\Private\DDSTextureLoader.cpp" />
-    <ClCompile Include="Header\RHI\DirectX\DX12\Buffer\Private\Dx12Buffer.cpp" />
-    <ClCompile Include="Header\RHI\DirectX\DX12\Buffer\Private\Dx12Buffer1D.cpp" />
-    <ClCompile Include="Header\RHI\DirectX\DX12\Buffer\Private\Dx12Buffer2D.cpp" />
-    <ClCompile Include="Header\RHI\DirectX\DX12\Buffer\Private\Dx12ConstantBuffer.cpp" />
-    <ClCompile Include="Header\RHI\DirectX\DX12\Buffer\Private\Dx12DepthStencilBuffer.cpp" />
-    <ClCompile Include="Header\RHI\DirectX\DX12\Buffer\Private\Dx12MeshBuffer.cpp" />
-    <ClCompile Include="Header\RHI\DirectX\DX12\Buffer\Private\Dx12RenderTargetBuffer.cpp" />
-    <ClCompile Include="Header\RHI\DirectX\DX12\Buffer\Private\Dx12ShaderResourceBuffer.cpp" />
-    <ClCompile Include="Header\RHI\DirectX\DX12\Buffer\Private\Dx12TextureBuffer.cpp" />
-    <ClCompile Include="Header\RHI\DirectX\DX12\Buffer\Private\Dx12UnorderedAccessBuffer.cpp" />
-    <ClCompile Include="Header\RHI\DirectX\DX12\Buffer\Private\Dx12UploadBuffer.cpp" />
-    <ClCompile Include="Header\RHI\DirectX\DX12\Private\Dx12CommandAllocator.cpp" />
-    <ClCompile Include="Header\RHI\DirectX\DX12\Private\Dx12CommandList.cpp" />
-    <ClCompile Include="Header\RHI\DirectX\DX12\Private\Dx12CommandQueue.cpp" />
-    <ClCompile Include="Header\RHI\DirectX\DX12\Private\Dx12DescriptorAllocator.cpp" />
-    <ClCompile Include="Header\RHI\DirectX\DX12\Private\Dx12DescriptorHeap.cpp" />
-    <ClCompile Include="Header\RHI\DirectX\DX12\Private\Dx12Device.cpp" />
-    <ClCompile Include="Header\RHI\DirectX\DX12\Private\Dx12Fence.cpp" />
-    <ClCompile Include="Header\RHI\DirectX\DX12\Private\Dx12PipelineState.cpp" />
-    <ClCompile Include="Header\RHI\DirectX\DX12\Private\Dx12RootSignature.cpp" />
-    <ClCompile Include="Header\RHI\DirectX\Private\DxShaderCompiler.cpp" />
-    <ClCompile Include="Header\RHI\DirectX\Private\DxSwapChain.cpp" />
-    <ClCompile Include="Header\RHI\DirectX\Private\DxFactory.cpp" />
-    <ClCompile Include="Header\RHI\DirectX\Private\DxTextureLoader.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>

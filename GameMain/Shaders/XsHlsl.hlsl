@@ -1,3 +1,25 @@
+struct AppData
+{
+	float3 position : POSITION;
+	float3 normal : NORMAL;
+	float3 tangent : TANGENT;
+	
+	float2 uv : TEXCOORD;
+};
+
+struct CompleteAppData
+{
+	float3 position : POSITION;
+	float3 normal : NORMAL;
+	float3 tangent : TANGENT;
+	
+	float2 uv0 : TEXCOORD;
+	float2 uv1 : TEXCOORD1;
+	float2 uv2 : TEXCOORD2;
+	float2 uv3 : TEXCOORD3;
+	float2 uv4 : TEXCOORD4;
+};
+
 cbuffer objectConstantBuffer0 : register(b0, space0)
 {
 	float4x4 modelToProject;
@@ -8,12 +30,12 @@ cbuffer objectConstantBuffer1 : register(b0, space1)
 	float4x4 modelToWorld;
 };
 
-float4 ObjectToProjectPos(float3 modelPosition)
+float4 modelToProjectPos(float3 modelPosition)
 {
 	return mul(float4(modelPosition, 1.0f), modelToProject);
 }
 
-float4 ObjectToProjectPos(float4 modelPosition)
+float4 modelToProjectPos(float4 modelPosition)
 {
 	return mul(modelPosition, modelToProject);
 }

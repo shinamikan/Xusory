@@ -5,8 +5,6 @@ VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XusoryEngine", "XusoryEngine\XusoryEngine.vcxproj", "{3EE188E3-682C-4AF6-8F63-80E2E5D4E103}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XusoryEditor", "XusoryEditor\XusoryEditor.vcxproj", "{74838318-4CE8-4910-94A0-33E8A2AA2CC4}"
-EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameMain", "GameMain\GameMain.vcxproj", "{56F373B3-80D4-4C3B-9436-B2059C9C35DD}"
 EndProject
 Global
@@ -25,14 +23,6 @@ Global
 		{3EE188E3-682C-4AF6-8F63-80E2E5D4E103}.XsRelease|x64.Build.0 = XsRelease|x64
 		{3EE188E3-682C-4AF6-8F63-80E2E5D4E103}.XsRelease|x86.ActiveCfg = XsRelease|Win32
 		{3EE188E3-682C-4AF6-8F63-80E2E5D4E103}.XsRelease|x86.Build.0 = XsRelease|Win32
-		{74838318-4CE8-4910-94A0-33E8A2AA2CC4}.XsDebug|x64.ActiveCfg = XsDebug|x64
-		{74838318-4CE8-4910-94A0-33E8A2AA2CC4}.XsDebug|x64.Build.0 = XsDebug|x64
-		{74838318-4CE8-4910-94A0-33E8A2AA2CC4}.XsDebug|x86.ActiveCfg = XsDebug|x64
-		{74838318-4CE8-4910-94A0-33E8A2AA2CC4}.XsDebug|x86.Build.0 = XsDebug|x64
-		{74838318-4CE8-4910-94A0-33E8A2AA2CC4}.XsRelease|x64.ActiveCfg = XsRelease|x64
-		{74838318-4CE8-4910-94A0-33E8A2AA2CC4}.XsRelease|x64.Build.0 = XsRelease|x64
-		{74838318-4CE8-4910-94A0-33E8A2AA2CC4}.XsRelease|x86.ActiveCfg = XsRelease|x64
-		{74838318-4CE8-4910-94A0-33E8A2AA2CC4}.XsRelease|x86.Build.0 = XsRelease|x64
 		{56F373B3-80D4-4C3B-9436-B2059C9C35DD}.XsDebug|x64.ActiveCfg = XsDebug|x64
 		{56F373B3-80D4-4C3B-9436-B2059C9C35DD}.XsDebug|x64.Build.0 = XsDebug|x64
 		{56F373B3-80D4-4C3B-9436-B2059C9C35DD}.XsDebug|x86.ActiveCfg = XsDebug|Win32

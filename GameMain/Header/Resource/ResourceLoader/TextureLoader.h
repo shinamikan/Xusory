@@ -23,4 +23,5 @@ namespace XusoryEngine
 	};
 
 	typedef FactoryBase<ITextureLoader> TextureLoaderFactory;
+	REGISTER_FACTORY(TextureLoaderFactory, DdsTextureLoader, TEXT("dds"));
 }

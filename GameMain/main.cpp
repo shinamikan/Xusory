@@ -42,6 +42,10 @@ public:
 	void OnUpdate() override
 	{
 		//Debug::LogInfo(GameTimer::GetDeltaTime());
+		if (Input::GetKeyDown(KeyCode::ALPHA_0))
+		{
+			std::cout << 1;
+		}
 
 		if (Input::GetKey(KeyCode::KEY_Q))
 		{
@@ -137,8 +141,8 @@ int WinMain(HINSTANCE hIns, HINSTANCE hPreIns, LPSTR lpCmdLine, int nCmdShow)
 		GraphicsManager::AddMaterial(matHead.get());
 		GraphicsManager::BuildAllGraphicsObject();
 
-		matBody->SetTextureByName("Diffuse", texBody.get());
-		matHead->SetTextureByName("Diffuse", texHead.get());
+		matBody->SetTextureByName("diffuse", texBody.get());
+		matHead->SetTextureByName("diffuse", texHead.get());
 
 		miku = std::make_shared<GameObject>("miku");
 
@@ -175,7 +179,7 @@ int WinMain(HINSTANCE hIns, HINSTANCE hPreIns, LPSTR lpCmdLine, int nCmdShow)
 
 		mainLight = std::make_shared<GameObject>("Main Light");
 		Light* light = mainLight->AddComponent<Light>();
-		light->color = Vector3(1.0f, 0.0f, 1.0f);
+		light->color = Vector3(1.0f, 1.0f, 1.0f);
 
 		gameWindow->Show();
 	}
