@@ -25,7 +25,10 @@ namespace XusoryEngine
 
 		m_commandList->SetRenderTarget(m_currentBackBuffer, m_dx12Manager->m_depthStencilBuffer.get());
 
-		m_commandList->SetDescriptorHeaps(m_dx12Manager->m_runTimeCbvSrvUavHeap.get(), nullptr);
+		if (m_dx12Manager->m_runTimeCbvSrvUavHeap->GetHeapSize() != 0)
+		{
+			m_commandList->SetDescriptorHeaps(m_dx12Manager->m_runTimeCbvSrvUavHeap.get(), nullptr);
+		}
 	}
 
 	void GiDx12CommandContext::EndCommand()

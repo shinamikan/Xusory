@@ -5,7 +5,11 @@ VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XusoryEngine", "XusoryEngine\XusoryEngine.vcxproj", "{3EE188E3-682C-4AF6-8F63-80E2E5D4E103}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameMain", "GameMain\GameMain.vcxproj", "{56F373B3-80D4-4C3B-9436-B2059C9C35DD}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "BlinnPhongScene", "BlinnPhongScene\BlinnPhongScene.vcxproj", "{C105C5C6-4D30-4B1C-AE6F-E7523F22C8A9}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RoleScene", "RoleScene\RoleScene.vcxproj", "{19FBAFE5-1177-4F7F-8BF1-684F34362319}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CartoonRoleScene", "CartoonRoleScene\CartoonRoleScene.vcxproj", "{953A0B11-A88B-4A01-8A9E-FE4666DFBCF9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,14 +27,30 @@ Global
 		{3EE188E3-682C-4AF6-8F63-80E2E5D4E103}.XsRelease|x64.Build.0 = XsRelease|x64
 		{3EE188E3-682C-4AF6-8F63-80E2E5D4E103}.XsRelease|x86.ActiveCfg = XsRelease|Win32
 		{3EE188E3-682C-4AF6-8F63-80E2E5D4E103}.XsRelease|x86.Build.0 = XsRelease|Win32
-		{56F373B3-80D4-4C3B-9436-B2059C9C35DD}.XsDebug|x64.ActiveCfg = XsDebug|x64
-		{56F373B3-80D4-4C3B-9436-B2059C9C35DD}.XsDebug|x64.Build.0 = XsDebug|x64
-		{56F373B3-80D4-4C3B-9436-B2059C9C35DD}.XsDebug|x86.ActiveCfg = XsDebug|Win32
-		{56F373B3-80D4-4C3B-9436-B2059C9C35DD}.XsDebug|x86.Build.0 = XsDebug|Win32
-		{56F373B3-80D4-4C3B-9436-B2059C9C35DD}.XsRelease|x64.ActiveCfg = XsRelease|x64
-		{56F373B3-80D4-4C3B-9436-B2059C9C35DD}.XsRelease|x64.Build.0 = XsRelease|x64
-		{56F373B3-80D4-4C3B-9436-B2059C9C35DD}.XsRelease|x86.ActiveCfg = XsRelease|Win32
-		{56F373B3-80D4-4C3B-9436-B2059C9C35DD}.XsRelease|x86.Build.0 = XsRelease|Win32
+		{C105C5C6-4D30-4B1C-AE6F-E7523F22C8A9}.XsDebug|x64.ActiveCfg = XsDebug|x64
+		{C105C5C6-4D30-4B1C-AE6F-E7523F22C8A9}.XsDebug|x64.Build.0 = XsDebug|x64
+		{C105C5C6-4D30-4B1C-AE6F-E7523F22C8A9}.XsDebug|x86.ActiveCfg = XsDebug|Win32
+		{C105C5C6-4D30-4B1C-AE6F-E7523F22C8A9}.XsDebug|x86.Build.0 = XsDebug|Win32
+		{C105C5C6-4D30-4B1C-AE6F-E7523F22C8A9}.XsRelease|x64.ActiveCfg = XsDebug|x64
+		{C105C5C6-4D30-4B1C-AE6F-E7523F22C8A9}.XsRelease|x64.Build.0 = XsDebug|x64
+		{C105C5C6-4D30-4B1C-AE6F-E7523F22C8A9}.XsRelease|x86.ActiveCfg = XsRelease|Win32
+		{C105C5C6-4D30-4B1C-AE6F-E7523F22C8A9}.XsRelease|x86.Build.0 = XsRelease|Win32
+		{19FBAFE5-1177-4F7F-8BF1-684F34362319}.XsDebug|x64.ActiveCfg = XsDebug|x64
+		{19FBAFE5-1177-4F7F-8BF1-684F34362319}.XsDebug|x64.Build.0 = XsDebug|x64
+		{19FBAFE5-1177-4F7F-8BF1-684F34362319}.XsDebug|x86.ActiveCfg = XsDebug|Win32
+		{19FBAFE5-1177-4F7F-8BF1-684F34362319}.XsDebug|x86.Build.0 = XsDebug|Win32
+		{19FBAFE5-1177-4F7F-8BF1-684F34362319}.XsRelease|x64.ActiveCfg = XsRelease|x64
+		{19FBAFE5-1177-4F7F-8BF1-684F34362319}.XsRelease|x64.Build.0 = XsRelease|x64
+		{19FBAFE5-1177-4F7F-8BF1-684F34362319}.XsRelease|x86.ActiveCfg = XsRelease|Win32
+		{19FBAFE5-1177-4F7F-8BF1-684F34362319}.XsRelease|x86.Build.0 = XsRelease|Win32
+		{953A0B11-A88B-4A01-8A9E-FE4666DFBCF9}.XsDebug|x64.ActiveCfg = XsDebug|x64
+		{953A0B11-A88B-4A01-8A9E-FE4666DFBCF9}.XsDebug|x64.Build.0 = XsDebug|x64
+		{953A0B11-A88B-4A01-8A9E-FE4666DFBCF9}.XsDebug|x86.ActiveCfg = XsDebug|Win32
+		{953A0B11-A88B-4A01-8A9E-FE4666DFBCF9}.XsDebug|x86.Build.0 = XsDebug|Win32
+		{953A0B11-A88B-4A01-8A9E-FE4666DFBCF9}.XsRelease|x64.ActiveCfg = XsRelease|x64
+		{953A0B11-A88B-4A01-8A9E-FE4666DFBCF9}.XsRelease|x64.Build.0 = XsRelease|x64
+		{953A0B11-A88B-4A01-8A9E-FE4666DFBCF9}.XsRelease|x86.ActiveCfg = XsRelease|Win32
+		{953A0B11-A88B-4A01-8A9E-FE4666DFBCF9}.XsRelease|x86.Build.0 = XsRelease|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

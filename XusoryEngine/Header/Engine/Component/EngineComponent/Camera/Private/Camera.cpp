@@ -14,11 +14,11 @@ namespace XusoryEngine
 
 	Matrix4x4 Camera::GetViewMatrix() const
 	{
-		const Vector3 cameraPosition = m_belongsGameObject->GetTransform()->GetPosition(Space::WORLD);
+		const Vector3 cameraPosition = belongsGameObject->GetTransform()->GetPosition(Space::WORLD);
 
-		const Vector3 up = m_belongsGameObject->GetTransform()->Up().Normalize();
-		const Vector3 forward = m_belongsGameObject->GetTransform()->Forward().Normalize();
-		const Vector3 right = m_belongsGameObject->GetTransform()->Right().Normalize();
+		const Vector3 up = belongsGameObject->GetTransform()->Up().Normalize();
+		const Vector3 forward = belongsGameObject->GetTransform()->Forward().Normalize();
+		const Vector3 right = belongsGameObject->GetTransform()->Right().Normalize();
 
 		return {
 			right.X(), up.X(), forward.X(), 0.0f,

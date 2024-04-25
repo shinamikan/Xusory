@@ -66,6 +66,7 @@ namespace XusoryEngine
 		template <typename T>
 		std::vector<T*> GetComponentsInChildren(const std::string_view& name, BOOL throwIfNotFound = false);
 
+		static GameObject* FindGameObjectByName(const std::string_view& name, UINT count = 0);
 		static void Destroy(GameObject*& gameObject);
 
 		std::string name;

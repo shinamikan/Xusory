@@ -11,8 +11,13 @@ namespace XusoryEngine
 			D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
 
 		Microsoft::WRL::ComPtr<ID3DBlob> serializedRootSig = nullptr;
+		Microsoft::WRL::ComPtr<ID3DBlob> errorBlob = nullptr;
 		ThrowIfDxFailed(D3D12SerializeRootSignature(&rootSigDesc, D3D_ROOT_SIGNATURE_VERSION_1,
-			serializedRootSig.GetAddressOf(), nullptr));
+			serializedRootSig.GetAddressOf(), errorBlob.GetAddressOf()));
+		if (errorBlob != nullptr)
+		{
+			::OutputDebugStringA(static_cast<char*>(errorBlob->GetBufferPointer()));
+		}
 
 		ThrowIfDxFailed((*device)->CreateRootSignature(0, serializedRootSig->GetBufferPointer(), serializedRootSig->GetBufferSize(),
 			IID_PPV_ARGS(GetDxObjectAddressOf())));

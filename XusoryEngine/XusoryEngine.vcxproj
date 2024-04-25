@@ -214,7 +214,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -248,7 +248,7 @@
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -344,11 +344,8 @@
     <ClInclude Include="Header\Platform\File\File.h" />
     <ClInclude Include="Header\Platform\File\Common\FileDefine.h" />
     <ClInclude Include="Header\Platform\InputDevice\InputDevice.h" />
-    <ClInclude Include="Header\Platform\Internet\Internet.h" />
-    <ClInclude Include="Header\Platform\Internet\Socket.h" />
     <ClInclude Include="Header\Platform\Platform.h" />
     <ClInclude Include="Header\Platform\Dll\Dll.h" />
-    <ClInclude Include="Header\Platform\System\SystemMonitor.h" />
     <ClInclude Include="Header\Platform\System\SystemInfo.h" />
     <ClInclude Include="Header\Platform\Time\Date.h" />
     <ClInclude Include="Header\Platform\Time\Time.h" />
@@ -400,9 +397,7 @@
     <ClCompile Include="Header\Platform\Dll\Private\Dll.cpp" />
     <ClCompile Include="Header\Platform\File\Private\File.cpp" />
     <ClCompile Include="Header\Platform\InputDevice\Private\InputDevice.cpp" />
-    <ClCompile Include="Header\Platform\Internet\Private\Socket.cpp" />
     <ClCompile Include="Header\Platform\System\Private\SystemInfo.cpp" />
-    <ClCompile Include="Header\Platform\System\Private\SystemMonitor.cpp" />
     <ClCompile Include="Header\Platform\Time\Private\Date.cpp" />
     <ClCompile Include="Header\Platform\Time\Private\Time.cpp" />
     <ClCompile Include="Header\Platform\Window\Private\Window.cpp" />

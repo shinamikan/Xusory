@@ -10,6 +10,11 @@ namespace XusoryEngine
 		Input::sm_mousePosition = position;
 	}
 
+	void GameManager::ProcessMouseWheel(INT16 distance)
+	{
+		Input::sm_mouseWheelDistance = distance;
+	}
+
 	void GameManager::ProcessKeyDownInput(KeyCode keyCode)
 	{
 		if (Input::sm_keyCodeSet.find(keyCode) == Input::sm_keyCodeSet.end())
@@ -47,6 +52,11 @@ namespace XusoryEngine
 	{
 		Input::sm_mouseKeyDownCode = 0;
 		Input::sm_mouseKeyUpCode = 0;
+	}
+
+	void GameManager::ClearMouseWheel()
+	{
+		Input::sm_mouseWheelDistance = 0;
 	}
 
 	void GameManager::ResetMouseKeyUp()

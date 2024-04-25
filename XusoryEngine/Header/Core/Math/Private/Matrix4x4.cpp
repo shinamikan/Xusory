@@ -478,6 +478,26 @@ namespace XusoryEngine
 		};
 	}
 
+	Matrix4x4 Matrix4x4::BuildRotateAnyMatrix(FLOAT angle, const Vector3& anyAxis)
+	{
+		Vector3 anyAxisNormal = anyAxis.Normalize();
+
+		FLOAT x = anyAxisNormal.X();
+		FLOAT y = anyAxisNormal.Y();
+		FLOAT z = anyAxisNormal.Z();
+
+		FLOAT cosTheta = cos(angle);
+		FLOAT sinTheta = sin(angle);
+		FLOAT oneMinusCosTheta = 1.0f - cosTheta;
+
+		return {
+			x * x * oneMinusCosTheta + cosTheta, x * y * oneMinusCosTheta + z * sinTheta, x * z * oneMinusCosTheta - y * sinTheta, 0.0f,
+			x * y * oneMinusCosTheta - z * sinTheta, y * y * oneMinusCosTheta + cosTheta, y * z * oneMinusCosTheta + x * sinTheta, 0.0f,
+			x * z * oneMinusCosTheta + y * sinTheta, y * z * oneMinusCosTheta - x * sinTheta, z * z * oneMinusCosTheta + cosTheta, 0.0f,
+			0.0f, 0.0f, 0.0f, 1.0f
+		};
+	}
+
 	Matrix4x4 Matrix4x4::BuildTranslateMatrix(FLOAT x, FLOAT y, FLOAT z)
 	{
 		return {

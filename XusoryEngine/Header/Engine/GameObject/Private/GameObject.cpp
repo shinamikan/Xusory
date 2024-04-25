@@ -31,13 +31,16 @@ namespace XusoryEngine
 		else
 		{
 			Scene* activeScene = SceneManager::GetActiveScene();
-			UINT thisGoIndex = static_cast<UINT>(std::distance(m_childrenList.begin(), std::find(activeScene->m_rootGameObjectList.begin(), activeScene->m_rootGameObjectList.end(), this)));
 
-			for (auto* child : m_childrenList)
+			UINT thisGoIndex = static_cast<UINT>(std::distance(activeScene->m_rootGameObjectList.begin(), std::find(activeScene->m_rootGameObjectList.begin(), activeScene->m_rootGameObjectList.end(), this)));
+			if (!m_childrenList.empty())
 			{
-				thisGoIndex++;
-				child->SetParent(nullptr);
-				activeScene->m_rootGameObjectList.insert(activeScene->m_rootGameObjectList.begin() + thisGoIndex, child);
+				for (auto* child : m_childrenList)
+				{
+					thisGoIndex++;
+					child->SetParent(nullptr);
+					activeScene->m_rootGameObjectList.insert(activeScene->m_rootGameObjectList.begin() + thisGoIndex, child);
+				}
 			}
 
 			activeScene->m_rootGameObjectList.erase(activeScene->m_rootGameObjectList.begin() + thisGoIndex);
@@ -245,6 +248,19 @@ namespace XusoryEngine
 		}
 		m_actorMap.clear();
 		m_behaviourMap.clear();
+	}
+
+	GameObject* GameObject::FindGameObjectByName(const std::string_view& name, UINT count)
+	{
+		for (auto* gameObject : SceneManager::GetActiveScene()->GetGameObjectList())
+		{
+			if (gameObject->name == name)
+			{
+				return gameObject;
+			}
+		}
+
+		return nullptr;
 	}
 
 	void GameObject::Destroy(GameObject*& gameObject)

@@ -57,9 +57,6 @@
     <ClInclude Include="Header\Platform\Dll\Dll.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Header\Platform\System\SystemMonitor.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="Header\Platform\System\SystemInfo.h">
       <Filter>头文件</Filter>
     </ClInclude>
@@ -100,12 +97,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Header\Platform\Console\Console.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\Platform\Internet\Socket.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Header\Platform\Internet\Internet.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Header\Core\Debug\Debug.h">
@@ -350,9 +341,6 @@
     <ClCompile Include="Header\Platform\Dll\Private\Dll.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Header\Platform\System\Private\SystemMonitor.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="Header\Platform\Time\Private\Date.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
@@ -369,9 +357,6 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Header\Platform\System\Private\SystemInfo.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Header\Platform\Internet\Private\Socket.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Header\Platform\InputDevice\Private\InputDevice.cpp">

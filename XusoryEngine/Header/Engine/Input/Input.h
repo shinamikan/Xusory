@@ -26,6 +26,7 @@ namespace XusoryEngine
 		static BOOL GetMouseKeyDown(MouseKeyCode mouseKeyCode);
 		static BOOL GetMouseKeyUp(MouseKeyCode mouseKeyCode);
 
+		static INT16 GetMouseWheelDistance();
 		static Point GetMousePosition();
 
 	private:
@@ -40,6 +41,7 @@ namespace XusoryEngine
 		static UINT sm_mouseKeyUpCode;
 		static BOOL sm_mouseUpFlag;
 
+		static INT16 sm_mouseWheelDistance;
 		static Point sm_mousePosition;
 	};
 }

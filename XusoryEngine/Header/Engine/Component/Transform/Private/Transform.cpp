@@ -11,9 +11,9 @@ namespace XusoryEngine
 		}
 
 		Vector3 worldPositionTemp = m_localPosition;
-		if (m_belongsGameObject->HasParent())
+		if (belongsGameObject->HasParent())
 		{
-			const GameObject* parentTemp = m_belongsGameObject->GetParent();
+			const GameObject* parentTemp = belongsGameObject->GetParent();
 			while (true)
 			{
 				worldPositionTemp += parentTemp->GetTransform()->m_localPosition;
@@ -39,9 +39,9 @@ namespace XusoryEngine
 		}
 
 		Vector3 worldScaleTemp = m_localScale;
-		if (m_belongsGameObject->HasParent())
+		if (belongsGameObject->HasParent())
 		{
-			const GameObject* parentTemp = m_belongsGameObject->GetParent();
+			const GameObject* parentTemp = belongsGameObject->GetParent();
 			while (true)
 			{
 				worldScaleTemp *= parentTemp->GetTransform()->m_localScale;
@@ -72,9 +72,9 @@ namespace XusoryEngine
 		}
 
 		Quaternion worldRotationTemp = m_localRotation;
-		if (m_belongsGameObject->HasParent())
+		if (belongsGameObject->HasParent())
 		{
-			const GameObject* parentTemp = m_belongsGameObject->GetParent();
+			const GameObject* parentTemp = belongsGameObject->GetParent();
 			while (true)
 			{
 				worldRotationTemp *= parentTemp->GetTransform()->m_localRotation;
@@ -164,9 +164,9 @@ namespace XusoryEngine
 		{
 			Vector3 localPositionTemp = translateValue;
 
-			if (m_belongsGameObject->HasParent())
+			if (belongsGameObject->HasParent())
 			{
-				const GameObject* parentTemp = m_belongsGameObject->GetParent();
+				const GameObject* parentTemp = belongsGameObject->GetParent();
 				while (true)
 				{
 					localPositionTemp -= parentTemp->GetTransform()->m_localPosition;
@@ -218,9 +218,9 @@ namespace XusoryEngine
 		{
 			Vector3 localScaleTemp = scaleValue;
 
-			if (m_belongsGameObject->HasParent())
+			if (belongsGameObject->HasParent())
 			{
-				const GameObject* parentTemp = m_belongsGameObject->GetParent();
+				const GameObject* parentTemp = belongsGameObject->GetParent();
 				while (true)
 				{
 					localScaleTemp /= parentTemp->GetTransform()->m_localPosition;
@@ -272,9 +272,9 @@ namespace XusoryEngine
 		{
 			Vector3 localEulerAnglesTemp = eulerAngles;
 
-			if (m_belongsGameObject->HasParent())
+			if (belongsGameObject->HasParent())
 			{
-				const GameObject* parentTemp = m_belongsGameObject->GetParent();
+				const GameObject* parentTemp = belongsGameObject->GetParent();
 				while (true)
 				{
 					localEulerAnglesTemp -= parentTemp->GetTransform()->m_localRotation.GetEulerAngles();
@@ -308,9 +308,9 @@ namespace XusoryEngine
 		{
 			Quaternion localRotationTemp = rotationValue;
 
-			if (m_belongsGameObject->HasParent())
+			if (belongsGameObject->HasParent())
 			{
-				const GameObject* parentTemp = m_belongsGameObject->GetParent();
+				const GameObject* parentTemp = belongsGameObject->GetParent();
 				while (true)
 				{
 					localRotationTemp *= parentTemp->GetTransform()->m_localRotation.Inverse();
@@ -348,37 +348,58 @@ namespace XusoryEngine
 		}
 	}
 
-	void Transform::RotateAround(const Vector3& point, Axis axis, FLOAT eulerAngle)
+	void Transform::RotateAround(const Vector3& point, Axis axis, FLOAT eulerAngle, Space space)
 	{
 		auto worldPositionDiff = GetPosition(Space::WORLD) - point;
 		MoveTo(point, Space::WORLD);
 
-		Quaternion rotation;
+		Matrix4x4 rotateMat;
 		switch (axis)
 		{
 		case Axis::X:
-			Rotate(eulerAngle, 0.0f, 0.0f, Space::WORLD);
-			rotation = Quaternion(eulerAngle, 0.0f, 0.0f);
+			Rotate(eulerAngle, 0.0f, 0.0f, space);
+			if (space == Space::LOCAL)
+			{
+				rotateMat = Matrix4x4::BuildRotateAnyMatrix(Math::DegreeToRadian(eulerAngle), Left());
+			}
+			else
+			{
+				rotateMat = Matrix4x4::BuildRotateXMatrix(Math::DegreeToRadian(eulerAngle));
+			}
+			
 			break;
 
 		case Axis::Y:
-			Rotate(0.0f, eulerAngle, 0.0f, Space::WORLD);
-			rotation = Quaternion(0.0f, eulerAngle, 0.0f);
+			Rotate(0.0f, eulerAngle, 0.0f, space);
+			if (space == Space::LOCAL)
+			{
+				rotateMat = Matrix4x4::BuildRotateAnyMatrix(Math::DegreeToRadian(eulerAngle), Up());
+			}
+			else
+			{
+				rotateMat = Matrix4x4::BuildRotateYMatrix(Math::DegreeToRadian(eulerAngle));
+			}
 			break;
 
 		case Axis::Z:
-			Rotate(0.0f, 0.0f, eulerAngle, Space::WORLD);
-			rotation = Quaternion(0.0f, 0.0f, eulerAngle);
+			Rotate(0.0f, 0.0f, eulerAngle, space);
+			if (space == Space::LOCAL)
+			{
+				rotateMat = Matrix4x4::BuildRotateAnyMatrix(Math::DegreeToRadian(eulerAngle), Forward());
+			}
+			else
+			{
+				rotateMat = Matrix4x4::BuildRotateZMatrix(Math::DegreeToRadian(eulerAngle));
+			}
 			break;
 		}
 		
-		const auto rotateMat = Quaternion::BuildRotationMatrixByQuaternion(rotation);
 		worldPositionDiff = Matrix4x4::PreTransPoint3(worldPositionDiff, rotateMat);
 
 		Translate(worldPositionDiff, Space::WORLD);
 	}
 
-	void Transform::RotateAround(const GameObject* targetGameObject, Axis axis, FLOAT eulerAngle)
+	void Transform::RotateAround(const GameObject* targetGameObject, Axis axis, FLOAT eulerAngle, Space space)
 	{
 		RotateAround(targetGameObject->GetTransform()->GetPosition(Space::WORLD), axis, eulerAngle);
 	}

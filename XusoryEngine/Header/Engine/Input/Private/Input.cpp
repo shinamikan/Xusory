@@ -13,6 +13,7 @@ namespace XusoryEngine
 	UINT Input::sm_mouseKeyUpCode = 0;
 	BOOL Input::sm_mouseUpFlag = false;
 
+	INT16 Input::sm_mouseWheelDistance = 0;
 	Point Input::sm_mousePosition = { 0, 0 };
 
 	BOOL Input::GetButton(const std::string_view& buttonName)
@@ -131,6 +132,11 @@ namespace XusoryEngine
 		}
 
 		return result;
+	}
+
+	INT16 Input::GetMouseWheelDistance()
+	{
+		return sm_mouseWheelDistance;
 	}
 
 	Point Input::GetMousePosition()
