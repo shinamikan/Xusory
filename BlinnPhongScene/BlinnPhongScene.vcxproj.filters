@@ -364,11 +364,10 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="ProjectPackage\XsShaders\Standard\BlinnPhong.hlsl" />
-    <FxCompile Include="ProjectPackage\XsShaders\Standard\Pbr.hlsl" />
-    <FxCompile Include="ProjectPackage\XsShaders\Standard\Unlit.hlsl" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="ProjectPackage\XsShaders\Include\XsHlsl.hlsl" />
+    <None Include="ProjectPackage\XsShaders\Standard\BlinnPhong.hlsl" />
+    <None Include="ProjectPackage\XsShaders\Standard\Pbr.hlsl" />
+    <None Include="ProjectPackage\XsShaders\Standard\Unlit.hlsl" />
+    <None Include="ProjectPackage\XsShaders\Standard\PbrTex.hlsl" />
   </ItemGroup>
 </Project>

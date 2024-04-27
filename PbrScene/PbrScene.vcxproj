@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="XsDebug|Win32">
+      <Configuration>XsDebug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="XsRelease|Win32">
+      <Configuration>XsRelease</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="XsDebug|x64">
+      <Configuration>XsDebug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="XsRelease|x64">
+      <Configuration>XsRelease</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectGuid>{93fa7d79-9c0e-4575-a8b3-45a8334e3c0c}</ProjectGuid>
+    <RootNamespace>PbrScene</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='XsDebug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='XsRelease|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='XsDebug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='XsRelease|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v143</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='XsDebug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='XsRelease|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='XsDebug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='XsRelease|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='XsDebug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='XsRelease|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='XsDebug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>false</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='XsRelease|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <ConformanceMode>false</ConformanceMode>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="Assets\Scripts\CameraAround.h" />
+    <ClInclude Include="Assets\XusoryEngine.h" />
+    <ClInclude Include="GameMain\Assets.h" />
+    <ClInclude Include="GameMain\GameMain.h" />
+    <ClInclude Include="GameMain\SceneMain.h" />
+    <ClInclude Include="ProjectPackage\Game\GameWindow.h" />
+    <ClInclude Include="ProjectPackage\Header\3rdParty\jsoncpp\json-forwards.h" />
+    <ClInclude Include="ProjectPackage\Header\3rdParty\jsoncpp\json.h" />
+    <ClInclude Include="ProjectPackage\Header\Core\API\Factory.h" />
+    <ClInclude Include="ProjectPackage\Header\Core\Core.h" />
+    <ClInclude Include="ProjectPackage\Header\Core\Debug\Debug.h" />
+    <ClInclude Include="ProjectPackage\Header\Core\Graphics\CommandContext.h" />
+    <ClInclude Include="ProjectPackage\Header\Core\Graphics\Common\GraphicsDefine.h" />
+    <ClInclude Include="ProjectPackage\Header\Core\Graphics\Geometry\Vertex.h" />
+    <ClInclude Include="ProjectPackage\Header\Core\Graphics\GraphicsManager.h" />
+    <ClInclude Include="ProjectPackage\Header\Core\Graphics\Material.h" />
+    <ClInclude Include="ProjectPackage\Header\Core\Graphics\Mesh.h" />
+    <ClInclude Include="ProjectPackage\Header\Core\Graphics\RenderPipeline.h" />
+    <ClInclude Include="ProjectPackage\Header\Core\Graphics\RhiManager.h" />
+    <ClInclude Include="ProjectPackage\Header\Core\Graphics\Shader.h" />
+    <ClInclude Include="ProjectPackage\Header\Core\Graphics\Texture.h" />
+    <ClInclude Include="ProjectPackage\Header\Core\Math\Common\MathDefine.h" />
+    <ClInclude Include="ProjectPackage\Header\Core\Math\Math.h" />
+    <ClInclude Include="ProjectPackage\Header\Core\Math\Matrix2x2.h" />
+    <ClInclude Include="ProjectPackage\Header\Core\Math\Matrix3x3.h" />
+    <ClInclude Include="ProjectPackage\Header\Core\Math\Matrix4x4.h" />
+    <ClInclude Include="ProjectPackage\Header\Core\Math\Vector2.h" />
+    <ClInclude Include="ProjectPackage\Header\Core\Math\Vector3.h" />
+    <ClInclude Include="ProjectPackage\Header\Core\Math\Vector4.h" />
+    <ClInclude Include="ProjectPackage\Header\Core\Parsing\JsonDocument.h" />
+    <ClInclude Include="ProjectPackage\Header\CppEx\AsyncInfo\AsyncInfo.h" />
+    <ClInclude Include="ProjectPackage\Header\CppEx\ClassEx\ClassEx.h" />
+    <ClInclude Include="ProjectPackage\Header\CppEx\CppEx.h" />
+    <ClInclude Include="ProjectPackage\Header\CppEx\CppInfo\CppInfo.h" />
+    <ClInclude Include="ProjectPackage\Header\CppEx\DllDefine\DllDefine.h" />
+    <ClInclude Include="ProjectPackage\Header\CppEx\Enum\Enum.h" />
+    <ClInclude Include="ProjectPackage\Header\CppEx\Error\Exception.h" />
+    <ClInclude Include="ProjectPackage\Header\CppEx\Error\Throw.h" />
+    <ClInclude Include="ProjectPackage\Header\CppEx\Error\TraceBack.h" />
+    <ClInclude Include="ProjectPackage\Header\CppEx\Name\Name.h" />
+    <ClInclude Include="ProjectPackage\Header\CppEx\Reflector\Reflector.h" />
+    <ClInclude Include="ProjectPackage\Header\Engine\Common\EngineDefine.h" />
+    <ClInclude Include="ProjectPackage\Header\Engine\Component\Behaviour\Behaviour.h" />
+    <ClInclude Include="ProjectPackage\Header\Engine\Component\Component.h" />
+    <ClInclude Include="ProjectPackage\Header\Engine\Component\EngineComponent\Actor\Actor.h" />
+    <ClInclude Include="ProjectPackage\Header\Engine\Component\EngineComponent\Camera\Camera.h" />
+    <ClInclude Include="ProjectPackage\Header\Engine\Component\EngineComponent\Light\Light.h" />
+    <ClInclude Include="ProjectPackage\Header\Engine\Component\EngineComponent\Renderer\MeshRenderer.h" />
+    <ClInclude Include="ProjectPackage\Header\Engine\Component\Transform\Transform.h" />
+    <ClInclude Include="ProjectPackage\Header\Engine\Engine.h" />
+    <ClInclude Include="ProjectPackage\Header\Engine\EngineMath\Quaternion.h" />
+    <ClInclude Include="ProjectPackage\Header\Engine\GameManager\GameManager.h" />
+    <ClInclude Include="ProjectPackage\Header\Engine\GameObject\GameObject.h" />
+    <ClInclude Include="ProjectPackage\Header\Engine\GameTimer\GameTimer.h" />
+    <ClInclude Include="ProjectPackage\Header\Engine\Input\Input.h" />
+    <ClInclude Include="ProjectPackage\Header\Engine\Scene\Scene.h" />
+    <ClInclude Include="ProjectPackage\Header\Engine\Scene\SceneManager.h" />
+    <ClInclude Include="ProjectPackage\Header\Platform\Common\PlatformDefine.h" />
+    <ClInclude Include="ProjectPackage\Header\Platform\Console\Console.h" />
+    <ClInclude Include="ProjectPackage\Header\Platform\Dll\Dll.h" />
+    <ClInclude Include="ProjectPackage\Header\Platform\File\Common\FileDefine.h" />
+    <ClInclude Include="ProjectPackage\Header\Platform\File\Directory.h" />
+    <ClInclude Include="ProjectPackage\Header\Platform\File\File.h" />
+    <ClInclude Include="ProjectPackage\Header\Platform\InputDevice\Commom\KeyCode.h" />
+    <ClInclude Include="ProjectPackage\Header\Platform\InputDevice\InputDevice.h" />
+    <ClInclude Include="ProjectPackage\Header\Platform\Platform.h" />
+    <ClInclude Include="ProjectPackage\Header\Platform\System\SystemInfo.h" />
+    <ClInclude Include="ProjectPackage\Header\Platform\Time\Date.h" />
+    <ClInclude Include="ProjectPackage\Header\Platform\Time\Time.h" />
+    <ClInclude Include="ProjectPackage\Header\Platform\Window\Common\WindowDefine.h" />
+    <ClInclude Include="ProjectPackage\Header\Platform\Window\Common\WindowEvent.h" />
+    <ClInclude Include="ProjectPackage\Header\Platform\Window\Window.h" />
+    <ClInclude Include="ProjectPackage\Header\Platform\Window\WindowFactory.h" />
+    <ClInclude Include="ProjectPackage\Header\Resource\Resource.h" />
+    <ClInclude Include="ProjectPackage\Header\Resource\ResourceLoader\MeshLoader.h" />
+    <ClInclude Include="ProjectPackage\Header\Resource\ResourceLoader\ResourceLoader.h" />
+    <ClInclude Include="ProjectPackage\Header\Resource\ResourceLoader\ShaderLoader.h" />
+    <ClInclude Include="ProjectPackage\Header\Resource\ResourceLoader\TextureLoader.h" />
+    <ClInclude Include="ProjectPackage\Header\RHI\DirectX\Common\d3dx12.h" />
+    <ClInclude Include="ProjectPackage\Header\RHI\DirectX\Common\DxDefine.h" />
+    <ClInclude Include="ProjectPackage\Header\RHI\DirectX\Common\DxInclude.h" />
+    <ClInclude Include="ProjectPackage\Header\RHI\DirectX\Common\DxObject.h" />
+    <ClInclude Include="ProjectPackage\Header\RHI\DirectX\DX12\Buffer\Dx12Buffer.h" />
+    <ClInclude Include="ProjectPackage\Header\RHI\DirectX\DX12\Buffer\Dx12Buffer1D.h" />
+    <ClInclude Include="ProjectPackage\Header\RHI\DirectX\DX12\Buffer\Dx12Buffer2D.h" />
+    <ClInclude Include="ProjectPackage\Header\RHI\DirectX\DX12\Buffer\Dx12ConstantBuffer.h" />
+    <ClInclude Include="ProjectPackage\Header\RHI\DirectX\DX12\Buffer\Dx12DepthStencilBuffer.h" />
+    <ClInclude Include="ProjectPackage\Header\RHI\DirectX\DX12\Buffer\Dx12MeshBuffer.h" />
+    <ClInclude Include="ProjectPackage\Header\RHI\DirectX\DX12\Buffer\Dx12RenderTargetBuffer.h" />
+    <ClInclude Include="ProjectPackage\Header\RHI\DirectX\DX12\Buffer\Dx12ShaderResourceBuffer.h" />
+    <ClInclude Include="ProjectPackage\Header\RHI\DirectX\DX12\Buffer\Dx12TextureBuffer.h" />
+    <ClInclude Include="ProjectPackage\Header\RHI\DirectX\DX12\Buffer\Dx12UnorderedAccessBuffer.h" />
+    <ClInclude Include="ProjectPackage\Header\RHI\DirectX\DX12\Buffer\Dx12UploadBuffer.h" />
+    <ClInclude Include="ProjectPackage\Header\RHI\DirectX\DX12\Dx12CommandAllocator.h" />
+    <ClInclude Include="ProjectPackage\Header\RHI\DirectX\DX12\Dx12CommandList.h" />
+    <ClInclude Include="ProjectPackage\Header\RHI\DirectX\DX12\Dx12CommandQueue.h" />
+    <ClInclude Include="ProjectPackage\Header\RHI\DirectX\DX12\Dx12DescriptorAllocator.h" />
+    <ClInclude Include="ProjectPackage\Header\RHI\DirectX\DX12\Dx12DescriptorHeap.h" />
+    <ClInclude Include="ProjectPackage\Header\RHI\DirectX\DX12\Dx12Device.h" />
+    <ClInclude Include="ProjectPackage\Header\RHI\DirectX\DX12\Dx12Fence.h" />
+    <ClInclude Include="ProjectPackage\Header\RHI\DirectX\DX12\Dx12PipelineState.h" />
+    <ClInclude Include="ProjectPackage\Header\RHI\DirectX\DX12\Dx12RootSignature.h" />
+    <ClInclude Include="ProjectPackage\Header\RHI\DirectX\DxFactory.h" />
+    <ClInclude Include="ProjectPackage\Header\RHI\DirectX\DxShaderCompiler.h" />
+    <ClInclude Include="ProjectPackage\Header\RHI\DirectX\DxSwapChain.h" />
+    <ClInclude Include="ProjectPackage\Header\RHI\DirectX\DxTextureLoader.h" />
+    <ClInclude Include="ProjectPackage\Header\RHI\RHI.h" />
+    <ClInclude Include="ProjectPackage\Header\StdEx\StdEx.h" />
+    <ClInclude Include="ProjectPackage\Header\StdEx\StringEx\StringEx.h" />
+    <ClInclude Include="ProjectPackage\Header\StdEx\TypeName\TypeName.h" />
+    <ClInclude Include="ProjectPackage\RenderPipeline\BuiltInRenderPipeline.h" />
+    <ClInclude Include="ProjectPackage\XusoryEngine.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="GameMain.cpp" />
+    <ClCompile Include="ProjectPackage\Header\3rdParty\jsoncpp\private\jsoncpp.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ProjectPackage\XsShaders\Include\XsHlsl.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="ProjectPackage\XsShaders\Standard\BlinnPhong.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="ProjectPackage\XsShaders\Standard\Pbr.hlsl">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="ProjectPackage\XsShaders\Standard\Unlit.hlsl">
+      <FileType>Document</FileType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ProjectPackage\XsShaders\Standard\PbrTex.hlsl">
+      <FileType>Document</FileType>
+    </None>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
